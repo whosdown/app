@@ -7,6 +7,7 @@
 //
 
 #import "WDAppDelegate.h"
+#import "WDViewController.h"
 
 @implementation WDAppDelegate
 
@@ -14,7 +15,8 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.viewController = [[WDViewController alloc] initWithNibName:nil bundle:nil];
+    self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
 }

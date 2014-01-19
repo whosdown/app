@@ -19,6 +19,7 @@
 		D8C5C39D188C4CD900176C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C5C385188C4CD900176C33 /* UIKit.framework */; };
 		D8C5C3A5188C4CD900176C33 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8C5C3A3188C4CD900176C33 /* InfoPlist.strings */; };
 		D8C5C3A7188C4CD900176C33 /* appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C5C3A6188C4CD900176C33 /* appTests.m */; };
+		D8C5C3B2188C522800176C33 /* WDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C5C3B1188C522800176C33 /* WDViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		D8C5C3A2188C4CD900176C33 /* appTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "appTests-Info.plist"; sourceTree = "<group>"; };
 		D8C5C3A4188C4CD900176C33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8C5C3A6188C4CD900176C33 /* appTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = appTests.m; sourceTree = "<group>"; };
+		D8C5C3B0188C522800176C33 /* WDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDViewController.h; sourceTree = "<group>"; };
+		D8C5C3B1188C522800176C33 /* WDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 			children = (
 				D8C5C390188C4CD900176C33 /* WDAppDelegate.h */,
 				D8C5C391188C4CD900176C33 /* WDAppDelegate.m */,
+				D8C5C3B0188C522800176C33 /* WDViewController.h */,
+				D8C5C3B1188C522800176C33 /* WDViewController.m */,
 				D8C5C393188C4CD900176C33 /* Images.xcassets */,
 				D8C5C388188C4CD900176C33 /* Supporting Files */,
 			);
@@ -240,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8C5C3B2188C522800176C33 /* WDViewController.m in Sources */,
 				D8C5C38E188C4CD900176C33 /* main.m in Sources */,
 				D8C5C392188C4CD900176C33 /* WDAppDelegate.m in Sources */,
 			);
