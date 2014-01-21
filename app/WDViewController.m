@@ -10,41 +10,63 @@
 
 @interface WDViewController ()
 
-@property UITextView *canvas;
+@property (nonatomic, strong) UITextView *canvas;
 
 @end
 
 @implementation WDViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _canvas = [[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.canvas];
     
-    CGRect canvasFrame = CGRectMake(self.canvas.frame.origin.x,
-                                    self.canvas.frame.origin.y + [UIApplication sharedApplication].statusBarFrame.size.height,
-                                    self.canvas.frame.size.width,
-                                    self.canvas.frame.size.height);
-    self.canvas.frame = canvasFrame;
-    self.canvas.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:22];
-    
     [self.canvas becomeFirstResponder];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark Lazy Initializers
+
+- (UITextView *)canvas {
+  if (!_canvas) {
+    _canvas = [[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    CGRect canvasFrame = CGRectMake(self.view.bounds.origin.x,
+                                    self.view.bounds.origin.y + [UIApplication sharedApplication].statusBarFrame.size.height,
+                                    self.view.bounds.size.width,
+                                    self.view.bounds.size.height);
+    _canvas.frame = canvasFrame;
+    _canvas.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:22];
+    
+    _canvas.returnKeyType = UIReturnKeySend;
+    _canvas.delegate = self;
+  }
+  return _canvas;
+}
+
+#pragma mark UITextViewDelegate Methods
+
+- (BOOL)textView:(UITextView *)textView
+    shouldChangeTextInRange:(NSRange)range
+            replacementText:(NSString *)text {
+  
+  if ([text isEqualToString:@"\n"]) {
+    return NO;
+  }
+  
+  return YES;
 }
 
 @end

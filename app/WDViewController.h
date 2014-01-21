@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WDViewController : UIViewController
+@interface WDViewController : UIViewController<UITextViewDelegate>
 
 @end
