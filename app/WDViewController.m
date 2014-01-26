@@ -21,7 +21,8 @@
     if (self) {
 
     }
-    return self;
+
+  return self;
 }
 
 - (void)viewDidLoad {
@@ -54,6 +55,7 @@
     _canvas.delegate = self;
   }
   return _canvas;
+  
 }
 
 #pragma mark UITextViewDelegate Methods
@@ -68,5 +70,6 @@
   
   return YES;
 }
+
 
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D86BE3A11894C1AB00760733 /* WDModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D86BE3A01894C1AB00760733 /* WDModel.m */; };
 		D8C5C382188C4CD900176C33 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C5C381188C4CD900176C33 /* Foundation.framework */; };
 		D8C5C384188C4CD900176C33 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C5C383188C4CD900176C33 /* CoreGraphics.framework */; };
 		D8C5C386188C4CD900176C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C5C385188C4CD900176C33 /* UIKit.framework */; };
@@ -33,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D86BE39F1894C1AB00760733 /* WDModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDModel.h; sourceTree = "<group>"; };
+		D86BE3A01894C1AB00760733 /* WDModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDModel.m; sourceTree = "<group>"; };
 		D8C5C37E188C4CD900176C33 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C5C381188C4CD900176C33 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D8C5C383188C4CD900176C33 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -114,6 +117,8 @@
 				D8C5C391188C4CD900176C33 /* WDAppDelegate.m */,
 				D8C5C3B0188C522800176C33 /* WDViewController.h */,
 				D8C5C3B1188C522800176C33 /* WDViewController.m */,
+				D86BE39F1894C1AB00760733 /* WDModel.h */,
+				D86BE3A01894C1AB00760733 /* WDModel.m */,
 				D8C5C393188C4CD900176C33 /* Images.xcassets */,
 				D8C5C388188C4CD900176C33 /* Supporting Files */,
 			);
@@ -245,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D86BE3A11894C1AB00760733 /* WDModel.m in Sources */,
 				D8C5C3B2188C522800176C33 /* WDViewController.m in Sources */,
 				D8C5C38E188C4CD900176C33 /* main.m in Sources */,
 				D8C5C392188C4CD900176C33 /* WDAppDelegate.m in Sources */,
@@ -450,6 +456,7 @@
 				D8C5C3AC188C4CD900176C33 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D8C5C3AD188C4CD900176C33 /* Build configuration list for PBXNativeTarget "appTests" */ = {
 			isa = XCConfigurationList;
@@ -458,6 +465,7 @@
 				D8C5C3AF188C4CD900176C33 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
