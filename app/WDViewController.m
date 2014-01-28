@@ -7,10 +7,12 @@
 //
 
 #import "WDViewController.h"
+#import "WDModel.h"
 
 @interface WDViewController ()
 
 @property (nonatomic, strong) UITextView *canvas;
+@property (nonatomic, strong) WDModel *model;
 
 @end
 
@@ -28,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    _model = [[WDModel alloc] init];
     [self.view addSubview:self.canvas];
     
     [self.canvas becomeFirstResponder];
@@ -44,10 +47,12 @@
   if (!_canvas) {
     _canvas = [[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    CGRect canvasFrame = CGRectMake(self.view.bounds.origin.x,
-                                    self.view.bounds.origin.y + [UIApplication sharedApplication].statusBarFrame.size.height,
-                                    self.view.bounds.size.width,
-                                    self.view.bounds.size.height);
+    CGRect canvasFrame =
+        CGRectMake(self.view.bounds.origin.x,
+                   self.view.bounds.origin.y +
+                       [UIApplication sharedApplication].statusBarFrame.size.height,
+                   self.view.bounds.size.width,
+                   self.view.bounds.size.height);
     _canvas.frame = canvasFrame;
     _canvas.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:22];
     
@@ -65,6 +70,8 @@
             replacementText:(NSString *)text {
   
   if ([text isEqualToString:@"\n"]) {
+    [self.model postEventWithMessage:self.canvas.text];
+    self.canvas.text = @"";
     return NO;
   }
   

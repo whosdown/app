@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface WDModel : NSObject
+@interface WDModel : NSObject<NSURLConnectionDataDelegate>
 
 - (void)postEventWithMessage:(NSString *)message;
 
