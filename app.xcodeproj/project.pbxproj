@@ -8,6 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		D86BE3A11894C1AB00760733 /* WDModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D86BE3A01894C1AB00760733 /* WDModel.m */; };
+		D86BE3A3189D811D00760733 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86BE3A2189D811D00760733 /* Parse.framework */; };
+		D86BE3A5189D829A00760733 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86BE3A4189D829A00760733 /* AudioToolbox.framework */; };
+		D86BE3A7189D82A800760733 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86BE3A6189D82A800760733 /* CFNetwork.framework */; };
+		D86BE3A9189D82B400760733 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86BE3A8189D82B400760733 /* CoreLocation.framework */; };
+		D86BE3AB189D82C200760733 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D86BE3AA189D82C200760733 /* libz.dylib */; };
+		D86BE3AD189D82CF00760733 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86BE3AC189D82CF00760733 /* MobileCoreServices.framework */; };
+		D86BE3AF189D82DA00760733 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86BE3AE189D82DA00760733 /* StoreKit.framework */; };
+		D86BE3B1189D82FA00760733 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86BE3B0189D82FA00760733 /* SystemConfiguration.framework */; };
+		D86BE3B3189D830100760733 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86BE3B2189D830100760733 /* Security.framework */; };
+		D86BE3B5189D830A00760733 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86BE3B4189D830A00760733 /* QuartzCore.framework */; };
+		D86BE3B8189D8C7300760733 /* WDEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D86BE3B7189D8C7300760733 /* WDEventsVC.m */; };
+		D86BE3BE189D91D600760733 /* WDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D86BE3BD189D91D600760733 /* WDViewController.m */; };
 		D8C5C382188C4CD900176C33 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C5C381188C4CD900176C33 /* Foundation.framework */; };
 		D8C5C384188C4CD900176C33 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C5C383188C4CD900176C33 /* CoreGraphics.framework */; };
 		D8C5C386188C4CD900176C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C5C385188C4CD900176C33 /* UIKit.framework */; };
@@ -20,7 +32,6 @@
 		D8C5C39D188C4CD900176C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8C5C385188C4CD900176C33 /* UIKit.framework */; };
 		D8C5C3A5188C4CD900176C33 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8C5C3A3188C4CD900176C33 /* InfoPlist.strings */; };
 		D8C5C3A7188C4CD900176C33 /* appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C5C3A6188C4CD900176C33 /* appTests.m */; };
-		D8C5C3B2188C522800176C33 /* WDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C5C3B1188C522800176C33 /* WDViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +47,20 @@
 /* Begin PBXFileReference section */
 		D86BE39F1894C1AB00760733 /* WDModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDModel.h; sourceTree = "<group>"; };
 		D86BE3A01894C1AB00760733 /* WDModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDModel.m; sourceTree = "<group>"; };
+		D86BE3A2189D811D00760733 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		D86BE3A4189D829A00760733 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		D86BE3A6189D82A800760733 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		D86BE3A8189D82B400760733 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		D86BE3AA189D82C200760733 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D86BE3AC189D82CF00760733 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		D86BE3AE189D82DA00760733 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		D86BE3B0189D82FA00760733 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		D86BE3B2189D830100760733 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		D86BE3B4189D830A00760733 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D86BE3B6189D8C7300760733 /* WDEventsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDEventsVC.h; sourceTree = "<group>"; };
+		D86BE3B7189D8C7300760733 /* WDEventsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDEventsVC.m; sourceTree = "<group>"; };
+		D86BE3BC189D91D600760733 /* WDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WDViewController.h; path = ../WDViewController.h; sourceTree = "<group>"; };
+		D86BE3BD189D91D600760733 /* WDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WDViewController.m; path = ../WDViewController.m; sourceTree = "<group>"; };
 		D8C5C37E188C4CD900176C33 /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8C5C381188C4CD900176C33 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D8C5C383188C4CD900176C33 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -52,8 +77,6 @@
 		D8C5C3A2188C4CD900176C33 /* appTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "appTests-Info.plist"; sourceTree = "<group>"; };
 		D8C5C3A4188C4CD900176C33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8C5C3A6188C4CD900176C33 /* appTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = appTests.m; sourceTree = "<group>"; };
-		D8C5C3B0188C522800176C33 /* WDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDViewController.h; sourceTree = "<group>"; };
-		D8C5C3B1188C522800176C33 /* WDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,9 +84,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D86BE3B5189D830A00760733 /* QuartzCore.framework in Frameworks */,
+				D86BE3B3189D830100760733 /* Security.framework in Frameworks */,
+				D86BE3B1189D82FA00760733 /* SystemConfiguration.framework in Frameworks */,
+				D86BE3AD189D82CF00760733 /* MobileCoreServices.framework in Frameworks */,
+				D86BE3AB189D82C200760733 /* libz.dylib in Frameworks */,
+				D86BE3A9189D82B400760733 /* CoreLocation.framework in Frameworks */,
+				D86BE3A7189D82A800760733 /* CFNetwork.framework in Frameworks */,
+				D86BE3A5189D829A00760733 /* AudioToolbox.framework in Frameworks */,
 				D8C5C384188C4CD900176C33 /* CoreGraphics.framework in Frameworks */,
 				D8C5C386188C4CD900176C33 /* UIKit.framework in Frameworks */,
+				D86BE3A3189D811D00760733 /* Parse.framework in Frameworks */,
 				D8C5C382188C4CD900176C33 /* Foundation.framework in Frameworks */,
+				D86BE3AF189D82DA00760733 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +135,16 @@
 		D8C5C380188C4CD900176C33 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D86BE3B4189D830A00760733 /* QuartzCore.framework */,
+				D86BE3B2189D830100760733 /* Security.framework */,
+				D86BE3B0189D82FA00760733 /* SystemConfiguration.framework */,
+				D86BE3AE189D82DA00760733 /* StoreKit.framework */,
+				D86BE3AC189D82CF00760733 /* MobileCoreServices.framework */,
+				D86BE3AA189D82C200760733 /* libz.dylib */,
+				D86BE3A8189D82B400760733 /* CoreLocation.framework */,
+				D86BE3A6189D82A800760733 /* CFNetwork.framework */,
+				D86BE3A4189D829A00760733 /* AudioToolbox.framework */,
+				D86BE3A2189D811D00760733 /* Parse.framework */,
 				D8C5C381188C4CD900176C33 /* Foundation.framework */,
 				D8C5C383188C4CD900176C33 /* CoreGraphics.framework */,
 				D8C5C385188C4CD900176C33 /* UIKit.framework */,
@@ -113,10 +156,12 @@
 		D8C5C387188C4CD900176C33 /* app */ = {
 			isa = PBXGroup;
 			children = (
+				D86BE3BC189D91D600760733 /* WDViewController.h */,
+				D86BE3BD189D91D600760733 /* WDViewController.m */,
 				D8C5C390188C4CD900176C33 /* WDAppDelegate.h */,
 				D8C5C391188C4CD900176C33 /* WDAppDelegate.m */,
-				D8C5C3B0188C522800176C33 /* WDViewController.h */,
-				D8C5C3B1188C522800176C33 /* WDViewController.m */,
+				D86BE3B6189D8C7300760733 /* WDEventsVC.h */,
+				D86BE3B7189D8C7300760733 /* WDEventsVC.m */,
 				D86BE39F1894C1AB00760733 /* WDModel.h */,
 				D86BE3A01894C1AB00760733 /* WDModel.m */,
 				D8C5C393188C4CD900176C33 /* Images.xcassets */,
@@ -250,10 +295,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D86BE3BE189D91D600760733 /* WDViewController.m in Sources */,
 				D86BE3A11894C1AB00760733 /* WDModel.m in Sources */,
-				D8C5C3B2188C522800176C33 /* WDViewController.m in Sources */,
 				D8C5C38E188C4CD900176C33 /* main.m in Sources */,
 				D8C5C392188C4CD900176C33 /* WDAppDelegate.m in Sources */,
+				D86BE3B8189D8C7300760733 /* WDEventsVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +420,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/Joe/Life/Ventures/Who's\\ Down/app",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "app/app-Prefix.pch";
 				INFOPLIST_FILE = "app/app-Info.plist";
@@ -387,6 +437,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/Joe/Life/Ventures/Who's\\ Down/app",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "app/app-Prefix.pch";
 				INFOPLIST_FILE = "app/app-Info.plist";

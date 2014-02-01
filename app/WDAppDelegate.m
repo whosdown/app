@@ -5,20 +5,22 @@
 //  Created by Joseph Schaffer on 1/19/14.
 //  Copyright (c) 2014 Who's Down. All rights reserved.
 //
-
 #import "WDAppDelegate.h"
 #import "WDViewController.h"
 
+#define USER_ID_KEY @"WDUserId"
+
 @implementation WDAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.viewController = [[WDViewController alloc] initWithNibName:nil bundle:nil];
-    self.window.rootViewController = self.viewController;
-    [self.window makeKeyAndVisible];
-    return YES;
+- (BOOL)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  // Override point for customization after application launch.
+  self.viewController = [[WDViewController alloc] initWithNibName:nil bundle:nil];
+  self.window.rootViewController = self.viewController;
+  [self.window makeKeyAndVisible];
+
+  return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
