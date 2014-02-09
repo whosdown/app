@@ -2,18 +2,14 @@
 //  WDAppDelegate.h
 //  app
 //
-//  Created by Joseph Schaffer on 1/19/14.
+//  Created by Joseph Schaffer on 2/9/14.
 //  Copyright (c) 2014 Who's Down. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@class WDViewController;
-
 @interface WDAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (strong, nonatomic) WDViewController *viewController;
 
 @end
