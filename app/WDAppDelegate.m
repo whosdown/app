@@ -7,16 +7,34 @@
 //
 
 #import "WDAppDelegate.h"
+#import "WDModel.h"
 
 @implementation WDAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
-    return YES;
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+  self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  // Override point for customization after application launch.
+  self.window.backgroundColor = [UIColor whiteColor];
+  [self.window makeKeyAndVisible];
+  
+  UIViewController *vc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+  vc.view.backgroundColor = [UIColor whiteColor];
+
+  
+  self.model = [[WDModel alloc] init];
+  
+  UIButton *test = [[UIButton alloc] initWithFrame:CGRectMake(25, vc.view.bounds.size.height - 270, vc.view.bounds.size.width - 50, 40)];
+  [test addTarget:self.model action:@selector(testServer) forControlEvents:UIControlEventTouchUpInside];
+  test.titleLabel.text = @"Test Me!";
+  test.backgroundColor = [UIColor blueColor];
+  
+  
+  
+  self.window.rootViewController = vc;
+  [vc.view addSubview:test];
+  
+  
+  return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

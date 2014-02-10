@@ -19,6 +19,7 @@
 		D8EE9E5C18A81149005A91BB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8EE9E4418A81149005A91BB /* UIKit.framework */; };
 		D8EE9E6418A81149005A91BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8EE9E6218A81149005A91BB /* InfoPlist.strings */; };
 		D8EE9E6618A81149005A91BB /* appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EE9E6518A81149005A91BB /* appTests.m */; };
+		D8EE9E7118A814A7005A91BB /* WDModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EE9E7018A814A7005A91BB /* WDModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		D8EE9E6118A81149005A91BB /* appTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "appTests-Info.plist"; sourceTree = "<group>"; };
 		D8EE9E6318A81149005A91BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8EE9E6518A81149005A91BB /* appTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = appTests.m; sourceTree = "<group>"; };
+		D8EE9E6F18A814A7005A91BB /* WDModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDModel.h; sourceTree = "<group>"; };
+		D8EE9E7018A814A7005A91BB /* WDModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 			children = (
 				D8EE9E4F18A81149005A91BB /* WDAppDelegate.h */,
 				D8EE9E5018A81149005A91BB /* WDAppDelegate.m */,
+				D8EE9E6F18A814A7005A91BB /* WDModel.h */,
+				D8EE9E7018A814A7005A91BB /* WDModel.m */,
 				D8EE9E5218A81149005A91BB /* Images.xcassets */,
 				D8EE9E4718A81149005A91BB /* Supporting Files */,
 			);
@@ -241,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8EE9E4D18A81149005A91BB /* main.m in Sources */,
+				D8EE9E7118A814A7005A91BB /* WDModel.m in Sources */,
 				D8EE9E5118A81149005A91BB /* WDAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -444,6 +450,7 @@
 				D8EE9E6B18A81149005A91BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D8EE9E6C18A81149005A91BB /* Build configuration list for PBXNativeTarget "appTests" */ = {
 			isa = XCConfigurationList;
@@ -452,6 +459,7 @@
 				D8EE9E6E18A81149005A91BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
