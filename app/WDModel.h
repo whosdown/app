@@ -8,7 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface WDModel : NSObject<NSURLConnectionDelegate>
+#import "WDVerifyDelegate.h"
+
+@interface WDModel : NSObject<NSURLConnectionDelegate, WDVerifyDelegate>
+
+// Must be checked to proceed to use WDModel.
+// Returns YES if the model has a user and can use that to communicate with the server.
+- (BOOL)hasUserData;
 
 - (void)testServer;
 

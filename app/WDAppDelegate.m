@@ -7,7 +7,7 @@
 //
 
 #import "WDAppDelegate.h"
-#import "WDModel.h"
+#import "WDRootVC.h"
 
 @implementation WDAppDelegate
 
@@ -17,22 +17,8 @@
   self.window.backgroundColor = [UIColor whiteColor];
   [self.window makeKeyAndVisible];
   
-  UIViewController *vc = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-  vc.view.backgroundColor = [UIColor whiteColor];
-
-  
-  self.model = [[WDModel alloc] init];
-  
-  UIButton *test = [[UIButton alloc] initWithFrame:CGRectMake(25, vc.view.bounds.size.height - 270, vc.view.bounds.size.width - 50, 40)];
-  [test addTarget:self.model action:@selector(testServer) forControlEvents:UIControlEventTouchUpInside];
-  test.titleLabel.text = @"Test Me!";
-  test.backgroundColor = [UIColor blueColor];
-  
-  
-  
-  self.window.rootViewController = vc;
-  [vc.view addSubview:test];
-  
+  self.rootVC = [[WDRootVC alloc] initWithNibName:nil bundle:nil];
+  self.window.rootViewController = self.rootVC;
   
   return YES;
 }

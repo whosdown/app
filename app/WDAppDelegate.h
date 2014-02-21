@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class WDModel;
+@class WDRootVC;
 
 @interface WDAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) WDModel *model;
+@property (strong, nonatomic) WDRootVC *rootVC;
 
 @end

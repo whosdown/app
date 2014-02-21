@@ -8,7 +8,30 @@
 
 #import "WDModel.h"
 
+#import "WDConstants.h"
+
+#define WD_EVENT_URL @"http://localhost:3000/api/v0/event?"
+#define WD_USER_URL  @"http://localhost:3000/api/v0/user?"
+
+
+
+@interface WDModel ()
+@property (nonatomic, strong) NSString *userId;
+@end
+
 @implementation WDModel
+
+- (id)init {
+  self = [super init];
+  if (self) {
+    
+  }
+  return self;
+}
+
+- (BOOL)hasUserData {
+  return self.userId ? YES : NO;
+}
 
 - (void)testServer {
   NSDictionary *entryA = @{@"name": @"Joe", @"phone": @1112223333};
@@ -20,7 +43,7 @@
   NSData *data = [NSJSONSerialization dataWithJSONObject:query
                                                  options:0
                                                    error:nil];
-  NSURL *url = [NSURL URLWithString:@"http://localhost:3000/api/v0/event?"];
+  NSURL *url = [NSURL URLWithString:WD_EVENT_URL];
   
   NSData *postData = data;
 //    [NSMutableData dataWithData:[post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
@@ -45,6 +68,12 @@
   [self testServer];
 }
 
+#pragma mark WDVerifyDelegate Methods
+
+- (void)verifyUserWithName:(NSString *)name phoneNumber:(NSNumber *)phoneNumber {
+  
+}
+
 #pragma mark NSURLConnectionDelegate Methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)data {
@@ -62,4 +91,14 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
   NSLog(@"Conn: %@", connection);
 }
+
+#pragma mark Lazy Initializers
+
+- (NSString *)userId {
+  if (!_userId) {
+    _userId = [[NSUserDefaults standardUserDefaults] stringForKey:WD_KEY_USER_ID];
+  }
+  return _userId;
+}
+
 @end
