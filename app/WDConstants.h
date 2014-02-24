@@ -12,4 +12,11 @@
 #define WD_KEY_USER_ID @"WDUserIdKey" // Type: NSString
 #define WD_KEY_USER_OBJECT @"WDUserIdKey" // Type: NSDictionary
 
+#define WD_TITLE_FONT @"DINAlternate-Bold"
+#define WD_TITLE @"Who's Down"
+#define WD_TAG_LINE @"Find out who's down to ______"
+#define WD_TAG_LINE_FONT @"DINAlternate-Bold"
+
+
+
 #endif

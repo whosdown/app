@@ -10,7 +10,7 @@
 
 @protocol WDVerifyDelegate;
 
-@interface WDVerifyVC : UIViewController
+@interface WDVerifyVC : UIViewController<UITextFieldDelegate>
 
 // Designated Initializer
 - (id)initWithDelegate:(NSObject<WDVerifyDelegate> *)delegate;
