@@ -43,9 +43,11 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  
   self.gridSize = self.view.bounds.size.height / 5;
 
-  self.view.backgroundColor = [UIColor whiteColor];
+  self.view.backgroundColor = UIColorFromHex(WD_GREEN_COLOR);
+  [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
   
   CGFloat gridSpacer = 7;
   CGFloat offset = 30;
@@ -69,13 +71,17 @@
                                              object:nil];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+  return UIStatusBarStyleLightContent;
+}
+
 - (void)setUpHeadingWithGridSize:(CGFloat)gridSize withSpacer:(CGFloat)gridSpacer {
   CGFloat viewWidth = self.view.bounds.size.width;
   
   self.heading = [[UILabel alloc] init];
   self.heading.text = WD_TITLE;
   self.heading.textAlignment = NSTextAlignmentCenter;
-  self.heading.textColor = [UIColor blackColor];
+  self.heading.textColor = [UIColor whiteColor];
   self.heading.font = [UIFont fontWithName:WD_TITLE_FONT size:45];
   [self.heading sizeToFit];
   CGRect headingRect = CGRectMake((viewWidth / 2) - (self.heading.frame.size.width / 2),
@@ -88,7 +94,7 @@
   self.subHeading = [[UILabel alloc] init];
   self.subHeading.text = WD_TAG_LINE;
   self.subHeading.textAlignment = NSTextAlignmentCenter;
-  self.subHeading.textColor = [UIColor blackColor];
+  self.subHeading.textColor = [UIColor whiteColor];
   self.subHeading.font = [UIFont fontWithName:WD_TAG_LINE_FONT size:20];
   [self.subHeading sizeToFit];
   CGRect subHeadingRect = CGRectMake((viewWidth / 2) - (self.subHeading.frame.size.width / 2),
@@ -163,14 +169,16 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
   
-  if (textField == self.nameField && [self getLength:self.phoneField.text] == 10) {
+//  if (textField == self.nameField && [self getLength:self.phoneField.text] == 10) {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     formatter.numberStyle = NSNumberFormatterDecimalStyle;
     NSNumber *num = [formatter numberFromString:[self formatNumber:self.phoneField.text]];
     
-    [self.delegate verifyUserWithName:self.nameField.text phoneNumber:num];
+//    [self.delegate verifyUserWithName:self.nameField.text phoneNumber:num];  
+    [self.delegate verifyUserWithName:@"Bob" phoneNumber:[NSNumber numberWithInt:arc4random() % 1000000]];
+
     [textField resignFirstResponder];
-  }
+//  }
   
   return NO;
 }
@@ -230,7 +238,7 @@
     }
   }
   
-  NSInteger newTextLength = length - range.length + string.length;
+//  NSInteger newTextLength = length - range.length + string.length;
 //  if (newTextLength == 10) {
 //    self.verifyBarButton.enabled = YES;
 //    self.verifyButton.enabled = YES;

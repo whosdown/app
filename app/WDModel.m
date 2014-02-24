@@ -71,7 +71,26 @@
 #pragma mark WDVerifyDelegate Methods
 
 - (void)verifyUserWithName:(NSString *)name phoneNumber:(NSNumber *)phoneNumber {
+  NSDictionary *newUser = @{@"name": name, @"phone":phoneNumber};
+  NSDictionary *query   = @{@"user": newUser};
   
+  NSData *postData = [NSJSONSerialization dataWithJSONObject:query
+                                                 options:0
+                                                   error:nil];
+  NSURL *url = [NSURL URLWithString:WD_USER_URL];
+  
+  NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+  
+  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+  [request setURL:url];
+  [request setHTTPMethod:@"POST"];
+  [request setHTTPBody:postData];
+  [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  
+  NSURLConnection *serverConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+  [serverConnection start];
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 #pragma mark NSURLConnectionDelegate Methods
@@ -80,6 +99,7 @@
   NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data
                                                            options:NSJSONReadingMutableContainers
                                                              error:nil];
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
   NSLog(@"Conn: %@, Data: %@", connection, response);
 }
 

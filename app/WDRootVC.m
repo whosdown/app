@@ -32,18 +32,10 @@
   if (self.model.hasUserData) {
     // TODO: Main Events VC
     self.view.backgroundColor = [UIColor blueColor];
-  } else {
-    self.view.backgroundColor = [UIColor greenColor];
-    
+  } else {    
     [self displayInnerViewController:[[WDVerifyVC alloc] initWithDelegate:self.model]];
   }
 }
-
-
-
-//- (BOOL)shouldAutomaticallyForwardAppearanceMethods {
-//  return YES;
-//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

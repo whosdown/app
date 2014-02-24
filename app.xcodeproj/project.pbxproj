@@ -35,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D819AA0C18BB163A001FFBF2 /* WDModelDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDModelDelegate.h; sourceTree = "<group>"; };
 		D843127118B7D87A006D9785 /* WDRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDRootVC.h; sourceTree = "<group>"; };
 		D843127218B7D87A006D9785 /* WDRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDRootVC.m; sourceTree = "<group>"; };
 		D843127418B7DA3A006D9785 /* WDConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDConstants.h; sourceTree = "<group>"; };
@@ -128,6 +129,7 @@
 				D8EE9E5018A81149005A91BB /* WDAppDelegate.m */,
 				D8EE9E6F18A814A7005A91BB /* WDModel.h */,
 				D8EE9E7018A814A7005A91BB /* WDModel.m */,
+				D819AA0C18BB163A001FFBF2 /* WDModelDelegate.h */,
 				D8EE9E5218A81149005A91BB /* Images.xcassets */,
 				D8EE9E4718A81149005A91BB /* Supporting Files */,
 			);
