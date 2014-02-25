@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D8EE9E3C18A81149005A91BB"
                BuildableName = "app.app"
-               BlueprintName = "app"
-               ReferencedContainer = "container:app.xcodeproj">
+               BlueprintName = "wd"
+               ReferencedContainer = "container:wd.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D8EE9E5718A81149005A91BB"
                BuildableName = "appTests.xctest"
-               BlueprintName = "appTests"
-               ReferencedContainer = "container:app.xcodeproj">
+               BlueprintName = "wdTests"
+               ReferencedContainer = "container:wd.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D8EE9E3C18A81149005A91BB"
             BuildableName = "app.app"
-            BlueprintName = "app"
-            ReferencedContainer = "container:app.xcodeproj">
+            BlueprintName = "wd"
+            ReferencedContainer = "container:wd.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D8EE9E3C18A81149005A91BB"
             BuildableName = "app.app"
-            BlueprintName = "app"
-            ReferencedContainer = "container:app.xcodeproj">
+            BlueprintName = "wd"
+            ReferencedContainer = "container:wd.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D8EE9E3C18A81149005A91BB"
             BuildableName = "app.app"
-            BlueprintName = "app"
-            ReferencedContainer = "container:app.xcodeproj">
+            BlueprintName = "wd"
+            ReferencedContainer = "container:wd.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

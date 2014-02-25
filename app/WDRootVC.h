@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WDRootVC : UIViewController
+#import "WDModelDelegate.h"
+
+@interface WDRootVC : UIViewController<WDModelDelegate>
 
 @end

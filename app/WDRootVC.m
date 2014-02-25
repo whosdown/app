@@ -21,7 +21,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
   if (self) {
-    _model = [[WDModel alloc] init];
+    _model = [[WDModel alloc] initWithDelegate:self];
   }
   return self;
 }
@@ -42,6 +42,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark WDModelDelegate Methods
+
+- (void)didReceiveData:(NSDictionary *)data fromInteractionMode:(WDInteractionMode)mode {
+  switch (mode) {
+    case WDInteractionVerify: {
+      if (![self.currentViewController isKindOfClass:[WDVerifyVC class]]) {
+        NSLog(@"Received Data for Verify, but not displaying WDVerifyVC");
+        return;
+      }
+      WDVerifyVC *verifyVC = (WDVerifyVC *)self.currentViewController;
+      [verifyVC verifyDidInitiate];
+      return;
+    } default:
+      break;
+  }
+}
+
+- (void)didReceiveError:(NSError *)error fromInteractionMode:(WDInteractionMode)mode{
+  
+}
+
 #pragma mark Child View Management
 
 - (void) displayInnerViewController: (UIViewController*) innerVC {
@@ -49,6 +70,7 @@
   innerVC.view.frame = self.view.frame;
   [self.view addSubview:innerVC.view];
   [innerVC didMoveToParentViewController:self];
+  self.currentViewController = innerVC;
 }
 
 - (void) hideInnerViewController {
@@ -56,6 +78,7 @@
   [viewControllerToRemove willMoveToParentViewController:nil];
   [viewControllerToRemove.view removeFromSuperview];
   [viewControllerToRemove removeFromParentViewController];
+  self.currentViewController = nil;
 }
 
 @end

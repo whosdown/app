@@ -165,21 +165,27 @@
   
 }
 
+- (void)verifyDidFail {
+  
+}
+
 #pragma mark UITextFieldDelegate methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
   
 //  if (textField == self.nameField && [self getLength:self.phoneField.text] == 10) {
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    formatter.numberStyle = NSNumberFormatterDecimalStyle;
-    NSNumber *num = [formatter numberFromString:[self formatNumber:self.phoneField.text]];
-    
-//    [self.delegate verifyUserWithName:self.nameField.text phoneNumber:num];  
-    [self.delegate verifyUserWithName:@"Bob" phoneNumber:[NSNumber numberWithInt:arc4random() % 1000000]];
+  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+  formatter.numberStyle = NSNumberFormatterDecimalStyle;
+  NSNumber *num = [formatter numberFromString:[self formatNumber:self.phoneField.text]];
+//    [self.delegate verifyUserWithName:self.nameField.text phoneNumber:num];
 
-    [textField resignFirstResponder];
+  NSNumber *random = [NSNumber numberWithInt:abs(arc4random() % 10000000000)];
+  NSLog(@"Random # = %@",random);
+  [self.delegate verifyUserWithName:@"Bob" phoneNumber:random];
+
+  [textField resignFirstResponder];
 //  }
-  
+
   return NO;
 }
 
@@ -237,25 +243,6 @@
       textField.text = [NSString stringWithFormat:@"(%@) %@",[num substringToIndex:3],[num substringFromIndex:3]];
     }
   }
-  
-//  NSInteger newTextLength = length - range.length + string.length;
-//  if (newTextLength == 10) {
-//    self.verifyBarButton.enabled = YES;
-//    self.verifyButton.enabled = YES;
-//  } else {
-//    self.verifyBarButton.enabled = NO;
-//    self.verifyButton.enabled = NO;
-//  }
-//  
-//  if (newTextLength > 0 && self.displayingLoginButton) {
-//    [self.loginButton removeFromSuperview];
-//    self.displayingLoginButton = NO;
-//    [self addAndSlideUpButton:self.verifyButton];
-//  } else if (newTextLength == 0 && !self.displayingLoginButton) {
-//    [self.verifyButton removeFromSuperview];
-//    self.displayingLoginButton = YES;
-//    [self.view addSubview:self.loginButton];
-//  }
   
   return YES;
 }

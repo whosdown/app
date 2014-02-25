@@ -9,6 +9,7 @@
 #import "WDModel.h"
 
 #import "WDConstants.h"
+#import "WDModelDelegate.h"
 
 #define WD_EVENT_URL @"http://localhost:3000/api/v0/event?"
 #define WD_USER_URL  @"http://localhost:3000/api/v0/user?"
@@ -16,15 +17,18 @@
 
 
 @interface WDModel ()
+@property NSObject<WDModelDelegate> *delegate;
+@property WDInteractionMode mode;
 @property (nonatomic, strong) NSString *userId;
 @end
 
 @implementation WDModel
 
-- (id)init {
+- (id)initWithDelegate:(NSObject<WDModelDelegate> *)delegate {
   self = [super init];
   if (self) {
-    
+    _delegate = delegate;
+    _mode = WDInteractionNone;
   }
   return self;
 }
@@ -71,8 +75,8 @@
 #pragma mark WDVerifyDelegate Methods
 
 - (void)verifyUserWithName:(NSString *)name phoneNumber:(NSNumber *)phoneNumber {
-  NSDictionary *newUser = @{@"name": name, @"phone":phoneNumber};
-  NSDictionary *query   = @{@"user": newUser};
+  NSDictionary *newUser = @{WD_modelKey_User_name: name, WD_modelKey_User_phone:phoneNumber};
+  NSDictionary *query   = @{WD_modelKey_User: newUser};
   
   NSData *postData = [NSJSONSerialization dataWithJSONObject:query
                                                  options:0
@@ -80,15 +84,15 @@
   NSURL *url = [NSURL URLWithString:WD_USER_URL];
   
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
-  
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
   [request setURL:url];
   [request setHTTPMethod:@"POST"];
   [request setHTTPBody:postData];
   [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
   [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-  
   NSURLConnection *serverConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+  
+  self.mode = WDInteractionVerify;
   [serverConnection start];
   [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
@@ -99,16 +103,40 @@
   NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data
                                                            options:NSJSONReadingMutableContainers
                                                              error:nil];
-  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-  NSLog(@"Conn: %@, Data: %@", connection, response);
+  
+  NSDictionary *responseData = [response objectForKey:WD_modelKey_SUCCESS_DATA];
+  if (!responseData) {
+    NSError *error = [NSError errorWithDomain:nil
+                                         code:[[response objectForKey:@"status"] intValue]
+                                     userInfo:[response objectForKey:WD_modelKey_FAILURE_DATA]];
+    [self.delegate didReceiveError:error fromInteractionMode:self.mode];
+    return;
+  }
+  
+  [self.delegate didReceiveData:responseData fromInteractionMode:self.mode];
+  
+  switch (self.mode) {
+    case WDInteractionVerify:
+      [[NSUserDefaults standardUserDefaults] setObject:responseData forKey:WD_localKey_User_object];
+      [[NSUserDefaults standardUserDefaults] synchronize];
+      break;
+    default:
+      break;
+  }
+  
+  NSLog(@"URL: %@, Data: %@", connection.currentRequest.URL, response);
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+  self.mode = WDInteractionNone;
   NSLog(@"Conn: %@, Error: %@", connection, error);
 
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+  self.mode = WDInteractionNone;
   NSLog(@"Conn: %@", connection);
 }
 
@@ -116,7 +144,7 @@
 
 - (NSString *)userId {
   if (!_userId) {
-    _userId = [[NSUserDefaults standardUserDefaults] stringForKey:WD_KEY_USER_ID];
+    _userId = [[NSUserDefaults standardUserDefaults] stringForKey:WD_localKey_User_id];
   }
   return _userId;
 }

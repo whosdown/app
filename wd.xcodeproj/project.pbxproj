@@ -20,7 +20,7 @@
 		D8EE9E5B18A81149005A91BB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8EE9E4018A81149005A91BB /* Foundation.framework */; };
 		D8EE9E5C18A81149005A91BB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8EE9E4418A81149005A91BB /* UIKit.framework */; };
 		D8EE9E6418A81149005A91BB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8EE9E6218A81149005A91BB /* InfoPlist.strings */; };
-		D8EE9E6618A81149005A91BB /* appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EE9E6518A81149005A91BB /* appTests.m */; };
+		D8EE9E6618A81149005A91BB /* wdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EE9E6518A81149005A91BB /* wdTests.m */; };
 		D8EE9E7118A814A7005A91BB /* WDModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D8EE9E7018A814A7005A91BB /* WDModel.m */; };
 /* End PBXBuildFile section */
 
@@ -42,22 +42,22 @@
 		D843128118B7E085006D9785 /* WDVerifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDVerifyVC.h; sourceTree = "<group>"; };
 		D843128218B7E085006D9785 /* WDVerifyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDVerifyVC.m; sourceTree = "<group>"; };
 		D843128418B7F0FA006D9785 /* WDVerifyDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDVerifyDelegate.h; sourceTree = "<group>"; };
-		D8EE9E3D18A81149005A91BB /* app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = app.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8EE9E3D18A81149005A91BB /* wd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EE9E4018A81149005A91BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D8EE9E4218A81149005A91BB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D8EE9E4418A81149005A91BB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		D8EE9E4818A81149005A91BB /* app-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "app-Info.plist"; sourceTree = "<group>"; };
+		D8EE9E4818A81149005A91BB /* wd-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "wd-Info.plist"; sourceTree = "<group>"; };
 		D8EE9E4A18A81149005A91BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8EE9E4C18A81149005A91BB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D8EE9E4E18A81149005A91BB /* app-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "app-Prefix.pch"; sourceTree = "<group>"; };
+		D8EE9E4E18A81149005A91BB /* wd-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "wd-Prefix.pch"; sourceTree = "<group>"; };
 		D8EE9E4F18A81149005A91BB /* WDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDAppDelegate.h; sourceTree = "<group>"; };
 		D8EE9E5018A81149005A91BB /* WDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WDAppDelegate.m; sourceTree = "<group>"; };
 		D8EE9E5218A81149005A91BB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		D8EE9E5818A81149005A91BB /* appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8EE9E5818A81149005A91BB /* wdTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wdTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EE9E5918A81149005A91BB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		D8EE9E6118A81149005A91BB /* appTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "appTests-Info.plist"; sourceTree = "<group>"; };
+		D8EE9E6118A81149005A91BB /* wdTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "wdTests-Info.plist"; sourceTree = "<group>"; };
 		D8EE9E6318A81149005A91BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D8EE9E6518A81149005A91BB /* appTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = appTests.m; sourceTree = "<group>"; };
+		D8EE9E6518A81149005A91BB /* wdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = wdTests.m; sourceTree = "<group>"; };
 		D8EE9E6F18A814A7005A91BB /* WDModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDModel.h; sourceTree = "<group>"; };
 		D8EE9E7018A814A7005A91BB /* WDModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,8 +89,8 @@
 		D8EE9E3418A81149005A91BB = {
 			isa = PBXGroup;
 			children = (
-				D8EE9E4618A81149005A91BB /* app */,
-				D8EE9E5F18A81149005A91BB /* appTests */,
+				D8EE9E4618A81149005A91BB /* wd */,
+				D8EE9E5F18A81149005A91BB /* wdTests */,
 				D8EE9E3F18A81149005A91BB /* Frameworks */,
 				D8EE9E3E18A81149005A91BB /* Products */,
 			);
@@ -99,8 +99,8 @@
 		D8EE9E3E18A81149005A91BB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D8EE9E3D18A81149005A91BB /* app.app */,
-				D8EE9E5818A81149005A91BB /* appTests.xctest */,
+				D8EE9E3D18A81149005A91BB /* wd.app */,
+				D8EE9E5818A81149005A91BB /* wdTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -116,7 +116,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D8EE9E4618A81149005A91BB /* app */ = {
+		D8EE9E4618A81149005A91BB /* wd */ = {
 			isa = PBXGroup;
 			children = (
 				D843127118B7D87A006D9785 /* WDRootVC.h */,
@@ -133,33 +133,35 @@
 				D8EE9E5218A81149005A91BB /* Images.xcassets */,
 				D8EE9E4718A81149005A91BB /* Supporting Files */,
 			);
+			name = wd;
 			path = app;
 			sourceTree = "<group>";
 		};
 		D8EE9E4718A81149005A91BB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D8EE9E4818A81149005A91BB /* app-Info.plist */,
+				D8EE9E4818A81149005A91BB /* wd-Info.plist */,
 				D8EE9E4918A81149005A91BB /* InfoPlist.strings */,
 				D8EE9E4C18A81149005A91BB /* main.m */,
-				D8EE9E4E18A81149005A91BB /* app-Prefix.pch */,
+				D8EE9E4E18A81149005A91BB /* wd-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D8EE9E5F18A81149005A91BB /* appTests */ = {
+		D8EE9E5F18A81149005A91BB /* wdTests */ = {
 			isa = PBXGroup;
 			children = (
-				D8EE9E6518A81149005A91BB /* appTests.m */,
+				D8EE9E6518A81149005A91BB /* wdTests.m */,
 				D8EE9E6018A81149005A91BB /* Supporting Files */,
 			);
+			name = wdTests;
 			path = appTests;
 			sourceTree = "<group>";
 		};
 		D8EE9E6018A81149005A91BB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D8EE9E6118A81149005A91BB /* appTests-Info.plist */,
+				D8EE9E6118A81149005A91BB /* wdTests-Info.plist */,
 				D8EE9E6218A81149005A91BB /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -168,9 +170,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D8EE9E3C18A81149005A91BB /* app */ = {
+		D8EE9E3C18A81149005A91BB /* wd */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D8EE9E6918A81149005A91BB /* Build configuration list for PBXNativeTarget "app" */;
+			buildConfigurationList = D8EE9E6918A81149005A91BB /* Build configuration list for PBXNativeTarget "wd" */;
 			buildPhases = (
 				D8EE9E3918A81149005A91BB /* Sources */,
 				D8EE9E3A18A81149005A91BB /* Frameworks */,
@@ -180,14 +182,14 @@
 			);
 			dependencies = (
 			);
-			name = app;
+			name = wd;
 			productName = app;
-			productReference = D8EE9E3D18A81149005A91BB /* app.app */;
+			productReference = D8EE9E3D18A81149005A91BB /* wd.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D8EE9E5718A81149005A91BB /* appTests */ = {
+		D8EE9E5718A81149005A91BB /* wdTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D8EE9E6C18A81149005A91BB /* Build configuration list for PBXNativeTarget "appTests" */;
+			buildConfigurationList = D8EE9E6C18A81149005A91BB /* Build configuration list for PBXNativeTarget "wdTests" */;
 			buildPhases = (
 				D8EE9E5418A81149005A91BB /* Sources */,
 				D8EE9E5518A81149005A91BB /* Frameworks */,
@@ -198,9 +200,9 @@
 			dependencies = (
 				D8EE9E5E18A81149005A91BB /* PBXTargetDependency */,
 			);
-			name = appTests;
+			name = wdTests;
 			productName = appTests;
-			productReference = D8EE9E5818A81149005A91BB /* appTests.xctest */;
+			productReference = D8EE9E5818A81149005A91BB /* wdTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -218,7 +220,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D8EE9E3818A81149005A91BB /* Build configuration list for PBXProject "app" */;
+			buildConfigurationList = D8EE9E3818A81149005A91BB /* Build configuration list for PBXProject "wd" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -230,8 +232,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D8EE9E3C18A81149005A91BB /* app */,
-				D8EE9E5718A81149005A91BB /* appTests */,
+				D8EE9E3C18A81149005A91BB /* wd */,
+				D8EE9E5718A81149005A91BB /* wdTests */,
 			);
 		};
 /* End PBXProject section */
@@ -273,7 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8EE9E6618A81149005A91BB /* appTests.m in Sources */,
+				D8EE9E6618A81149005A91BB /* wdTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,7 +284,7 @@
 /* Begin PBXTargetDependency section */
 		D8EE9E5E18A81149005A91BB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D8EE9E3C18A81149005A91BB /* app */;
+			target = D8EE9E3C18A81149005A91BB /* wd */;
 			targetProxy = D8EE9E5D18A81149005A91BB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -387,8 +389,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "app/app-Prefix.pch";
-				INFOPLIST_FILE = "app/app-Info.plist";
+				GCC_PREFIX_HEADER = "app/wd-Prefix.pch";
+				INFOPLIST_FILE = "app/wd-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -400,8 +402,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "app/app-Prefix.pch";
-				INFOPLIST_FILE = "app/app-Info.plist";
+				GCC_PREFIX_HEADER = "app/wd-Prefix.pch";
+				INFOPLIST_FILE = "app/wd-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -423,8 +425,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "appTests/appTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "appTests/wdTests-Info.plist";
+				PRODUCT_NAME = wdTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -442,8 +444,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "app/app-Prefix.pch";
-				INFOPLIST_FILE = "appTests/appTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "appTests/wdTests-Info.plist";
+				PRODUCT_NAME = wdTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -452,7 +454,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D8EE9E3818A81149005A91BB /* Build configuration list for PBXProject "app" */ = {
+		D8EE9E3818A81149005A91BB /* Build configuration list for PBXProject "wd" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8EE9E6718A81149005A91BB /* Debug */,
@@ -461,7 +463,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D8EE9E6918A81149005A91BB /* Build configuration list for PBXNativeTarget "app" */ = {
+		D8EE9E6918A81149005A91BB /* Build configuration list for PBXNativeTarget "wd" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8EE9E6A18A81149005A91BB /* Debug */,
@@ -470,7 +472,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D8EE9E6C18A81149005A91BB /* Build configuration list for PBXNativeTarget "appTests" */ = {
+		D8EE9E6C18A81149005A91BB /* Build configuration list for PBXNativeTarget "wdTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8EE9E6D18A81149005A91BB /* Debug */,

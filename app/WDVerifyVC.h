@@ -17,6 +17,8 @@
 
 - (void)verifyDidInitiate;
 
+- (void)verifyDidFail;
+
 - (void)verifyDidSucceed;
 
 @end
