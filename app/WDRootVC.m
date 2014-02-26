@@ -29,11 +29,30 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  if (self.model.hasUserData) {
+  if (self.model.hasUserLoggedIn) {
     // TODO: Main Events VC
     self.view.backgroundColor = [UIColor blueColor];
   } else {    
     [self displayInnerViewController:[[WDVerifyVC alloc] initWithDelegate:self.model]];
+  }
+}
+
+- (void)verifyUserWithCode:(NSString *)code {
+  if (self.model.hasUserLoggedIn) {
+    // TODO: You're trying to verify an already active user
+  } else {
+    if ([self.model verifyUserWithCode:code]) {
+      // TODO: Swap to main events VC
+      NSLog(@"User Is Verified: %@", self.model.hasUserLoggedIn ? @"YES" : @"NO");
+      
+    } else {
+      if (![self.currentViewController isKindOfClass:[WDVerifyVC class]]) {
+        NSLog(@"Went to conclude Verify, but not displaying WDVerifyVC");
+        return;
+      }
+      WDVerifyVC *verifyVC = (WDVerifyVC *)self.currentViewController;
+      [verifyVC verifyDidInitiate];
+    }
   }
 }
 

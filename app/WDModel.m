@@ -33,8 +33,28 @@
   return self;
 }
 
-- (BOOL)hasUserData {
-  return self.userId ? YES : NO;
+- (BOOL)hasUserLoggedIn {
+  return NO;
+//  return self.userId ? YES : NO;
+}
+
+- (BOOL)verifyUserWithCode:(NSString *)code {
+  NSDictionary *user = [[NSUserDefaults standardUserDefaults] objectForKey:WD_localKey_User_object];
+  NSLog(@"code: %@, localCode: %@", code, [user objectForKey:WD_modelKey_User_verifyCode]);
+  NSNumber *verifyCode = [user objectForKey:WD_modelKey_User_verifyCode];
+  
+  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+  formatter.numberStyle = NSNumberFormatterDecimalStyle;
+  NSNumber *codeNum = [formatter numberFromString:code];
+  
+  if ([codeNum isEqualToNumber:verifyCode]) {
+    [[NSUserDefaults standardUserDefaults] setObject:[user objectForKey:WD_modelKey_User_id]
+                                              forKey:WD_localKey_User_id];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    return YES;
+  } else {
+    return NO;
+  }
 }
 
 - (void)testServer {
@@ -106,7 +126,7 @@
   
   NSDictionary *responseData = [response objectForKey:WD_modelKey_SUCCESS_DATA];
   if (!responseData) {
-    NSError *error = [NSError errorWithDomain:nil
+    NSError *error = [NSError errorWithDomain:(NSString *)kCFErrorDomainCFNetwork
                                          code:[[response objectForKey:@"status"] intValue]
                                      userInfo:[response objectForKey:WD_modelKey_FAILURE_DATA]];
     [self.delegate didReceiveError:error fromInteractionMode:self.mode];

@@ -12,4 +12,6 @@
 
 @interface WDRootVC : UIViewController<WDModelDelegate>
 
+- (void)verifyUserWithCode:(NSString *)code;
+
 @end

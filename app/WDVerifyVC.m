@@ -14,6 +14,8 @@
 @interface WDVerifyVC ()
 @property (nonatomic, strong) UILabel *heading;
 @property (nonatomic, strong) UILabel *subHeading;
+@property (nonatomic, strong) UILabel *pending;
+@property (nonatomic, strong) UILabel *undoButtonLabel;
 
 @property (nonatomic, strong) UITextField *nameField;
 @property (nonatomic, strong) UITextField *phoneField;
@@ -21,6 +23,7 @@
 @property (nonatomic, strong) UIView *fieldDivider;
 
 @property (nonatomic, strong) UIButton *submitButton;
+@property (nonatomic, strong) UIButton *undoButton;
 
 @property BOOL keyboardIsVisible;
 
@@ -54,6 +57,7 @@
 
   [self setUpHeadingWithGridSize:self.gridSize withSpacer:gridSpacer];
   [self setUpFieldsWithGridSize:self.gridSize withSpacer:gridSpacer withEdgeOffset:offset];
+  [self setUpPendingViewsWithEdgeOffset:offset * 2];
   
   [self.view addSubview:self.heading];
   [self.view addSubview:self.subHeading];
@@ -78,29 +82,20 @@
 - (void)setUpHeadingWithGridSize:(CGFloat)gridSize withSpacer:(CGFloat)gridSpacer {
   CGFloat viewWidth = self.view.bounds.size.width;
   
-  self.heading = [[UILabel alloc] init];
-  self.heading.text = WD_TITLE;
-  self.heading.textAlignment = NSTextAlignmentCenter;
-  self.heading.textColor = [UIColor whiteColor];
-  self.heading.font = [UIFont fontWithName:WD_TITLE_FONT size:45];
-  [self.heading sizeToFit];
   CGRect headingRect = CGRectMake((viewWidth / 2) - (self.heading.frame.size.width / 2),
                                   gridSize,
                                   self.heading.frame.size.width,
                                   self.heading.frame.size.height);
+  self.heading.alpha = 1.0;
+  self.heading.transform = CGAffineTransformIdentity;
   self.heading.frame = headingRect;
   
-  
-  self.subHeading = [[UILabel alloc] init];
-  self.subHeading.text = WD_TAG_LINE;
-  self.subHeading.textAlignment = NSTextAlignmentCenter;
-  self.subHeading.textColor = [UIColor whiteColor];
-  self.subHeading.font = [UIFont fontWithName:WD_TAG_LINE_FONT size:20];
-  [self.subHeading sizeToFit];
   CGRect subHeadingRect = CGRectMake((viewWidth / 2) - (self.subHeading.frame.size.width / 2),
                                      headingRect.origin.y + headingRect.size.height + gridSpacer,
                                      self.subHeading.frame.size.width,
                                      self.subHeading.frame.size.height);
+  self.subHeading.alpha = 1.0;
+  self.subHeading.transform = CGAffineTransformIdentity;
   self.subHeading.frame = subHeadingRect;
 }
 
@@ -109,33 +104,20 @@
                  withEdgeOffset:(CGFloat)offset {
   CGFloat viewWidth = self.view.bounds.size.width;
   
-  self.phoneField = [[UITextField alloc] init];
-  self.phoneField.textAlignment = NSTextAlignmentLeft;
-  self.phoneField.textColor = [UIColor blackColor];
-  self.phoneField.font = [UIFont fontWithName:WD_TITLE_FONT size:20];
-  self.phoneField.keyboardType = UIKeyboardTypeNumberPad;
-  self.phoneField.placeholder = @"Phone number";
-  self.phoneField.returnKeyType = UIReturnKeyDone;
-  [self.phoneField sizeToFit];
   CGRect phoneFieldRect = CGRectMake(offset,
                                      (gridSize * 2) + (gridSize / 2),
                                      viewWidth - (2 * offset),
                                      self.phoneField.frame.size.height);
+  self.phoneField.alpha = 1.0;
+  self.phoneField.transform = CGAffineTransformIdentity;
   self.phoneField.frame = phoneFieldRect;
   
-  self.nameField = [[UITextField alloc] init];
-  self.nameField.textAlignment = self.phoneField.textAlignment;
-  self.nameField.textColor = self.phoneField.textColor;
-  self.nameField.font = self.phoneField.font;
-  self.nameField.placeholder = @"Name";
-  self.nameField.returnKeyType = UIReturnKeyDone;
-  self.nameField.enablesReturnKeyAutomatically = YES;
-  [self.nameField sizeToFit];
   CGRect nameFieldRect = CGRectMake(phoneFieldRect.origin.x,
                                     phoneFieldRect.origin.y + phoneFieldRect.size.height + (gridSpacer * 2),
                                     phoneFieldRect.size.width,
                                     phoneFieldRect.size.height);
-
+  self.nameField.alpha = 1.0;
+  self.nameField.transform = CGAffineTransformIdentity;
   self.nameField.frame = nameFieldRect;
   
   
@@ -144,21 +126,70 @@
                                        fieldDividerY,
                                        phoneFieldRect.size.width,
                                        1 / [[UIScreen mainScreen] scale]);
-  self.fieldDivider = [[UIView alloc] initWithFrame:fieldDividerRect];
-  self.fieldDivider.backgroundColor = [UIColor grayColor];
-  
-  self.nameField.delegate = self;
-  self.phoneField.delegate = self;
+  self.fieldDivider.alpha = 1.0;
+  self.fieldDivider.transform = CGAffineTransformIdentity;
+  self.fieldDivider.frame = fieldDividerRect;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setUpPendingViewsWithEdgeOffset:(CGFloat)offset {
+  CGFloat viewWidth = self.view.bounds.size.width;
+  CGFloat viewHeight = self.view.bounds.size.height;
+
+  CGRect pendingRect = CGRectMake(offset,
+                                  (viewHeight / 2) - self.gridSize,
+                                  viewWidth - (2 * offset),
+                                  self.gridSize * 2);
+  self.pending.frame = pendingRect;
+  self.pending.center = CGPointMake(viewWidth / 2, self.fieldDivider.frame.origin.y);
+  
+  CGRect undoRect = CGRectMake(offset,
+                               viewHeight - self.gridSize,
+                               viewWidth - (2 * offset),
+                               self.gridSize);
+  self.undoButton.frame = undoRect;
+
+  CGRect undoButtonLabelRect = CGRectMake((undoRect.size.width / 2) - (self.undoButtonLabel.frame.size.width / 2),
+                                          0,
+                                          self.undoButtonLabel.frame.size.width,
+                                          undoRect.size.height);
+  self.undoButtonLabel.frame = undoButtonLabelRect;
+  
+}
+
+- (void)didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
+  // Dispose of any resources that can be recreated.
 }
 
 - (void)verifyDidInitiate {
-  
+  self.pending.alpha = 0.0;
+  self.pending.transform = CGAffineTransformMakeScale(2.0, 2.0);
+  self.undoButton.alpha = 0.0;
+  self.undoButton.transform = CGAffineTransformMakeScale(2.0, 2.0);
+  [self.view addSubview:self.pending];
+  [self.view addSubview:self.undoButton];
+
+  [UIView animateWithDuration:0.5
+                        delay:0.0
+                      options:UIViewAnimationOptionCurveEaseInOut
+                   animations:^{
+                     self.pending.alpha = 1.0;
+                     self.pending.transform = CGAffineTransformIdentity;
+                     self.undoButton.alpha = 1.0;
+                     self.undoButton.transform = CGAffineTransformIdentity;
+                     
+                     self.nameField.alpha = 0.0;
+                     self.nameField.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                     self.phoneField.alpha = 0.0;
+                     self.phoneField.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                     self.fieldDivider.alpha = 0.0;
+                     self.fieldDivider.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                   }
+                   completion:^(BOOL finished){
+                     [self.nameField removeFromSuperview];
+                     [self.phoneField removeFromSuperview];
+                     [self.fieldDivider removeFromSuperview];
+                   }];
 }
 
 - (void)verifyDidSucceed {
@@ -310,6 +341,105 @@
   
   [UIView commitAnimations];
 }
-                                                 
+
+#pragma mark Lazy Initializers
+
+- (UILabel *)heading {
+  if (!_heading) {
+    _heading = [[UILabel alloc] init];
+    _heading.text = WD_TITLE;
+    _heading.textAlignment = NSTextAlignmentCenter;
+    _heading.textColor = [UIColor whiteColor];
+    _heading.font = [UIFont fontWithName:WD_TITLE_FONT size:WD_TITLE_SIZE];
+    [_heading sizeToFit];
+  }
+  return _heading;
+}
+
+- (UILabel *)subHeading {
+  if (!_subHeading) {
+    _subHeading = [[UILabel alloc] init];
+    _subHeading.text = WD_TAG_LINE;
+    _subHeading.textAlignment = NSTextAlignmentCenter;
+    _subHeading.textColor = [UIColor whiteColor];
+    _subHeading.font = [UIFont fontWithName:WD_TAG_LINE_FONT size:WD_TAG_LINE_SIZE];
+    [_subHeading sizeToFit];
+  }
+  return _subHeading;
+}
+
+- (UITextField *)phoneField {
+  if (!_phoneField) {
+    _phoneField = [[UITextField alloc] init];
+    _phoneField.textAlignment = NSTextAlignmentLeft;
+    _phoneField.textColor = [UIColor blackColor];
+    _phoneField.font = [UIFont fontWithName:WD_TITLE_FONT size:WD_TAG_LINE_SIZE];
+    _phoneField.keyboardType = UIKeyboardTypeNumberPad;
+    _phoneField.placeholder = @"Phone number";
+    _phoneField.returnKeyType = UIReturnKeyDone;
+    [_phoneField sizeToFit];
+
+    _phoneField.delegate = self;
+  }
+  return _phoneField;
+}
+
+- (UITextField *)nameField {
+  if (!_nameField) {
+    _nameField = [[UITextField alloc] init];
+    _nameField.textAlignment = self.phoneField.textAlignment;
+    _nameField.textColor = self.phoneField.textColor;
+    _nameField.font = self.phoneField.font;
+    _nameField.placeholder = @"Name";
+    _nameField.returnKeyType = UIReturnKeyDone;
+    _nameField.enablesReturnKeyAutomatically = YES;
+    [_nameField sizeToFit];
+    
+    _nameField.delegate = self;
+  }
+  return _nameField;
+}
+
+- (UIView *)fieldDivider {
+  if (!_fieldDivider) {
+    _fieldDivider = [[UIView alloc] init];
+    _fieldDivider.backgroundColor = [UIColor grayColor];
+  }
+  return _fieldDivider;
+}
+
+- (UILabel *)pending {
+  if (!_pending) {
+    _pending = [[UILabel alloc] init];
+    _pending.text = WD_PENDING;
+    _pending.textAlignment = NSTextAlignmentCenter;
+    _pending.textColor = [UIColor whiteColor];
+    _pending.font = [UIFont fontWithName:WD_PENDING_FONT size:WD_PENDING_SIZE];
+    _pending.numberOfLines = 3;
+    [_pending sizeToFit];
+  }
+  return _pending;
+}
+
+- (UIButton *)undoButton {
+  if (!_undoButton) {
+    _undoButton = [[UIButton alloc] init];
+
+    [_undoButton addSubview:self.undoButtonLabel];
+  }
+  return _undoButton;
+}
+
+- (UILabel *)undoButtonLabel {
+  if (!_undoButtonLabel) {
+    _undoButtonLabel = [[UILabel alloc] init];
+    _undoButtonLabel.text = WD_UNDO;
+    _undoButtonLabel.textAlignment = NSTextAlignmentCenter;
+    _undoButtonLabel.textColor = [UIColor grayColor];
+    _undoButtonLabel.font = [UIFont fontWithName:WD_UNDO_FONT size:WD_UNDO_SIZE];
+    [_undoButtonLabel sizeToFit];
+  }
+  return _undoButtonLabel;
+}
 
 @end

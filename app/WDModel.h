@@ -18,7 +18,9 @@
 
 // Must be checked to proceed to use WDModel.
 // Returns YES if the model has a user and can use that to communicate with the server.
-- (BOOL)hasUserData;
+- (BOOL)hasUserLoggedIn;
+
+- (BOOL)verifyUserWithCode:(NSString *)code;
 
 - (void)testServer;
 

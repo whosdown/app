@@ -54,8 +54,10 @@
   if (!url) {
     return NO;
   }
-  
-  
+
+  if ([url.host isEqualToString:@"verify"]) {
+    [self.rootVC verifyUserWithCode:url.query];
+  }
   
   return YES;
 }

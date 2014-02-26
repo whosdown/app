@@ -22,7 +22,11 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string></string>
+			<string>us.wd.app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wd</string>
+			</array>
 		</dict>
 	</array>
 	<key>CFBundleShortVersionString</key>
