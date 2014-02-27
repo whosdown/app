@@ -10,6 +10,6 @@
 
 @protocol WDVerifyDelegate <NSObject>
 
-- (void)verifyUserWithName:(NSString *)name phoneNumber:(NSNumber *)phoneNumber;
+- (void)verifyUserWithName:(NSString *)name phoneNumber:(NSString *)phoneNumber;
 
 @end

@@ -41,17 +41,19 @@
   if (self.model.hasUserLoggedIn) {
     // TODO: You're trying to verify an already active user
   } else {
+    if (![self.currentViewController isKindOfClass:[WDVerifyVC class]]) {
+      NSLog(@"Went to conclude Verify, but not displaying WDVerifyVC");
+      return;
+    }
+    WDVerifyVC *verifyVC = (WDVerifyVC *)self.currentViewController;
+
     if ([self.model verifyUserWithCode:code]) {
       // TODO: Swap to main events VC
       NSLog(@"User Is Verified: %@", self.model.hasUserLoggedIn ? @"YES" : @"NO");
+      [verifyVC verifyDidSucceed];
       
     } else {
-      if (![self.currentViewController isKindOfClass:[WDVerifyVC class]]) {
-        NSLog(@"Went to conclude Verify, but not displaying WDVerifyVC");
-        return;
-      }
-      WDVerifyVC *verifyVC = (WDVerifyVC *)self.currentViewController;
-      [verifyVC verifyDidInitiate];
+      [verifyVC verifyDidFail];
     }
   }
 }

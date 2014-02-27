@@ -51,8 +51,13 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_modelKey_User_verifyCode @"code"
 #define WD_modelKey_User_isVerified @"isVerified"
 
+#define WD_modelKey_Verify_code @"code"
+#define WD_modelKey_Verify_id   @"userId"
+
+
 typedef enum WDInteractionModes {
   WDInteractionVerify,
+  WDInteractionVerifyConclude,
   WDInteractionNone
 } WDInteractionMode;
 

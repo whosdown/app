@@ -153,7 +153,9 @@
                                           self.undoButtonLabel.frame.size.width,
                                           undoRect.size.height);
   self.undoButtonLabel.frame = undoButtonLabelRect;
-  
+  [self.undoButton addTarget:self
+                      action:@selector(didTapOnUndoButton)
+            forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -200,22 +202,57 @@
   
 }
 
+- (void)didTapOnUndoButton {
+  // TODO: Invalidate old request.
+  
+  self.nameField.alpha = 0.0;
+  self.nameField.transform = CGAffineTransformMakeScale(0.1, 0.1);
+  self.phoneField.alpha = 0.0;
+  self.phoneField.transform = CGAffineTransformMakeScale(0.1, 0.1);
+  self.fieldDivider.alpha = 0.0;
+  self.fieldDivider.transform = CGAffineTransformMakeScale(0.1, 0.1);
+  [self.view addSubview:self.nameField];
+  [self.view addSubview:self.phoneField];
+  [self.view addSubview:self.fieldDivider];
+  
+  [UIView animateWithDuration:0.5
+                        delay:0.0
+                      options:UIViewAnimationOptionCurveEaseInOut
+                   animations:^{
+                     self.pending.alpha = 0.0;
+                     self.pending.transform = CGAffineTransformMakeScale(2.0, 2.0);
+                     self.undoButton.alpha = 0.0;
+                     self.undoButton.transform = CGAffineTransformMakeScale(2.0, 2.0);
+                     
+                     self.nameField.alpha = 1.0;
+                     self.nameField.transform = CGAffineTransformIdentity;
+                     self.phoneField.alpha = 1.0;
+                     self.phoneField.transform = CGAffineTransformIdentity;
+                     self.fieldDivider.alpha = 1.0;
+                     self.fieldDivider.transform = CGAffineTransformIdentity;
+                   }
+                   completion:^(BOOL finished){
+                     [self.pending removeFromSuperview];
+                     [self.undoButton removeFromSuperview];
+                   }];
+}
+
 #pragma mark UITextFieldDelegate methods
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
   
-//  if (textField == self.nameField && [self getLength:self.phoneField.text] == 10) {
-  NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-  formatter.numberStyle = NSNumberFormatterDecimalStyle;
-  NSNumber *num = [formatter numberFromString:[self formatNumber:self.phoneField.text]];
-//    [self.delegate verifyUserWithName:self.nameField.text phoneNumber:num];
+  if (textField == self.nameField && [self getLength:self.phoneField.text] == 10) {
+    [self.delegate verifyUserWithName:self.nameField.text
+                          phoneNumber:[self formatNumber:self.phoneField.text]];
 
-  NSNumber *random = [NSNumber numberWithInt:abs(arc4random() % 10000000000)];
-  NSLog(@"Random # = %@",random);
-  [self.delegate verifyUserWithName:@"Bob" phoneNumber:random];
+//    NSNumber *random = [NSNumber numberWithInt:abs(arc4random() % 10000000000)];
+//    NSLog(@"Random # = %@",random);
+//    [self.delegate verifyUserWithName:@"Bob" phoneNumber:random];
 
-  [textField resignFirstResponder];
-//  }
+    [textField resignFirstResponder];
+  } else {
+    [textField resignFirstResponder];
+  }
 
   return NO;
 }

@@ -11,9 +11,9 @@
 #import "WDConstants.h"
 #import "WDModelDelegate.h"
 
-#define WD_EVENT_URL @"http://localhost:3000/api/v0/event?"
-#define WD_USER_URL  @"http://localhost:3000/api/v0/user?"
-
+#define WD_EVENT_URL  @"http://localhost:3000/api/v0/event?"
+#define WD_USER_URL   @"http://localhost:3000/api/v0/user?"
+#define WD_VERIFY_URL @"http://localhost:3000/api/v0/verify?"
 
 
 @interface WDModel ()
@@ -40,17 +40,27 @@
 
 - (BOOL)verifyUserWithCode:(NSString *)code {
   NSDictionary *user = [[NSUserDefaults standardUserDefaults] objectForKey:WD_localKey_User_object];
-  NSLog(@"code: %@, localCode: %@", code, [user objectForKey:WD_modelKey_User_verifyCode]);
+  if (!user || !code) {
+    // TODO: Nothing to verify, try again.
+    return NO;
+  }
   NSNumber *verifyCode = [user objectForKey:WD_modelKey_User_verifyCode];
   
   NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
   formatter.numberStyle = NSNumberFormatterDecimalStyle;
   NSNumber *codeNum = [formatter numberFromString:code];
   
+  NSLog(@"code: %@, localCode: %@", codeNum, verifyCode);
+
   if ([codeNum isEqualToNumber:verifyCode]) {
     [[NSUserDefaults standardUserDefaults] setObject:[user objectForKey:WD_modelKey_User_id]
                                               forKey:WD_localKey_User_id];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    NSDictionary *query   = @{WD_modelKey_Verify_code: code,
+                              WD_modelKey_Verify_id  : [user objectForKey:WD_modelKey_User_id]};
+    
+    [self postToURL:WD_VERIFY_URL withDictionary:query inMode:WDInteractionVerifyConclude];
     return YES;
   } else {
     return NO;
@@ -86,22 +96,14 @@
   [serverConnection start];
 }
 
-#pragma mark Button Method
-
-- (void)didTapOnTest {
-  [self testServer];
-}
-
-#pragma mark WDVerifyDelegate Methods
-
-- (void)verifyUserWithName:(NSString *)name phoneNumber:(NSNumber *)phoneNumber {
-  NSDictionary *newUser = @{WD_modelKey_User_name: name, WD_modelKey_User_phone:phoneNumber};
-  NSDictionary *query   = @{WD_modelKey_User: newUser};
+- (void)postToURL:(NSString *)urlString
+   withDictionary:(NSDictionary *)dict
+           inMode:(WDInteractionMode)mode {
   
-  NSData *postData = [NSJSONSerialization dataWithJSONObject:query
-                                                 options:0
-                                                   error:nil];
-  NSURL *url = [NSURL URLWithString:WD_USER_URL];
+  NSData *postData = [NSJSONSerialization dataWithJSONObject:dict
+                                                     options:0
+                                                       error:nil];
+  NSURL *url = [NSURL URLWithString:urlString];
   
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -110,11 +112,27 @@
   [request setHTTPBody:postData];
   [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
   [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-  NSURLConnection *serverConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-  
-  self.mode = WDInteractionVerify;
-  [serverConnection start];
+  NSURLConnection *serverConnection = [[NSURLConnection alloc] initWithRequest:request
+                                                                      delegate:self];
+  self.mode = mode;
   [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+  [serverConnection start];
+}
+
+#pragma mark Button Method
+
+- (void)didTapOnTest {
+  [self testServer];
+}
+
+#pragma mark WDVerifyDelegate Methods
+
+- (void)verifyUserWithName:(NSString *)name phoneNumber:(NSString *)phoneNumber {
+  NSString *USPhoneNumber = [NSString stringWithFormat:@"+1%@", phoneNumber];
+  NSDictionary *newUser = @{WD_modelKey_User_name: name, WD_modelKey_User_phone:USPhoneNumber};
+  NSDictionary *query   = @{WD_modelKey_User: newUser};
+
+  [self postToURL:WD_USER_URL withDictionary:query inMode:WDInteractionVerify];
 }
 
 #pragma mark NSURLConnectionDelegate Methods

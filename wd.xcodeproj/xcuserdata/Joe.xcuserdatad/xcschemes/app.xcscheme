@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D8EE9E3C18A81149005A91BB"
-               BuildableName = "app.app"
+               BuildableName = "wd.app"
                BlueprintName = "wd"
                ReferencedContainer = "container:wd.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D8EE9E5718A81149005A91BB"
-               BuildableName = "appTests.xctest"
+               BuildableName = "wdTests.xctest"
                BlueprintName = "wdTests"
                ReferencedContainer = "container:wd.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D8EE9E3C18A81149005A91BB"
-            BuildableName = "app.app"
+            BuildableName = "wd.app"
             BlueprintName = "wd"
             ReferencedContainer = "container:wd.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D8EE9E3C18A81149005A91BB"
-            BuildableName = "app.app"
+            BuildableName = "wd.app"
             BlueprintName = "wd"
             ReferencedContainer = "container:wd.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D8EE9E3C18A81149005A91BB"
-            BuildableName = "app.app"
+            BuildableName = "wd.app"
             BlueprintName = "wd"
             ReferencedContainer = "container:wd.xcodeproj">
          </BuildableReference>
