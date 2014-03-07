@@ -49,7 +49,7 @@
   
   self.gridSize = self.view.bounds.size.height / 5;
 
-  self.view.backgroundColor = UIColorFromHex(WD_GREEN_COLOR);
+  self.view.backgroundColor = WD_UIColor_green;
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
   
   CGFloat gridSpacer = 7;

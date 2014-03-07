@@ -8,12 +8,16 @@
 
 #import "WDRootVC.h"
 
+#import "WDComposeVC.h"
+#import "WDEventsVC.h"
 #import "WDModel.h"
 #import "WDVerifyVC.h"
 
 @interface WDRootVC ()
 @property WDModel *model;
-@property (nonatomic, strong) UIViewController *currentViewController;
+@property (nonatomic, strong) WDVerifyVC *verifyVC;
+@property (nonatomic, strong) WDEventsVC *eventsVC;
+@property (nonatomic, strong) WDComposeVC *composeVC;
 @end
 
 @implementation WDRootVC
@@ -29,11 +33,14 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  self.composeVC = [[WDComposeVC alloc] initWithNibName:nil bundle:nil];
+  self.eventsVC = [[WDEventsVC alloc] initWithStyle:UITableViewStylePlain];
+  
   if (self.model.hasUserLoggedIn) {
-    // TODO: Main Events VC
-    self.view.backgroundColor = [UIColor blueColor];
-  } else {    
-    [self displayInnerViewController:[[WDVerifyVC alloc] initWithDelegate:self.model]];
+    
+  } else {
+    self.verifyVC = [[WDVerifyVC alloc] initWithDelegate:self.model];
+    [self displayInnerViewController:self.verifyVC withFrame:self.view.frame];
   }
 }
 
@@ -41,19 +48,18 @@
   if (self.model.hasUserLoggedIn) {
     // TODO: You're trying to verify an already active user
   } else {
-    if (![self.currentViewController isKindOfClass:[WDVerifyVC class]]) {
+    if (!self.verifyVC) {
       NSLog(@"Went to conclude Verify, but not displaying WDVerifyVC");
       return;
     }
-    WDVerifyVC *verifyVC = (WDVerifyVC *)self.currentViewController;
 
     if ([self.model verifyUserWithCode:code]) {
       // TODO: Swap to main events VC
       NSLog(@"User Is Verified: %@", self.model.hasUserLoggedIn ? @"YES" : @"NO");
-      [verifyVC verifyDidSucceed];
+      [self.verifyVC verifyDidSucceed];
       
     } else {
-      [verifyVC verifyDidFail];
+      [self.verifyVC verifyDidFail];
     }
   }
 }
@@ -68,12 +74,11 @@
 - (void)didReceiveData:(NSDictionary *)data fromInteractionMode:(WDInteractionMode)mode {
   switch (mode) {
     case WDInteractionVerify: {
-      if (![self.currentViewController isKindOfClass:[WDVerifyVC class]]) {
+      if (!self.verifyVC) {
         NSLog(@"Received Data for Verify, but not displaying WDVerifyVC");
         return;
       }
-      WDVerifyVC *verifyVC = (WDVerifyVC *)self.currentViewController;
-      [verifyVC verifyDidInitiate];
+      [self.verifyVC verifyDidInitiate];
       return;
     } default:
       break;
@@ -86,12 +91,11 @@
 
 #pragma mark Child View Management
 
-- (void) displayInnerViewController: (UIViewController*) innerVC {
+- (void) displayInnerViewController:(UIViewController*)innerVC withFrame:(CGRect)frame {
   [self addChildViewController:innerVC];
-  innerVC.view.frame = self.view.frame;
+  innerVC.view.frame = frame;
   [self.view addSubview:innerVC.view];
   [innerVC didMoveToParentViewController:self];
-  self.currentViewController = innerVC;
 }
 
 - (void) hideInnerViewController {
@@ -99,7 +103,6 @@
   [viewControllerToRemove willMoveToParentViewController:nil];
   [viewControllerToRemove.view removeFromSuperview];
   [viewControllerToRemove removeFromParentViewController];
-  self.currentViewController = nil;
 }
 
 @end

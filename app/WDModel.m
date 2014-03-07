@@ -34,7 +34,7 @@
 }
 
 - (BOOL)hasUserLoggedIn {
-  return NO;
+  return YES;
 //  return self.userId ? YES : NO;
 }
 

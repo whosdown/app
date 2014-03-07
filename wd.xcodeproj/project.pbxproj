@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		D843127318B7D87A006D9785 /* WDRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D843127218B7D87A006D9785 /* WDRootVC.m */; };
 		D843128318B7E085006D9785 /* WDVerifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D843128218B7E085006D9785 /* WDVerifyVC.m */; };
+		D8439FDB18C93D9600273945 /* WDEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8439FDA18C93D9600273945 /* WDEventsVC.m */; };
+		D8439FE418C9424D00273945 /* WDComposeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8439FE318C9424D00273945 /* WDComposeVC.m */; };
 		D8EE9E4118A81149005A91BB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8EE9E4018A81149005A91BB /* Foundation.framework */; };
 		D8EE9E4318A81149005A91BB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8EE9E4218A81149005A91BB /* CoreGraphics.framework */; };
 		D8EE9E4518A81149005A91BB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8EE9E4418A81149005A91BB /* UIKit.framework */; };
@@ -42,6 +44,10 @@
 		D843128118B7E085006D9785 /* WDVerifyVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDVerifyVC.h; sourceTree = "<group>"; };
 		D843128218B7E085006D9785 /* WDVerifyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDVerifyVC.m; sourceTree = "<group>"; };
 		D843128418B7F0FA006D9785 /* WDVerifyDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDVerifyDelegate.h; sourceTree = "<group>"; };
+		D8439FD918C93D9600273945 /* WDEventsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDEventsVC.h; sourceTree = "<group>"; };
+		D8439FDA18C93D9600273945 /* WDEventsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDEventsVC.m; sourceTree = "<group>"; };
+		D8439FE218C9424D00273945 /* WDComposeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDComposeVC.h; sourceTree = "<group>"; };
+		D8439FE318C9424D00273945 /* WDComposeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDComposeVC.m; sourceTree = "<group>"; };
 		D8EE9E3D18A81149005A91BB /* wd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EE9E4018A81149005A91BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D8EE9E4218A81149005A91BB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -119,8 +125,12 @@
 		D8EE9E4618A81149005A91BB /* wd */ = {
 			isa = PBXGroup;
 			children = (
+				D8439FE218C9424D00273945 /* WDComposeVC.h */,
+				D8439FE318C9424D00273945 /* WDComposeVC.m */,
 				D843127118B7D87A006D9785 /* WDRootVC.h */,
 				D843127218B7D87A006D9785 /* WDRootVC.m */,
+				D8439FD918C93D9600273945 /* WDEventsVC.h */,
+				D8439FDA18C93D9600273945 /* WDEventsVC.m */,
 				D843128118B7E085006D9785 /* WDVerifyVC.h */,
 				D843128218B7E085006D9785 /* WDVerifyVC.m */,
 				D843128418B7F0FA006D9785 /* WDVerifyDelegate.h */,
@@ -267,6 +277,8 @@
 				D843128318B7E085006D9785 /* WDVerifyVC.m in Sources */,
 				D843127318B7D87A006D9785 /* WDRootVC.m in Sources */,
 				D8EE9E7118A814A7005A91BB /* WDModel.m in Sources */,
+				D8439FDB18C93D9600273945 /* WDEventsVC.m in Sources */,
+				D8439FE418C9424D00273945 /* WDComposeVC.m in Sources */,
 				D8EE9E5118A81149005A91BB /* WDAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
