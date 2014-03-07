@@ -33,8 +33,18 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  self.composeVC = [[WDComposeVC alloc] initWithNibName:nil bundle:nil];
-  self.eventsVC = [[WDEventsVC alloc] initWithStyle:UITableViewStylePlain];
+  CGFloat gridSize = self.view.frame.size.height / 11;
+  CGRect composeRect = self.view.frame;
+  composeRect.size.height = gridSize * 3;
+  [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+  
+  // TODO: Switch to designated Initializer
+  self.composeVC = [[WDComposeVC alloc] initWithFrame:composeRect delegate:nil dataSource:nil];
+  self.eventsVC =
+      [[WDEventsVC alloc] initWithViewInset:UIEdgeInsetsMake(composeRect.size.height, 0, 0, 0)];
+  
+  [self displayInnerViewController:self.eventsVC withFrame:self.view.frame];
+  [self displayInnerViewController:self.composeVC withFrame:composeRect];
   
   if (self.model.hasUserLoggedIn) {
     
@@ -57,7 +67,8 @@
       // TODO: Swap to main events VC
       NSLog(@"User Is Verified: %@", self.model.hasUserLoggedIn ? @"YES" : @"NO");
       [self.verifyVC verifyDidSucceed];
-      
+      [self hideInnerViewController:self.verifyVC];
+//      self.verifyVC = nil;
     } else {
       [self.verifyVC verifyDidFail];
     }
@@ -91,18 +102,18 @@
 
 #pragma mark Child View Management
 
-- (void) displayInnerViewController:(UIViewController*)innerVC withFrame:(CGRect)frame {
+- (void) displayInnerViewController:(UIViewController *)innerVC withFrame:(CGRect)frame {
   [self addChildViewController:innerVC];
   innerVC.view.frame = frame;
   [self.view addSubview:innerVC.view];
   [innerVC didMoveToParentViewController:self];
 }
 
-- (void) hideInnerViewController {
-  UIViewController *viewControllerToRemove = [[self childViewControllers] firstObject];
-  [viewControllerToRemove willMoveToParentViewController:nil];
-  [viewControllerToRemove.view removeFromSuperview];
-  [viewControllerToRemove removeFromParentViewController];
+- (void) hideInnerViewController:(UIViewController *)innerVC {
+//  UIViewController *viewControllerToRemove = [[self childViewControllers] firstObject];
+  [innerVC willMoveToParentViewController:nil];
+  [innerVC.view removeFromSuperview];
+  [innerVC removeFromParentViewController];
 }
 
 @end

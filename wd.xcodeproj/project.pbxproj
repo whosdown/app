@@ -48,6 +48,8 @@
 		D8439FDA18C93D9600273945 /* WDEventsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDEventsVC.m; sourceTree = "<group>"; };
 		D8439FE218C9424D00273945 /* WDComposeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDComposeVC.h; sourceTree = "<group>"; };
 		D8439FE318C9424D00273945 /* WDComposeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDComposeVC.m; sourceTree = "<group>"; };
+		D8439FE518C9495700273945 /* WDComposeDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDComposeDelegate.h; sourceTree = "<group>"; };
+		D8439FE618C9497400273945 /* WDComposeDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDComposeDataSource.h; sourceTree = "<group>"; };
 		D8EE9E3D18A81149005A91BB /* wd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EE9E4018A81149005A91BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D8EE9E4218A81149005A91BB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -127,6 +129,8 @@
 			children = (
 				D8439FE218C9424D00273945 /* WDComposeVC.h */,
 				D8439FE318C9424D00273945 /* WDComposeVC.m */,
+				D8439FE518C9495700273945 /* WDComposeDelegate.h */,
+				D8439FE618C9497400273945 /* WDComposeDataSource.h */,
 				D843127118B7D87A006D9785 /* WDRootVC.h */,
 				D843127218B7D87A006D9785 /* WDRootVC.m */,
 				D8439FD918C93D9600273945 /* WDEventsVC.h */,

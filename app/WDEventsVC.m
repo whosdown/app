@@ -14,10 +14,10 @@
 
 @implementation WDEventsVC
 
-- (id)initWithStyle:(UITableViewStyle)style {
-  self = [super initWithStyle:style];
+- (id)initWithViewInset:(UIEdgeInsets)inset {
+  self = [super initWithStyle:UITableViewStylePlain];
   if (self) {
-      // Custom initialization
+    self.tableView.contentInset = inset;
   }
   return self;
 }

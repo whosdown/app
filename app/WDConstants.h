@@ -27,6 +27,8 @@
 #define WD_UNDO_FONT     @"DINAlternate-Bold"
 #define WD_UNDO_SIZE     20
 
+#define WD_comp_title_size 22
+
 #define UIColorFromHex(rgbValue) [UIColor \
 colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \

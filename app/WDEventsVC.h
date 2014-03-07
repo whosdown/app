@@ -10,4 +10,6 @@
 
 @interface WDEventsVC : UITableViewController
 
+- (id)initWithViewInset:(UIEdgeInsets)inset;
+
 @end

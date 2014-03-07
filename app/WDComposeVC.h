@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol WDComposeDataSource;
+@protocol WDComposeDelegate;
+
 @interface WDComposeVC : UIViewController
+
+- (id)initWithFrame:(CGRect)frame
+           delegate:(NSObject<WDComposeDelegate> *)delegate
+         dataSource:(NSObject<WDComposeDataSource> *)dataSource;
 
 @end
