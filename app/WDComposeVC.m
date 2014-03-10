@@ -18,11 +18,11 @@
 @property NSObject<WDComposeDataSource> *dataSource;
 @property NSObject<WDComposeDelegate> *delegate;
 @property CGRect contentFrame;
-
+@property (nonatomic, strong) UIButton *submitButton;
 @property (nonatomic, strong) UITextField *peopleField;
 @property (nonatomic, strong) UITextField *messageField;
-
-@property (nonatomic, strong) UIButton *submitButton;
+@property (nonatomic, strong) UIToolbar *backgroundBar;
+@property (nonatomic, strong) UIView *fieldDivider;
 
 @end
 
@@ -48,16 +48,54 @@
 //  
 //  [self.view addSubview:test];
   
-  self.view.backgroundColor = WD_UIColor_green;
+//  self.view.backgroundColor = WD_UIColor_green;
   
   
   CGFloat viewWidth = self.view.bounds.size.width;
   CGFloat statusHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
   CGFloat gridSize = (self.contentFrame.size.height - statusHeight) / 5;
 
-  self.heading.center = CGPointMake((viewWidth / 2), statusHeight + ((gridSize * 2) / 2));
   
+  CGFloat offset = 20;
+  CGFloat fieldSpacer = 7;
+  
+  CGFloat titleRegionHeight = gridSize * 2;
+  CGFloat fieldRegionHeight = gridSize * 3;
+  CGPoint fieldRegionCenter =
+      CGPointMake((viewWidth / 2), statusHeight + titleRegionHeight + (fieldRegionHeight / 2));
+  
+  CGRect peopleFieldRect = CGRectMake(self.peopleField.frame.origin.x,
+                                      self.peopleField.frame.origin.y,
+                                      viewWidth - (2 * offset),
+                                      self.peopleField.frame.size.height);
+  CGRect messageFieldRect = CGRectMake(self.messageField.frame.origin.x,
+                                       self.messageField.frame.origin.y,
+                                       viewWidth - (2 * offset),
+                                       self.messageField.frame.size.height);
+  CGRect fieldDividerRect = CGRectMake(0,
+                                       0,
+                                       messageFieldRect.size.width,
+                                       1 / [[UIScreen mainScreen] scale]);
+
+  
+  self.backgroundBar.frame = self.contentFrame;
+  self.heading.center = CGPointMake((viewWidth / 2), statusHeight + (titleRegionHeight / 2));
+  self.peopleField.frame  = peopleFieldRect;
+  self.peopleField.center =
+      CGPointMake(fieldRegionCenter.x,
+                  fieldRegionCenter.y - (self.peopleField.frame.size.height / 2) - fieldSpacer);
+  self.messageField.frame = messageFieldRect;
+  self.messageField.center =
+      CGPointMake(fieldRegionCenter.x,
+                  fieldRegionCenter.y + (self.messageField.frame.size.height / 2) + fieldSpacer);
+  self.fieldDivider.frame = fieldDividerRect;
+  self.fieldDivider.center = fieldRegionCenter;
+
+  [self.view addSubview:self.backgroundBar];
   [self.view addSubview:self.heading];
+  [self.view addSubview:self.peopleField];
+  [self.view addSubview:self.messageField];
+  [self.view addSubview:self.fieldDivider];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,13 +108,62 @@
 - (UILabel *)heading {
   if (!_heading) {
     _heading = [[UILabel alloc] init];
-    _heading.text = WD_TITLE;
+    _heading.text = WD_comp_title;
     _heading.textAlignment = NSTextAlignmentCenter;
     _heading.textColor = [UIColor whiteColor];
-    _heading.font = [UIFont fontWithName:WD_TITLE_FONT size:WD_comp_title_size];
+    _heading.font = [UIFont fontWithName:WD_comp_titleFont size:WD_comp_titleSize];
     [_heading sizeToFit];
   }
   return _heading;
 }
+
+- (UIToolbar *)backgroundBar {
+  if (!_backgroundBar) {
+    _backgroundBar = [[UIToolbar alloc] init];
+    _backgroundBar.barTintColor = WD_UIColor_green;
+    _backgroundBar.translucent = YES;
+//    _backgroundBar.contentMode =
+  }
+  return _backgroundBar;
+}
+
+- (UITextField *)peopleField {
+  if (!_peopleField) {
+    _peopleField = [[UITextField alloc] init];
+    _peopleField.textAlignment = NSTextAlignmentLeft;
+    _peopleField.textColor = [UIColor whiteColor];
+    _peopleField.font = [UIFont fontWithName:WD_comp_fieldFont size:WD_comp_fieldSize];
+    _peopleField.placeholder = WD_comp_peopleFieldPlaceholder;
+    _peopleField.returnKeyType = UIReturnKeyDone;
+    [_peopleField sizeToFit];
+    
+    _peopleField.delegate = self;
+  }
+  return _peopleField;
+}
+
+- (UITextField *)messageField {
+  if (!_messageField) {
+    _messageField = [[UITextField alloc] init];
+    _messageField.textAlignment = NSTextAlignmentLeft;
+    _messageField.textColor = [UIColor whiteColor];
+    _messageField.font = [UIFont fontWithName:WD_comp_fieldFont size:WD_comp_fieldSize];
+    _messageField.placeholder = WD_comp_messageFieldPlaceholder;
+    _messageField.returnKeyType = UIReturnKeyDone;
+    [_messageField sizeToFit];
+    
+    _messageField.delegate = self;
+  }
+  return _messageField;
+}
+
+- (UIView *)fieldDivider {
+  if (!_fieldDivider) {
+    _fieldDivider = [[UIView alloc] init];
+    _fieldDivider.backgroundColor = [UIColor grayColor];
+  }
+  return _fieldDivider;
+}
+
 
 @end

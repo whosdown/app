@@ -12,18 +12,16 @@
 #import "WDVerifyDelegate.h"
 
 @interface WDVerifyVC ()
-@property (nonatomic, strong) UILabel *heading;
-@property (nonatomic, strong) UILabel *subHeading;
-@property (nonatomic, strong) UILabel *pending;
-@property (nonatomic, strong) UILabel *undoButtonLabel;
-
-@property (nonatomic, strong) UITextField *nameField;
-@property (nonatomic, strong) UITextField *phoneField;
-
-@property (nonatomic, strong) UIView *fieldDivider;
-
 @property (nonatomic, strong) UIButton *submitButton;
 @property (nonatomic, strong) UIButton *undoButton;
+@property (nonatomic, strong) UILabel *heading;
+@property (nonatomic, strong) UILabel *pending;
+@property (nonatomic, strong) UILabel *subHeading;
+@property (nonatomic, strong) UILabel *undoButtonLabel;
+@property (nonatomic, strong) UITextField *nameField;
+@property (nonatomic, strong) UITextField *phoneField;
+@property (nonatomic, strong) UIView *fieldDivider;
+
 
 @property BOOL keyboardIsVisible;
 
@@ -384,10 +382,10 @@
 - (UILabel *)heading {
   if (!_heading) {
     _heading = [[UILabel alloc] init];
-    _heading.text = WD_TITLE;
+    _heading.text = WD_veri_title;
     _heading.textAlignment = NSTextAlignmentCenter;
     _heading.textColor = [UIColor whiteColor];
-    _heading.font = [UIFont fontWithName:WD_TITLE_FONT size:WD_TITLE_SIZE];
+    _heading.font = [UIFont fontWithName:WD_FONT_brand size:WD_veri_titleSize];
     [_heading sizeToFit];
   }
   return _heading;
@@ -396,10 +394,10 @@
 - (UILabel *)subHeading {
   if (!_subHeading) {
     _subHeading = [[UILabel alloc] init];
-    _subHeading.text = WD_TAG_LINE;
+    _subHeading.text = WD_veri_tagLine;
     _subHeading.textAlignment = NSTextAlignmentCenter;
     _subHeading.textColor = [UIColor whiteColor];
-    _subHeading.font = [UIFont fontWithName:WD_TAG_LINE_FONT size:WD_TAG_LINE_SIZE];
+    _subHeading.font = [UIFont fontWithName:WD_veri_tagLineFont size:WD_veri_tagLineSize];
     [_subHeading sizeToFit];
   }
   return _subHeading;
@@ -410,9 +408,9 @@
     _phoneField = [[UITextField alloc] init];
     _phoneField.textAlignment = NSTextAlignmentLeft;
     _phoneField.textColor = [UIColor blackColor];
-    _phoneField.font = [UIFont fontWithName:WD_TITLE_FONT size:WD_TAG_LINE_SIZE];
+    _phoneField.font = [UIFont fontWithName:WD_veri_fieldFont  size:WD_veri_fieldSize];
     _phoneField.keyboardType = UIKeyboardTypeNumberPad;
-    _phoneField.placeholder = @"Phone number";
+    _phoneField.placeholder = WD_veri_phoneFieldPlaceholder;
     _phoneField.returnKeyType = UIReturnKeyDone;
     [_phoneField sizeToFit];
 
@@ -427,7 +425,7 @@
     _nameField.textAlignment = self.phoneField.textAlignment;
     _nameField.textColor = self.phoneField.textColor;
     _nameField.font = self.phoneField.font;
-    _nameField.placeholder = @"Name";
+    _nameField.placeholder = WD_veri_nameFieldPlaceholder;
     _nameField.returnKeyType = UIReturnKeyDone;
     _nameField.enablesReturnKeyAutomatically = YES;
     [_nameField sizeToFit];
@@ -448,10 +446,10 @@
 - (UILabel *)pending {
   if (!_pending) {
     _pending = [[UILabel alloc] init];
-    _pending.text = WD_PENDING;
+    _pending.text = WD_veri_pending;
     _pending.textAlignment = NSTextAlignmentCenter;
     _pending.textColor = [UIColor whiteColor];
-    _pending.font = [UIFont fontWithName:WD_PENDING_FONT size:WD_PENDING_SIZE];
+    _pending.font = [UIFont fontWithName:WD_veri_pendingFont size:WD_veri_pendingSize];
     _pending.numberOfLines = 3;
     [_pending sizeToFit];
   }
@@ -470,10 +468,10 @@
 - (UILabel *)undoButtonLabel {
   if (!_undoButtonLabel) {
     _undoButtonLabel = [[UILabel alloc] init];
-    _undoButtonLabel.text = WD_UNDO;
+    _undoButtonLabel.text = WD_veri_undo;
     _undoButtonLabel.textAlignment = NSTextAlignmentCenter;
     _undoButtonLabel.textColor = [UIColor grayColor];
-    _undoButtonLabel.font = [UIFont fontWithName:WD_UNDO_FONT size:WD_UNDO_SIZE];
+    _undoButtonLabel.font = [UIFont fontWithName:WD_veri_undoFont size:WD_veri_undoSize];
     [_undoButtonLabel sizeToFit];
   }
   return _undoButtonLabel;

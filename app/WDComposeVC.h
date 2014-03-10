@@ -11,7 +11,7 @@
 @protocol WDComposeDataSource;
 @protocol WDComposeDelegate;
 
-@interface WDComposeVC : UIViewController
+@interface WDComposeVC : UIViewController<UITextFieldDelegate>
 
 - (id)initWithFrame:(CGRect)frame
            delegate:(NSObject<WDComposeDelegate> *)delegate
