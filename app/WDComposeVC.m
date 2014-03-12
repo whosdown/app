@@ -13,12 +13,14 @@
 
 
 @interface WDComposeVC ()
-@property (nonatomic, strong) UILabel *heading;
 
+@property BOOL isFullScreen;
 @property NSObject<WDComposeDataSource> *dataSource;
 @property NSObject<WDComposeDelegate> *delegate;
 @property CGRect contentFrame;
 @property (nonatomic, strong) UIButton *submitButton;
+@property (nonatomic, strong) UILabel *heading;
+@property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UITextField *peopleField;
 @property (nonatomic, strong) UITextField *messageField;
 @property (nonatomic, strong) UIToolbar *backgroundBar;
@@ -43,53 +45,9 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-//  UIToolbar *test = [[UIToolbar alloc] initWithFrame:self.view.bounds];
-//  test.barTintColor = WD_UIColor_green;
-//  
-//  [self.view addSubview:test];
+  self.isFullScreen = false;
   
-//  self.view.backgroundColor = WD_UIColor_green;
-  
-  
-  CGFloat viewWidth = self.view.bounds.size.width;
-  CGFloat statusHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-  CGFloat gridSize = (self.contentFrame.size.height - statusHeight) / 5;
-
-  
-  CGFloat offset = 20;
-  CGFloat fieldSpacer = 7;
-  
-  CGFloat titleRegionHeight = gridSize * 2;
-  CGFloat fieldRegionHeight = gridSize * 3;
-  CGPoint fieldRegionCenter =
-      CGPointMake((viewWidth / 2), statusHeight + titleRegionHeight + (fieldRegionHeight / 2));
-  
-  CGRect peopleFieldRect = CGRectMake(self.peopleField.frame.origin.x,
-                                      self.peopleField.frame.origin.y,
-                                      viewWidth - (2 * offset),
-                                      self.peopleField.frame.size.height);
-  CGRect messageFieldRect = CGRectMake(self.messageField.frame.origin.x,
-                                       self.messageField.frame.origin.y,
-                                       viewWidth - (2 * offset),
-                                       self.messageField.frame.size.height);
-  CGRect fieldDividerRect = CGRectMake(0,
-                                       0,
-                                       messageFieldRect.size.width,
-                                       1 / [[UIScreen mainScreen] scale]);
-
-  
-  self.backgroundBar.frame = self.contentFrame;
-  self.heading.center = CGPointMake((viewWidth / 2), statusHeight + (titleRegionHeight / 2));
-  self.peopleField.frame  = peopleFieldRect;
-  self.peopleField.center =
-      CGPointMake(fieldRegionCenter.x,
-                  fieldRegionCenter.y - (self.peopleField.frame.size.height / 2) - fieldSpacer);
-  self.messageField.frame = messageFieldRect;
-  self.messageField.center =
-      CGPointMake(fieldRegionCenter.x,
-                  fieldRegionCenter.y + (self.messageField.frame.size.height / 2) + fieldSpacer);
-  self.fieldDivider.frame = fieldDividerRect;
-  self.fieldDivider.center = fieldRegionCenter;
+  [self setFrame:self.contentFrame inFullScreenMode:NO];
 
   [self.view addSubview:self.backgroundBar];
   [self.view addSubview:self.heading];
@@ -98,16 +56,137 @@
   [self.view addSubview:self.fieldDivider];
 }
 
+- (void)setFrame:(CGRect)frame inFullScreenMode:(BOOL)shouldBeFullScreenMode {
+  self.view.frame = frame;
+  
+  CGFloat viewWidth = frame.size.width;
+  CGFloat statusHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+  
+  
+  CGFloat offset = 23;
+  CGFloat fieldSpacer = 7;
+  
+  // Title Region is the top 2/5ths of View. The Fields comprise the next 3/5ths.
+  CGFloat gridSize = 44 / 2;
+  
+  CGFloat titleRegionHeight = gridSize * 2;
+  CGFloat fieldRegionHeight = gridSize * 3;
+  CGPoint titleRegionCenter = CGPointMake((viewWidth / 2), statusHeight + (titleRegionHeight / 2));
+  CGPoint fieldRegionCenter =
+      CGPointMake((viewWidth / 2), statusHeight + titleRegionHeight + (fieldRegionHeight / 2));
+  
+  
+  CGRect navBarRect       = self.navBar.frame;
+  CGRect peopleFieldRect  = self.peopleField.frame;
+  CGRect messageFieldRect = self.messageField.frame;
+  CGRect fieldDividerRect = self.fieldDivider.frame;
+
+  /* Set Sizes */
+
+  CGFloat fieldWidth = viewWidth - (2 * offset);;
+  
+
+  navBarRect.size = CGSizeMake(viewWidth, statusHeight + titleRegionHeight);
+  peopleFieldRect.size.width = fieldWidth;
+  messageFieldRect.size.width = fieldWidth;
+  
+  if (shouldBeFullScreenMode) {
+    fieldDividerRect.size = CGSizeMake(fieldWidth, 1 / [[UIScreen mainScreen] scale]);
+  } else {
+    fieldDividerRect.size = CGSizeMake(frame.size.width, 1 / [[UIScreen mainScreen] scale]);
+  }
+  
+  
+  self.backgroundBar.frame = frame;
+  self.navBar.frame = navBarRect;
+  self.peopleField.frame  = peopleFieldRect;
+  self.messageField.frame = messageFieldRect;
+  self.fieldDivider.frame = fieldDividerRect;
+
+  /* Set Locations */
+
+  if (shouldBeFullScreenMode) {
+    fieldDividerRect.origin.x = 0.0;
+    navBarRect.origin = CGPointZero;
+
+    self.fieldDivider.frame = fieldDividerRect;
+    self.navBar.frame = navBarRect;
+  } else {
+    self.fieldDivider.center = fieldRegionCenter;
+    self.navBar.center = CGPointMake(self.view.frame.size.width / 2, self.navBar.center.y -
+                      (frame.size.height - self.parentViewController.view.frame.size.height));
+    self.navBar.alpha = 0.0;
+  }
+
+  self.heading.center = titleRegionCenter;
+  self.peopleField.center =
+      CGPointMake(fieldRegionCenter.x,
+                  fieldRegionCenter.y - (self.peopleField.frame.size.height / 2) - fieldSpacer);
+  self.messageField.center =
+      CGPointMake(fieldRegionCenter.x,
+                  fieldRegionCenter.y + (self.messageField.frame.size.height / 2) + fieldSpacer);
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark ButtonReciever methods
+
+- (void)didTapOnCancel {
+  
+}
+
+#pragma mark UITextFieldDelegate methods
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+  
+  if (self.isFullScreen) {
+    return YES;
+  }
+  
+//  [self setFrame: inFullScreenMode:YES];
+
+    
+  [self.view addSubview:self.navBar];
+
+  [UIView animateWithDuration:0.3
+                        delay:0.0
+                      options:UIViewAnimationOptionCurveEaseInOut
+                   animations:^{
+                     
+                     [self setFrame:self.parentViewController.view.frame inFullScreenMode:YES];
+                     
+                     
+                     self.navBar.alpha = 1.0;
+                     self.heading.alpha = 0.0;
+                     
+                     self.view.backgroundColor = [UIColor whiteColor];
+                   }
+                   completion:^(BOOL finished){
+                     self.isFullScreen = finished;
+                     [self.heading removeFromSuperview];
+                     [textField becomeFirstResponder];
+                   }];
+  
+  return self.isFullScreen;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+  if (textField == self.peopleField) {
+    [self.messageField becomeFirstResponder];
+  } else if (textField == self.messageField) {
+    return [textField resignFirstResponder];
+  }
+  return YES;
 }
 
 #pragma mark Lazy Initializers
 
 - (UILabel *)heading {
   if (!_heading) {
-    _heading = [[UILabel alloc] init];
+    _heading = [[UILabel alloc] initWithFrame:CGRectZero];
     _heading.text = WD_comp_title;
     _heading.textAlignment = NSTextAlignmentCenter;
     _heading.textColor = [UIColor whiteColor];
@@ -117,24 +196,48 @@
   return _heading;
 }
 
+- (UINavigationBar *)navBar {
+  if (!_navBar) {
+    _navBar = [[UINavigationBar alloc] initWithFrame:CGRectZero];
+    _navBar.translucent = YES;
+    _navBar.shadowImage = [UIImage new];
+    [_navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    
+    UINavigationItem *newHangout = [[UINavigationItem alloc] initWithTitle:WD_comp_newEventTitle];
+    _navBar.titleTextAttributes =
+        @{NSFontAttributeName:            [UIFont fontWithName:WD_comp_newEventTitleFont
+                                                          size:WD_comp_newEventTitleSize],
+          NSForegroundColorAttributeName: [UIColor whiteColor]};
+    newHangout.leftBarButtonItem =
+        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                      target:self
+                                                      action:@selector(didTapOnCancel)];
+    
+    _navBar.items = @[newHangout];
+    _navBar.tintColor = [UIColor whiteColor];
+
+  }
+  return _navBar;
+}
+
 - (UIToolbar *)backgroundBar {
   if (!_backgroundBar) {
-    _backgroundBar = [[UIToolbar alloc] init];
+    _backgroundBar = [[UIToolbar alloc] initWithFrame:CGRectZero];
     _backgroundBar.barTintColor = WD_UIColor_green;
+    _backgroundBar.tintColor = [UIColor whiteColor];
     _backgroundBar.translucent = YES;
-//    _backgroundBar.contentMode =
   }
   return _backgroundBar;
 }
 
 - (UITextField *)peopleField {
   if (!_peopleField) {
-    _peopleField = [[UITextField alloc] init];
+    _peopleField = [[UITextField alloc] initWithFrame:CGRectZero];
     _peopleField.textAlignment = NSTextAlignmentLeft;
     _peopleField.textColor = [UIColor whiteColor];
     _peopleField.font = [UIFont fontWithName:WD_comp_fieldFont size:WD_comp_fieldSize];
     _peopleField.placeholder = WD_comp_peopleFieldPlaceholder;
-    _peopleField.returnKeyType = UIReturnKeyDone;
+    _peopleField.returnKeyType = UIReturnKeyNext;
     [_peopleField sizeToFit];
     
     _peopleField.delegate = self;
@@ -144,7 +247,7 @@
 
 - (UITextField *)messageField {
   if (!_messageField) {
-    _messageField = [[UITextField alloc] init];
+    _messageField = [[UITextField alloc] initWithFrame:CGRectZero];
     _messageField.textAlignment = NSTextAlignmentLeft;
     _messageField.textColor = [UIColor whiteColor];
     _messageField.font = [UIFont fontWithName:WD_comp_fieldFont size:WD_comp_fieldSize];
@@ -159,11 +262,10 @@
 
 - (UIView *)fieldDivider {
   if (!_fieldDivider) {
-    _fieldDivider = [[UIView alloc] init];
+    _fieldDivider = [[UIView alloc] initWithFrame:CGRectZero];
     _fieldDivider.backgroundColor = [UIColor grayColor];
   }
   return _fieldDivider;
 }
-
 
 @end

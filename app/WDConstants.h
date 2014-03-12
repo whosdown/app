@@ -18,7 +18,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 /******* Style *******/
 
-#define WD_FONT_ui    @"DINAlternate-Bold"
+#define WD_FONT_ui    @"HelveticaNeue"
 #define WD_FONT_brand @"DINAlternate-Bold"
 
 #define WD_UIColor_green UIColorFromHex(0x81CD8A)
@@ -56,6 +56,11 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_comp_title     WD_veri_title
 #define WD_comp_titleFont WD_FONT_brand
 #define WD_comp_titleSize 22
+
+#define WD_comp_newEventTitle     @"new hangout"
+#define WD_comp_newEventTitleFont WD_FONT_ui
+#define WD_comp_newEventTitleSize WD_comp_titleSize
+
 
 #define WD_comp_fieldFont WD_FONT_ui
 #define WD_comp_fieldSize 15

@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  CGFloat gridSize = self.view.frame.size.height / 11;
+  CGFloat gridSize = self.view.frame.size.height / 13;
   CGRect composeRect = self.view.frame;
   composeRect.size.height = gridSize * 3;
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
