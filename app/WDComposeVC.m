@@ -83,7 +83,7 @@
 
   /* Set Sizes */
 
-  CGFloat fieldWidth = viewWidth - (2 * offset);;
+  CGFloat fieldWidth = viewWidth - (2 * offset);
   
 
   navBarRect.size = CGSizeMake(viewWidth, statusHeight + titleRegionHeight);
@@ -91,40 +91,41 @@
   messageFieldRect.size.width = fieldWidth;
   
   if (shouldBeFullScreenMode) {
-    fieldDividerRect.size = CGSizeMake(fieldWidth, 1 / [[UIScreen mainScreen] scale]);
-  } else {
     fieldDividerRect.size = CGSizeMake(frame.size.width, 1 / [[UIScreen mainScreen] scale]);
+  } else {
+    fieldDividerRect.size = CGSizeMake(fieldWidth, 1 / [[UIScreen mainScreen] scale]);
   }
   
-  
-  self.backgroundBar.frame = frame;
-  self.navBar.frame = navBarRect;
-  self.peopleField.frame  = peopleFieldRect;
-  self.messageField.frame = messageFieldRect;
-  self.fieldDivider.frame = fieldDividerRect;
 
   /* Set Locations */
 
   if (shouldBeFullScreenMode) {
-    fieldDividerRect.origin.x = 0.0;
     navBarRect.origin = CGPointZero;
-
-    self.fieldDivider.frame = fieldDividerRect;
-    self.navBar.frame = navBarRect;
   } else {
-    self.fieldDivider.center = fieldRegionCenter;
-    self.navBar.center = CGPointMake(self.view.frame.size.width / 2, self.navBar.center.y -
-                      (frame.size.height - self.parentViewController.view.frame.size.height));
-    self.navBar.alpha = 0.0;
+    navBarRect.origin.y = frame.size.height - self.parentViewController.view.frame.size.height;
   }
 
+  fieldDividerRect.origin = [self topLeftFromCenter:fieldRegionCenter size:fieldDividerRect.size];
+  peopleFieldRect.origin =
+      CGPointMake(offset,
+                  fieldRegionCenter.y - peopleFieldRect.size.height - fieldSpacer);
+  messageFieldRect.origin =
+      CGPointMake(offset,
+                  fieldRegionCenter.y + fieldSpacer);
   self.heading.center = titleRegionCenter;
-  self.peopleField.center =
-      CGPointMake(fieldRegionCenter.x,
-                  fieldRegionCenter.y - (self.peopleField.frame.size.height / 2) - fieldSpacer);
-  self.messageField.center =
-      CGPointMake(fieldRegionCenter.x,
-                  fieldRegionCenter.y + (self.messageField.frame.size.height / 2) + fieldSpacer);
+
+  
+  /* Commit Changes */
+  
+  self.fieldDivider.frame = fieldDividerRect;
+  self.backgroundBar.frame = frame;
+  self.navBar.frame = navBarRect;
+  self.peopleField.frame  = peopleFieldRect;
+  self.messageField.frame = messageFieldRect;
+}
+
+- (CGPoint)topLeftFromCenter:(CGPoint)center size:(CGSize)size {
+  return CGPointMake(center.x - (size.width / 2), center.y - (size.height));
 }
 
 - (void)didReceiveMemoryWarning {
@@ -146,12 +147,10 @@
     return YES;
   }
   
-//  [self setFrame: inFullScreenMode:YES];
-
-    
+  self.navBar.alpha = 0.0;
   [self.view addSubview:self.navBar];
 
-  [UIView animateWithDuration:0.3
+  [UIView animateWithDuration:0.4
                         delay:0.0
                       options:UIViewAnimationOptionCurveEaseInOut
                    animations:^{
