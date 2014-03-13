@@ -136,6 +136,27 @@
 #pragma mark ButtonReciever methods
 
 - (void)didTapOnCancel {
+  if (!self.isFullScreen) {
+    return;
+  }
+  
+  self.heading.alpha = 0.0;
+  [self.view addSubview:self.heading];
+  
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+                      options:UIViewAnimationOptionCurveEaseInOut
+                   animations:^{
+                     [self setFrame:self.contentFrame inFullScreenMode:NO];
+                     self.navBar.alpha = 0.0;
+                     self.heading.alpha = 1.0;
+                   }
+                   completion:^(BOOL finished){
+                     self.isFullScreen = !finished;
+                     [self.navBar removeFromSuperview];
+                     [self.peopleField resignFirstResponder];
+                     [self.messageField resignFirstResponder];
+                   }];
   
 }
 
@@ -156,7 +177,6 @@
                    animations:^{
                      
                      [self setFrame:self.parentViewController.view.frame inFullScreenMode:YES];
-                     
                      
                      self.navBar.alpha = 1.0;
                      self.heading.alpha = 0.0;
