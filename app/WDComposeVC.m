@@ -143,6 +143,9 @@
   self.heading.alpha = 0.0;
   [self.view addSubview:self.heading];
   
+  [self.peopleField resignFirstResponder];
+  [self.messageField resignFirstResponder];
+  
   [UIView animateWithDuration:0.4
                         delay:0.0
                       options:UIViewAnimationOptionCurveEaseInOut
@@ -154,8 +157,6 @@
                    completion:^(BOOL finished){
                      self.isFullScreen = !finished;
                      [self.navBar removeFromSuperview];
-                     [self.peopleField resignFirstResponder];
-                     [self.messageField resignFirstResponder];
                    }];
   
 }

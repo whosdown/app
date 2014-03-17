@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D800647118D1B403003B61FD /* WDPeopleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D800647018D1B403003B61FD /* WDPeopleModel.m */; };
 		D843127318B7D87A006D9785 /* WDRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D843127218B7D87A006D9785 /* WDRootVC.m */; };
 		D843128318B7E085006D9785 /* WDVerifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D843128218B7E085006D9785 /* WDVerifyVC.m */; };
 		D8439FDB18C93D9600273945 /* WDEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8439FDA18C93D9600273945 /* WDEventsVC.m */; };
@@ -37,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D800646F18D1B403003B61FD /* WDPeopleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDPeopleModel.h; sourceTree = "<group>"; };
+		D800647018D1B403003B61FD /* WDPeopleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDPeopleModel.m; sourceTree = "<group>"; };
 		D819AA0C18BB163A001FFBF2 /* WDModelDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDModelDelegate.h; sourceTree = "<group>"; };
 		D843127118B7D87A006D9785 /* WDRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDRootVC.h; sourceTree = "<group>"; };
 		D843127218B7D87A006D9785 /* WDRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDRootVC.m; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 				D843127418B7DA3A006D9785 /* WDConstants.h */,
 				D8EE9E4F18A81149005A91BB /* WDAppDelegate.h */,
 				D8EE9E5018A81149005A91BB /* WDAppDelegate.m */,
+				D800646F18D1B403003B61FD /* WDPeopleModel.h */,
+				D800647018D1B403003B61FD /* WDPeopleModel.m */,
 				D8EE9E6F18A814A7005A91BB /* WDModel.h */,
 				D8EE9E7018A814A7005A91BB /* WDModel.m */,
 				D819AA0C18BB163A001FFBF2 /* WDModelDelegate.h */,
@@ -280,6 +285,7 @@
 				D8EE9E4D18A81149005A91BB /* main.m in Sources */,
 				D843128318B7E085006D9785 /* WDVerifyVC.m in Sources */,
 				D843127318B7D87A006D9785 /* WDRootVC.m in Sources */,
+				D800647118D1B403003B61FD /* WDPeopleModel.m in Sources */,
 				D8EE9E7118A814A7005A91BB /* WDModel.m in Sources */,
 				D8439FDB18C93D9600273945 /* WDEventsVC.m in Sources */,
 				D8439FE418C9424D00273945 /* WDComposeVC.m in Sources */,
