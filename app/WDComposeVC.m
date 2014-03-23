@@ -10,22 +10,31 @@
 #import "WDComposeDataSource.h"
 #import "WDComposeDelegate.h"
 #import "WDConstants.h"
+#import "WDPeopleModel.h"
+
+#import <AddressBookUI/AddressBookUI.h>
 
 
 @interface WDComposeVC ()
 
 @property BOOL isFullScreen;
+
 @property NSObject<WDComposeDataSource> *dataSource;
 @property NSObject<WDComposeDelegate> *delegate;
 @property CGRect contentFrame;
 @property (nonatomic, strong) UIButton *submitButton;
 @property (nonatomic, strong) UILabel *heading;
+@property (nonatomic, strong) UILabel *charCount;
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UITextField *peopleField;
-@property (nonatomic, strong) UITextField *messageField;
+@property (nonatomic, strong) UITextView *messageField;
 @property (nonatomic, strong) UIToolbar *backgroundBar;
 @property (nonatomic, strong) UIView *fieldDivider;
 
+@property (nonatomic, strong) WDPeopleModel *peopleModel;
+@property (nonatomic, strong) ABPeoplePickerNavigationController *peopleVC;
+
+@property (nonatomic, strong) NSMutableArray *invitees;
 @end
 
 @implementation WDComposeVC
@@ -38,6 +47,8 @@
     _dataSource = dataSource;
     _delegate = delegate;
     _contentFrame = frame;
+    _peopleModel = [[WDPeopleModel alloc] init];
+    _invitees = [[NSMutableArray alloc] init];
   }
   return self;
 }
@@ -46,7 +57,7 @@
   [super viewDidLoad];
   
   self.isFullScreen = false;
-  
+  [self.peopleModel setUp];
   [self setFrame:self.contentFrame inFullScreenMode:NO];
 
   [self.view addSubview:self.backgroundBar];
@@ -80,6 +91,7 @@
   CGRect peopleFieldRect  = self.peopleField.frame;
   CGRect messageFieldRect = self.messageField.frame;
   CGRect fieldDividerRect = self.fieldDivider.frame;
+  CGRect charCountRect    = self.peopleField.frame;
 
   /* Set Sizes */
 
@@ -89,9 +101,11 @@
   navBarRect.size = CGSizeMake(viewWidth, statusHeight + titleRegionHeight);
   peopleFieldRect.size.width = fieldWidth;
   messageFieldRect.size.width = fieldWidth;
+  charCountRect.size = peopleFieldRect.size;
   
   if (shouldBeFullScreenMode) {
     fieldDividerRect.size = CGSizeMake(frame.size.width, 1 / [[UIScreen mainScreen] scale]);
+    messageFieldRect.size.height = peopleFieldRect.size.height * 4;
   } else {
     fieldDividerRect.size = CGSizeMake(fieldWidth, 1 / [[UIScreen mainScreen] scale]);
   }
@@ -105,23 +119,134 @@
     navBarRect.origin.y = frame.size.height - self.parentViewController.view.frame.size.height;
   }
 
-  fieldDividerRect.origin = [self topLeftFromCenter:fieldRegionCenter size:fieldDividerRect.size];
-  peopleFieldRect.origin =
-      CGPointMake(offset,
-                  fieldRegionCenter.y - peopleFieldRect.size.height - fieldSpacer);
-  messageFieldRect.origin =
-      CGPointMake(offset,
-                  fieldRegionCenter.y + fieldSpacer);
+  fieldDividerRect.origin  = [self topLeftFromCenter:fieldRegionCenter size:fieldDividerRect.size];
+  peopleFieldRect.origin.x = offset;
+  peopleFieldRect.origin.y = fieldRegionCenter.y - peopleFieldRect.size.height - fieldSpacer;
+  messageFieldRect.origin.x = offset;
+  messageFieldRect.origin.y = fieldRegionCenter.y + fieldSpacer;
+  charCountRect.origin.x = offset;
+  charCountRect.origin.y = fieldRegionCenter.y + messageFieldRect.size.height + gridSize;
   self.heading.center = titleRegionCenter;
-
+  self.submitButton.center = CGPointMake(fieldRegionCenter.x,
+                                         fieldRegionCenter.y + fieldRegionHeight * 2);
   
   /* Commit Changes */
   
-  self.fieldDivider.frame = fieldDividerRect;
+  self.fieldDivider.frame  = fieldDividerRect;
   self.backgroundBar.frame = frame;
-  self.navBar.frame = navBarRect;
-  self.peopleField.frame  = peopleFieldRect;
-  self.messageField.frame = messageFieldRect;
+  self.navBar.frame        = navBarRect;
+  self.peopleField.frame   = peopleFieldRect;
+  self.messageField.frame  = messageFieldRect;
+  self.charCount.frame     = charCountRect;
+}
+
+- (void)transitionToFullScreenWithView:(UIView *)view {
+  self.navBar.alpha = 0.0;
+  self.charCount.alpha = 0.0;
+  self.submitButton.alpha = 0.0;
+  [self.view addSubview:self.navBar];
+  [self.view addSubview:self.charCount];
+  [self.view addSubview:self.submitButton];
+  
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+                      options:UIViewAnimationOptionCurveEaseInOut
+                   animations:^{
+                     
+                     [self setFrame:self.parentViewController.view.frame inFullScreenMode:YES];
+                     
+                     self.navBar.alpha = 1.0;
+                     self.charCount.alpha = 1.0;
+                     self.submitButton.alpha = 1.0;
+                     self.heading.alpha = 0.0;
+                     
+                     self.view.backgroundColor = [UIColor whiteColor];
+                   }
+                   completion:^(BOOL finished){
+                     self.isFullScreen = finished;
+                     [self.heading removeFromSuperview];
+                     
+                     if (view) {
+                       [view becomeFirstResponder];
+                     }
+                   }];
+}
+
+- (void)transitionOutOfFullScreenAndPeopleVC:(BOOL)shouldHidePeopleVC {
+  [UIView animateWithDuration:0.4
+                        delay:0.0
+                      options:UIViewAnimationOptionCurveEaseInOut
+                   animations:^{
+                     [self setFrame:self.contentFrame inFullScreenMode:NO];
+                     self.navBar.alpha = 0.0;
+                     self.charCount.alpha = 0.0;
+                     self.submitButton.alpha = 0.0;
+                     self.heading.alpha = 1.0;
+                     if (shouldHidePeopleVC) {
+                       [self hidePeopleVCWithAnimation:NO];
+                     }
+                   }
+                   completion:^(BOOL finished){
+                     self.isFullScreen = !finished;
+                     [self.navBar removeFromSuperview];
+                     [self.charCount removeFromSuperview];
+                     [self.submitButton removeFromSuperview];
+                   }];
+}
+
+- (void)presentPeopleVC {
+  [self presentViewController:self.peopleVC animated:YES completion:nil];
+  
+//  [self addChildViewController:self.peopleVC];
+//  self.peopleVC.view.frame = self.fieldDivider.frame;
+//  [self.view addSubview:self.peopleVC.view];
+//  [self.peopleVC didMoveToParentViewController:self];
+//  
+//  CGRect peopleVCFrame = self.peopleVC.view.frame;
+//  peopleVCFrame.size.height = self.view.frame.size.height - peopleVCFrame.origin.y - 216;
+  
+//  [UIView animateWithDuration:0.4
+//                        delay:0.0
+//                      options:UIViewAnimationOptionCurveEaseOut
+//                   animations:^{
+//                     self.peopleVC.view.frame = peopleVCFrame;
+//                   } completion:^(BOOL finished){
+//                   }];
+}
+
+- (void)hidePeopleVCWithAnimation:(BOOL)shouldBeAnimated {
+  [self dismissViewControllerAnimated:YES completion:nil];
+//  void (^viewTransition)(void) = ^{
+//    self.peopleVC.view.frame = self.fieldDivider.frame;
+//  };
+//  
+//  void (^viewControllerTransition)(BOOL) = ^(BOOL finished){
+//    [self.peopleVC willMoveToParentViewController:nil];
+//    [self.peopleVC.view removeFromSuperview];
+//    [self.peopleVC removeFromParentViewController];
+//  };
+//  
+//  if (shouldBeAnimated) {
+//    [UIView animateWithDuration:0.4
+//                          delay:0.0
+//                        options:UIViewAnimationOptionCurveEaseOut
+//                     animations:viewTransition
+//                     completion:viewControllerTransition];
+//  } else {
+//    viewTransition();
+//    viewControllerTransition(YES);
+//  }
+
+}
+
+- (void)listInvitees {
+  NSMutableArray *inviteeNames = [[NSMutableArray alloc] initWithCapacity:[self.invitees count]];
+  for (id person in self.invitees) {
+    ABRecordRef personRecord = (__bridge ABRecordRef)person;
+    NSString *personName = [self.peopleModel fullNameForPerson:personRecord];
+    [inviteeNames addObject:personName];
+  }
+  self.peopleField.text = [inviteeNames componentsJoinedByString:@", "];
 }
 
 - (CGPoint)topLeftFromCenter:(CGPoint)center size:(CGSize)size {
@@ -143,66 +268,141 @@
   self.heading.alpha = 0.0;
   [self.view addSubview:self.heading];
   
+  BOOL peopleVCIsPresented = self.peopleField.isFirstResponder;
+  
   [self.peopleField resignFirstResponder];
   [self.messageField resignFirstResponder];
   
-  [UIView animateWithDuration:0.4
-                        delay:0.0
-                      options:UIViewAnimationOptionCurveEaseInOut
-                   animations:^{
-                     [self setFrame:self.contentFrame inFullScreenMode:NO];
-                     self.navBar.alpha = 0.0;
-                     self.heading.alpha = 1.0;
-                   }
-                   completion:^(BOOL finished){
-                     self.isFullScreen = !finished;
-                     [self.navBar removeFromSuperview];
-                   }];
+  [self transitionOutOfFullScreenAndPeopleVC:peopleVCIsPresented];
+}
+
+- (void)didTapOnSubmit {
   
 }
 
 #pragma mark UITextFieldDelegate methods
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-  
-  if (self.isFullScreen) {
-    return YES;
+  if (!self.isFullScreen) {
+    [self transitionToFullScreenWithView:textField];
+  } else {
+//    if (textField == self.peopleField) {
+//      [self presentPeopleVC];
+//    }
   }
-  
-  self.navBar.alpha = 0.0;
-  [self.view addSubview:self.navBar];
-
-  [UIView animateWithDuration:0.4
-                        delay:0.0
-                      options:UIViewAnimationOptionCurveEaseInOut
-                   animations:^{
-                     
-                     [self setFrame:self.parentViewController.view.frame inFullScreenMode:YES];
-                     
-                     self.navBar.alpha = 1.0;
-                     self.heading.alpha = 0.0;
-                     
-                     self.view.backgroundColor = [UIColor whiteColor];
-                   }
-                   completion:^(BOOL finished){
-                     self.isFullScreen = finished;
-                     [self.heading removeFromSuperview];
-                     [textField becomeFirstResponder];
-                   }];
   
   return self.isFullScreen;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
   if (textField == self.peopleField) {
+    [self hidePeopleVCWithAnimation:YES];
     [self.messageField becomeFirstResponder];
-  } else if (textField == self.messageField) {
-    return [textField resignFirstResponder];
   }
   return YES;
 }
 
+- (BOOL)textField:(UITextField *)textField
+    shouldChangeCharactersInRange:(NSRange)range
+                replacementString:(NSString *)string {
+  if (textField == self.peopleField) {
+    if ([string isEqualToString:@""]) {
+      [self.invitees removeLastObject];
+      [self listInvitees];
+      return NO;
+    }
+    [self presentPeopleVC];
+  }
+  return YES;
+}
+
+#pragma mark UITextViewDelegate methods
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+  if (!self.isFullScreen) {
+    [self transitionToFullScreenWithView:textView];
+  }
+  
+  if ([textView.text isEqualToString:WD_comp_messageFieldPlaceholder]) {
+    textView.text = @"";
+    textView.textColor = [UIColor whiteColor]; //optional
+    textView.alpha = 1.0;
+  }
+  [textView becomeFirstResponder];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+  if ([textView.text isEqualToString:@""]) {
+    textView.text = WD_comp_messageFieldPlaceholder;
+    textView.textColor = [UIColor grayColor]; //optional
+    textView.alpha = 0.6;
+  }
+  [textView resignFirstResponder];
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+  NSInteger length = textView.text.length;
+  self.charCount.text = [NSString stringWithFormat:@"%d / 160", length];
+}
+
+- (BOOL)textView:(UITextView *)textView
+    shouldChangeTextInRange:(NSRange)range
+            replacementText:(NSString *)text {
+  
+  
+  return YES;
+}
+#pragma mark Picker delegate methods
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+      shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+  [self.invitees addObject:(__bridge id)(person)];
+  [self listInvitees];
+  [self hidePeopleVCWithAnimation:YES];
+  [self.peopleField becomeFirstResponder];
+  return NO;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+      shouldContinueAfterSelectingPerson:(ABRecordRef)person
+                                property:(ABPropertyID)property
+                              identifier:(ABMultiValueIdentifier)identifier {
+  return NO;
+}
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
+  [self hidePeopleVCWithAnimation:YES];
+}
+
 #pragma mark Lazy Initializers
+
+- (UIButton *)submitButton {
+  if (!_submitButton) {
+    _submitButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
+//    _submitButton.backgroundColor = [UIColor blackColor];
+    CGPoint centerOfButton = CGPointMake(_submitButton.bounds.size.width / 2,
+                                         _submitButton.bounds.size.height / 2);
+    
+    UIView *background = [[UIView alloc] initWithFrame:_submitButton.frame];
+    background.backgroundColor = [UIColor blackColor];
+    background.layer.cornerRadius = background.bounds.size.width / 2;
+    
+    UILabel *buttonLabel = [[UILabel alloc] init];
+    buttonLabel.text = WD_comp_submitButtonTitle;
+    buttonLabel.textColor = [UIColor whiteColor];
+    buttonLabel.textAlignment = NSTextAlignmentCenter;
+    [buttonLabel sizeToFit];
+    
+    [_submitButton addSubview:background];
+    [_submitButton addSubview:buttonLabel];
+    buttonLabel.center = centerOfButton;
+    background.center = centerOfButton;
+    [_submitButton addTarget:self
+                      action:@selector(didTapOnSubmit)
+            forControlEvents:UIControlEventTouchUpInside];
+  }
+  return _submitButton;
+}
 
 - (UILabel *)heading {
   if (!_heading) {
@@ -214,6 +414,18 @@
     [_heading sizeToFit];
   }
   return _heading;
+}
+
+- (UILabel *)charCount {
+  if (!_charCount) {
+    _charCount = [[UILabel alloc] initWithFrame:CGRectZero];
+    _charCount.text = @"0 / 160";
+    _charCount.textAlignment = NSTextAlignmentRight;
+    _charCount.textColor = [UIColor whiteColor];
+    _charCount.font = [UIFont fontWithName:WD_comp_fieldFont size:WD_comp_fieldSize];
+    [_charCount sizeToFit];
+  }
+  return _charCount;
 }
 
 - (UINavigationBar *)navBar {
@@ -265,14 +477,19 @@
   return _peopleField;
 }
 
-- (UITextField *)messageField {
+- (UITextView *)messageField {
   if (!_messageField) {
-    _messageField = [[UITextField alloc] initWithFrame:CGRectZero];
+    _messageField = [[UITextView alloc] initWithFrame:CGRectZero];
+    _messageField.textContainerInset = UIEdgeInsetsZero;
+    _messageField.textContainer.widthTracksTextView = YES;
     _messageField.textAlignment = NSTextAlignmentLeft;
-    _messageField.textColor = [UIColor whiteColor];
+    _messageField.text = WD_comp_messageFieldPlaceholder;
+    _messageField.alpha = 0.6;
+    _messageField.textColor = [UIColor grayColor];
     _messageField.font = [UIFont fontWithName:WD_comp_fieldFont size:WD_comp_fieldSize];
-    _messageField.placeholder = WD_comp_messageFieldPlaceholder;
-    _messageField.returnKeyType = UIReturnKeyDone;
+//    _messageField.returnKeyType = UIReturnKeyDone;
+    _messageField.backgroundColor = [UIColor clearColor];
+
     [_messageField sizeToFit];
     
     _messageField.delegate = self;
@@ -286,6 +503,14 @@
     _fieldDivider.backgroundColor = [UIColor grayColor];
   }
   return _fieldDivider;
+}
+
+- (ABPeoplePickerNavigationController *)peopleVC {
+  if (!_peopleVC) {
+    _peopleVC = [[ABPeoplePickerNavigationController alloc] init];
+    _peopleVC.peoplePickerDelegate = self;
+  }
+  return _peopleVC;
 }
 
 @end

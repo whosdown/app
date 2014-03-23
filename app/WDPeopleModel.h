@@ -7,9 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AddressBook/AddressBook.h>
 
 @interface WDPeopleModel : NSObject
 
+@property ABAddressBookRef addressBook;
+
+- (void)setUp;
+
+- (NSString *)fullNameForPerson:(ABRecordRef)person;
 
 
 @end

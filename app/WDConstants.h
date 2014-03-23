@@ -65,6 +65,10 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_comp_fieldFont WD_FONT_ui
 #define WD_comp_fieldSize 15
 
+#define WD_comp_countSize 12
+
+#define WD_comp_submitButtonTitle @"Ask"
+
 #define WD_comp_peopleFieldPlaceholder @"people to ask..."
 #define WD_comp_messageFieldPlaceholder @"\"who's down to...\""
 

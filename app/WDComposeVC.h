@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AddressBookUI/AddressBookUI.h>
 
 @protocol WDComposeDataSource;
 @protocol WDComposeDelegate;
 
-@interface WDComposeVC : UIViewController<UITextFieldDelegate>
+@interface WDComposeVC : UIViewController<UITextFieldDelegate,
+                                          UITextViewDelegate,
+                                          ABPeoplePickerNavigationControllerDelegate>
 
 - (id)initWithFrame:(CGRect)frame
            delegate:(NSObject<WDComposeDelegate> *)delegate

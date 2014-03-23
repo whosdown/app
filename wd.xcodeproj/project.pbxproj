@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B79FD4725A2A4888B8894478 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 796BC8C64FBE4318863870AF /* libPods.a */; };
 		D800647118D1B403003B61FD /* WDPeopleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D800647018D1B403003B61FD /* WDPeopleModel.m */; };
+		D8103BF418DF7E050065A42C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8103BF218DF7E050065A42C /* AddressBook.framework */; };
+		D8103BF518DF7E050065A42C /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8103BF318DF7E050065A42C /* AddressBookUI.framework */; };
 		D843127318B7D87A006D9785 /* WDRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D843127218B7D87A006D9785 /* WDRootVC.m */; };
 		D843128318B7E085006D9785 /* WDVerifyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D843128218B7E085006D9785 /* WDVerifyVC.m */; };
 		D8439FDB18C93D9600273945 /* WDEventsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8439FDA18C93D9600273945 /* WDEventsVC.m */; };
@@ -38,8 +41,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		796BC8C64FBE4318863870AF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C66D01DBDD7C44878FD097F0 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		D800646F18D1B403003B61FD /* WDPeopleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDPeopleModel.h; sourceTree = "<group>"; };
 		D800647018D1B403003B61FD /* WDPeopleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDPeopleModel.m; sourceTree = "<group>"; };
+		D8103BF218DF7E050065A42C /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		D8103BF318DF7E050065A42C /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		D819AA0C18BB163A001FFBF2 /* WDModelDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDModelDelegate.h; sourceTree = "<group>"; };
 		D843127118B7D87A006D9785 /* WDRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDRootVC.h; sourceTree = "<group>"; };
 		D843127218B7D87A006D9785 /* WDRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDRootVC.m; sourceTree = "<group>"; };
@@ -78,9 +85,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8103BF418DF7E050065A42C /* AddressBook.framework in Frameworks */,
+				D8103BF518DF7E050065A42C /* AddressBookUI.framework in Frameworks */,
 				D8EE9E4318A81149005A91BB /* CoreGraphics.framework in Frameworks */,
 				D8EE9E4518A81149005A91BB /* UIKit.framework in Frameworks */,
 				D8EE9E4118A81149005A91BB /* Foundation.framework in Frameworks */,
+				B79FD4725A2A4888B8894478 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +114,7 @@
 				D8EE9E5F18A81149005A91BB /* wdTests */,
 				D8EE9E3F18A81149005A91BB /* Frameworks */,
 				D8EE9E3E18A81149005A91BB /* Products */,
+				C66D01DBDD7C44878FD097F0 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,10 +130,13 @@
 		D8EE9E3F18A81149005A91BB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D8103BF218DF7E050065A42C /* AddressBook.framework */,
+				D8103BF318DF7E050065A42C /* AddressBookUI.framework */,
 				D8EE9E4018A81149005A91BB /* Foundation.framework */,
 				D8EE9E4218A81149005A91BB /* CoreGraphics.framework */,
 				D8EE9E4418A81149005A91BB /* UIKit.framework */,
 				D8EE9E5918A81149005A91BB /* XCTest.framework */,
+				796BC8C64FBE4318863870AF /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -193,9 +207,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8EE9E6918A81149005A91BB /* Build configuration list for PBXNativeTarget "wd" */;
 			buildPhases = (
+				77E1AAFF4810464E8104E94C /* Check Pods Manifest.lock */,
 				D8EE9E3918A81149005A91BB /* Sources */,
 				D8EE9E3A18A81149005A91BB /* Frameworks */,
 				D8EE9E3B18A81149005A91BB /* Resources */,
+				76282F718CF64D42B6B1070C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -231,7 +247,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = WD;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Who's Down";
 				TargetAttributes = {
 					D8EE9E5718A81149005A91BB = {
@@ -276,6 +292,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		76282F718CF64D42B6B1070C /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		77E1AAFF4810464E8104E94C /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D8EE9E3918A81149005A91BB /* Sources */ = {
@@ -335,7 +384,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -379,7 +427,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -415,6 +462,7 @@
 		};
 		D8EE9E6A18A81149005A91BB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C66D01DBDD7C44878FD097F0 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -428,6 +476,7 @@
 		};
 		D8EE9E6B18A81149005A91BB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C66D01DBDD7C44878FD097F0 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -442,7 +491,6 @@
 		D8EE9E6D18A81149005A91BB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/app.app/app";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -465,7 +513,6 @@
 		D8EE9E6E18A81149005A91BB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/app.app/app";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
