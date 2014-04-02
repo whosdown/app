@@ -89,4 +89,13 @@
   return personName;
 }
 
+- (NSString *)sanitizePhoneNumber:(NSString *)phoneNumber {
+  NSString *sanitizedPhoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [phoneNumber length])];
+  if ([sanitizedPhoneNumber length] >= 10) {
+    return [sanitizedPhoneNumber substringFromIndex:[sanitizedPhoneNumber length] - 10];
+  } else {
+    return sanitizedPhoneNumber;
+  }
+}
+
 @end

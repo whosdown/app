@@ -270,6 +270,12 @@
   
   BOOL peopleVCIsPresented = self.peopleField.isFirstResponder;
   
+  [self.invitees removeAllObjects];
+  [self listInvitees];
+  self.messageField.text = @"";
+  [self textViewDidChange:self.messageField];
+  [self textViewDidEndEditing:self.messageField];
+  
   [self.peopleField resignFirstResponder];
   [self.messageField resignFirstResponder];
   
@@ -277,7 +283,25 @@
 }
 
 - (void)didTapOnSubmit {
+  NSMutableArray *recipients = [[NSMutableArray alloc] initWithCapacity:[self.invitees count]];
   
+  for (id person in self.invitees) {
+    ABRecordRef personRecord = (__bridge ABRecordRef)person;
+    NSString *name = (__bridge_transfer NSString *)ABRecordCopyCompositeName(personRecord);
+    ABMultiValueRef phoneNumbers = ABRecordCopyValue(personRecord, kABPersonPhoneProperty);
+    NSInteger phoneNumbersCount = ABMultiValueGetCount(phoneNumbers);
+    NSString *phone;
+    
+    if (phoneNumbersCount > 0) {
+      phone = (__bridge_transfer NSString *) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+    }
+    
+    [recipients addObject:@{ WD_modelKey_User_name  : name,
+                             WD_modelKey_User_phone : [self.peopleModel sanitizePhoneNumber:phone] }];
+  }
+  
+  [self.delegate createEventWithPeople:recipients message:self.messageField.text];
+  NSLog(@"Submit");
 }
 
 #pragma mark UITextFieldDelegate methods
@@ -379,27 +403,15 @@
 - (UIButton *)submitButton {
   if (!_submitButton) {
     _submitButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
-//    _submitButton.backgroundColor = [UIColor blackColor];
-    CGPoint centerOfButton = CGPointMake(_submitButton.bounds.size.width / 2,
-                                         _submitButton.bounds.size.height / 2);
-    
-    UIView *background = [[UIView alloc] initWithFrame:_submitButton.frame];
-    background.backgroundColor = [UIColor blackColor];
-    background.layer.cornerRadius = background.bounds.size.width / 2;
-    
-    UILabel *buttonLabel = [[UILabel alloc] init];
-    buttonLabel.text = WD_comp_submitButtonTitle;
-    buttonLabel.textColor = [UIColor whiteColor];
-    buttonLabel.textAlignment = NSTextAlignmentCenter;
-    [buttonLabel sizeToFit];
-    
-    [_submitButton addSubview:background];
-    [_submitButton addSubview:buttonLabel];
-    buttonLabel.center = centerOfButton;
-    background.center = centerOfButton;
     [_submitButton addTarget:self
                       action:@selector(didTapOnSubmit)
             forControlEvents:UIControlEventTouchUpInside];
+    _submitButton.backgroundColor = [UIColor blackColor];
+    _submitButton.layer.cornerRadius = _submitButton.bounds.size.width / 2;
+
+    [_submitButton setTitle:WD_comp_submitButtonTitle forState:UIControlStateNormal];
+    [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [_submitButton setShowsTouchWhenHighlighted:YES];
   }
   return _submitButton;
 }
@@ -480,7 +492,7 @@
 - (UITextView *)messageField {
   if (!_messageField) {
     _messageField = [[UITextView alloc] initWithFrame:CGRectZero];
-    _messageField.textContainerInset = UIEdgeInsetsZero;
+    _messageField.textContainerInset = UIEdgeInsetsMake(0, -6, 0, 0);
     _messageField.textContainer.widthTracksTextView = YES;
     _messageField.textAlignment = NSTextAlignmentLeft;
     _messageField.text = WD_comp_messageFieldPlaceholder;

@@ -39,11 +39,11 @@
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
   
   // TODO: Switch to designated Initializer
-  self.composeVC = [[WDComposeVC alloc] initWithFrame:composeRect delegate:nil dataSource:nil];
-  self.eventsVC =
-      [[WDEventsVC alloc] initWithViewInset:UIEdgeInsetsMake(composeRect.size.height, 0, 0, 0)];
-  
-  [self displayInnerViewController:self.eventsVC withFrame:self.view.frame];
+  self.composeVC = [[WDComposeVC alloc] initWithFrame:composeRect delegate:self.model dataSource:nil];
+  self.eventsVC  = [[WDEventsVC alloc] initWithDelegate:self.model
+                                              viewInset:UIEdgeInsetsMake(composeRect.size.height, 0, 0, 0)];
+  [self setNavigationBarHidden:YES];
+  [self pushViewController:self.eventsVC animated:NO];
   [self displayInnerViewController:self.composeVC withFrame:composeRect];
   
   if (self.model.hasUserLoggedIn) {
@@ -68,7 +68,7 @@
       NSLog(@"User Is Verified: %@", self.model.hasUserLoggedIn ? @"YES" : @"NO");
       [self.verifyVC verifyDidSucceed];
       [self hideInnerViewController:self.verifyVC];
-//      self.verifyVC = nil;
+      self.verifyVC = nil;
     } else {
       [self.verifyVC verifyDidFail];
     }

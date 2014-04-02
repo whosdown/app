@@ -17,5 +17,6 @@
 
 - (NSString *)fullNameForPerson:(ABRecordRef)person;
 
+- (NSString *)sanitizePhoneNumber:(NSString *)phoneNumber;
 
 @end

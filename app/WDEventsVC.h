@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol WDEventsDelegate;
+
 @interface WDEventsVC : UITableViewController
 
-- (id)initWithViewInset:(UIEdgeInsets)inset;
+- (id)initWithDelegate:(NSObject<WDEventsDelegate> *)delegate viewInset:(UIEdgeInsets)inset;
 
 @end

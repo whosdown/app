@@ -48,6 +48,7 @@
 		D8103BF218DF7E050065A42C /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		D8103BF318DF7E050065A42C /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		D819AA0C18BB163A001FFBF2 /* WDModelDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDModelDelegate.h; sourceTree = "<group>"; };
+		D8283E5F18ECB95100E86529 /* WDEventsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDEventsDelegate.h; sourceTree = "<group>"; };
 		D843127118B7D87A006D9785 /* WDRootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDRootVC.h; sourceTree = "<group>"; };
 		D843127218B7D87A006D9785 /* WDRootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDRootVC.m; sourceTree = "<group>"; };
 		D843127418B7DA3A006D9785 /* WDConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDConstants.h; sourceTree = "<group>"; };
@@ -151,6 +152,7 @@
 				D843127118B7D87A006D9785 /* WDRootVC.h */,
 				D843127218B7D87A006D9785 /* WDRootVC.m */,
 				D8439FD918C93D9600273945 /* WDEventsVC.h */,
+				D8283E5F18ECB95100E86529 /* WDEventsDelegate.h */,
 				D8439FDA18C93D9600273945 /* WDEventsVC.m */,
 				D843128118B7E085006D9785 /* WDVerifyVC.h */,
 				D843128218B7E085006D9785 /* WDVerifyVC.m */,

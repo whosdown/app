@@ -45,6 +45,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_veri_pendingFont WD_FONT_brand
 #define WD_veri_pendingSize 20
 
+#define WD_veri_failure     @"that verify code did match our records"
+
 #define WD_veri_undo        @"try again"
 #define WD_veri_undoFont    WD_FONT_brand
 #define WD_veri_undoSize    20
@@ -89,6 +91,11 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_modelKey_User_verifyCode @"code"
 #define WD_modelKey_User_isVerified @"isVerified"
 
+#define WD_modelKey_Event_userId    @"userId"
+#define WD_modelKey_Event_message   @"message"
+#define WD_modelKey_Event_recips    @"recips"
+
+
 #define WD_modelKey_Verify_code @"code"
 #define WD_modelKey_Verify_id   @"userId"
 
@@ -96,6 +103,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 typedef enum WDInteractionModes {
   WDInteractionVerify,
   WDInteractionVerifyConclude,
+  WDInteractionCreateEvent,
   WDInteractionNone
 } WDInteractionMode;
 

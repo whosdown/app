@@ -7,14 +7,15 @@
 //
 
 #import "WDEventsVC.h"
+#import "WDEventsDelegate.h"
 
 @interface WDEventsVC ()
-
+@property NSObject<WDEventsDelegate> *delegate;
 @end
 
 @implementation WDEventsVC
 
-- (id)initWithViewInset:(UIEdgeInsets)inset {
+- (id)initWithDelegate:(NSObject<WDEventsDelegate> *)delegate viewInset:(UIEdgeInsets)inset{
   self = [super initWithStyle:UITableViewStylePlain];
   if (self) {
     self.tableView.contentInset = inset;

@@ -10,6 +10,6 @@
 
 @protocol WDComposeDelegate <NSObject>
 
-- (void)createEventWithPeople:(NSDictionary *)people message:(NSString *)message;
+- (void)createEventWithPeople:(NSArray *)people message:(NSString *)message;
 
 @end

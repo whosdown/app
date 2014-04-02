@@ -15,6 +15,8 @@
 #define WD_USER_URL   @"http://localhost:3000/api/v0/user?"
 #define WD_VERIFY_URL @"http://localhost:3000/api/v0/verify?"
 
+#define POST @"POST"
+#define GET  @"GET"
 
 @interface WDModel ()
 @property NSObject<WDModelDelegate> *delegate;
@@ -34,8 +36,7 @@
 }
 
 - (BOOL)hasUserLoggedIn {
-  return YES;
-//  return self.userId ? YES : NO;
+  return self.userId ? YES : NO;
 }
 
 - (BOOL)verifyUserWithCode:(NSString *)code {
@@ -60,7 +61,11 @@
     NSDictionary *query   = @{WD_modelKey_Verify_code: code,
                               WD_modelKey_Verify_id  : [user objectForKey:WD_modelKey_User_id]};
     
-    [self postToURL:WD_VERIFY_URL withDictionary:query inMode:WDInteractionVerifyConclude];
+    [self sendMethod:POST
+               toURL:WD_VERIFY_URL
+      withDictionary:query
+              inMode:WDInteractionVerifyConclude];
+    
     return YES;
   } else {
     return NO;
@@ -96,9 +101,10 @@
   [serverConnection start];
 }
 
-- (void)postToURL:(NSString *)urlString
-   withDictionary:(NSDictionary *)dict
-           inMode:(WDInteractionMode)mode {
+- (void)sendMethod:(NSString *)method
+             toURL:(NSString *)urlString
+    withDictionary:(NSDictionary *)dict
+            inMode:(WDInteractionMode)mode {
   
   NSData *postData = [NSJSONSerialization dataWithJSONObject:dict
                                                      options:0
@@ -108,7 +114,7 @@
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
   [request setURL:url];
-  [request setHTTPMethod:@"POST"];
+  [request setHTTPMethod:method];
   [request setHTTPBody:postData];
   [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
   [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -129,10 +135,23 @@
 
 - (void)verifyUserWithName:(NSString *)name phoneNumber:(NSString *)phoneNumber {
   NSString *USPhoneNumber = [NSString stringWithFormat:@"+1%@", phoneNumber];
-  NSDictionary *newUser = @{WD_modelKey_User_name: name, WD_modelKey_User_phone:USPhoneNumber};
-  NSDictionary *query   = @{WD_modelKey_User: newUser};
+  NSDictionary *query = @{ WD_modelKey_User : @{
+                               WD_modelKey_User_name  : name,
+                               WD_modelKey_User_phone : USPhoneNumber
+                             }
+                          };
 
-  [self postToURL:WD_USER_URL withDictionary:query inMode:WDInteractionVerify];
+  [self sendMethod:POST toURL:WD_USER_URL withDictionary:query inMode:WDInteractionVerify];
+}
+
+#pragma mark WDComposeDelegate Methods
+
+- (void)createEventWithPeople:(NSArray *)people message:(NSString *)message{
+  NSDictionary *data = @{ WD_modelKey_Event_userId  : self.userId,
+                          WD_modelKey_Event_message : message,
+                          WD_modelKey_Event_recips  : people };
+  NSLog(@" data: %@", data);
+  [self sendMethod:POST toURL:WD_EVENT_URL withDictionary:data inMode:WDInteractionCreateEvent];
 }
 
 #pragma mark NSURLConnectionDelegate Methods

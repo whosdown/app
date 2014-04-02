@@ -197,7 +197,7 @@
 }
 
 - (void)verifyDidFail {
-  
+  self.pending.text = WD_veri_failure;
 }
 
 - (void)didTapOnUndoButton {

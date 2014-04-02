@@ -10,7 +10,7 @@
 
 #import "WDModelDelegate.h"
 
-@interface WDRootVC : UIViewController<WDModelDelegate>
+@interface WDRootVC : UINavigationController<WDModelDelegate>
 
 - (void)verifyUserWithCode:(NSString *)code;
 
