@@ -10,6 +10,4 @@
 
 @protocol WDEventsDelegate <NSObject>
 
-- (NSArray *)getEvents;
-
 @end

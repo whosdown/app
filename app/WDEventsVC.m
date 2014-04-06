@@ -8,16 +8,24 @@
 
 #import "WDEventsVC.h"
 #import "WDEventsDelegate.h"
+#import "WDEventsDataSource.h"
+
+#import "WDConstants.h"
 
 @interface WDEventsVC ()
-@property NSObject<WDEventsDelegate> *delegate;
+@property (nonatomic, weak) NSObject<WDEventsDelegate> *delegate;
+@property (nonatomic, weak) NSObject<WDEventsDataSource> *dataSource;
 @end
 
 @implementation WDEventsVC
 
-- (id)initWithDelegate:(NSObject<WDEventsDelegate> *)delegate viewInset:(UIEdgeInsets)inset{
+- (id)initWithDelegate:(NSObject<WDEventsDelegate> *)delegate
+        withDataSource:(NSObject<WDEventsDataSource> *)dataSource
+             viewInset:(UIEdgeInsets)inset {
   self = [super initWithStyle:UITableViewStylePlain];
   if (self) {
+    _delegate = delegate;
+    _dataSource = dataSource;
     self.tableView.contentInset = inset;
   }
   return self;
@@ -26,6 +34,9 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  [self.dataSource refreshEvents:^{
+    [self.tableView reloadData];
+  }];
   // Uncomment the following line to preserve selection between presentations.
   // self.clearsSelectionOnViewWillAppear = NO;
 
@@ -41,29 +52,33 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  
+  return [self.dataSource.events count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  static NSString *CellIdentifier = @"Cell";
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
-    
-    return cell;
+  if (!cell) {
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+  }
+  
+  NSDictionary *event = [self.dataSource.events objectAtIndex:[indexPath row]];
+  
+  NSLog(@"Event = %@", event);
+  cell.textLabel.text = @"Event";
+  cell.detailTextLabel.text = [event objectForKey:WD_modelKey_Event_message];
+  
+  return cell;
 }
+
 
 /*
 // Override to support conditional editing of the table view.

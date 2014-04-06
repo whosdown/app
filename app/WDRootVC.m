@@ -40,10 +40,12 @@
   
   // TODO: Switch to designated Initializer
   self.composeVC = [[WDComposeVC alloc] initWithFrame:composeRect delegate:self.model dataSource:nil];
-  self.eventsVC  = [[WDEventsVC alloc] initWithDelegate:self.model
+  self.eventsVC  = [[WDEventsVC alloc] initWithDelegate:self
+                                         withDataSource:self.model
                                               viewInset:UIEdgeInsetsMake(composeRect.size.height, 0, 0, 0)];
+
   [self setNavigationBarHidden:YES];
-  [self pushViewController:self.eventsVC animated:NO];
+  [self displayInnerViewController:self.eventsVC withFrame:self.view.frame];
   [self displayInnerViewController:self.composeVC withFrame:composeRect];
   
   if (self.model.hasUserLoggedIn) {
@@ -91,7 +93,10 @@
       }
       [self.verifyVC verifyDidInitiate];
       return;
-    } default:
+    }
+    case WDInteractionGetEvents:
+//      self.eventsVC.events
+    default:
       break;
   }
 }

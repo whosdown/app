@@ -11,17 +11,22 @@
 #import "WDConstants.h"
 #import "WDModelDelegate.h"
 
-#define WD_EVENT_URL  @"http://localhost:3000/api/v0/event?"
-#define WD_USER_URL   @"http://localhost:3000/api/v0/user?"
-#define WD_VERIFY_URL @"http://localhost:3000/api/v0/verify?"
+#define WD_EVENT_URL  WD_URL @"/api/v0/event?"
+#define WD_USER_URL   WD_URL @"/api/v0/user?"
+#define WD_VERIFY_URL WD_URL @"/api/v0/verify?"
 
 #define POST @"POST"
 #define GET  @"GET"
+
+typedef void (^voidBlock)(void);
 
 @interface WDModel ()
 @property NSObject<WDModelDelegate> *delegate;
 @property WDInteractionMode mode;
 @property (nonatomic, strong) NSString *userId;
+@property (nonatomic, strong) NSMutableArray *events;
+
+@property (nonatomic, strong) voidBlock completion;
 @end
 
 @implementation WDModel
@@ -105,19 +110,28 @@
              toURL:(NSString *)urlString
     withDictionary:(NSDictionary *)dict
             inMode:(WDInteractionMode)mode {
-  
-  NSData *postData = [NSJSONSerialization dataWithJSONObject:dict
-                                                     options:0
-                                                       error:nil];
+
   NSURL *url = [NSURL URLWithString:urlString];
-  
-  NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
   [request setURL:url];
   [request setHTTPMethod:method];
-  [request setHTTPBody:postData];
-  [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+  if ([method isEqualToString:POST]) {
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dict
+                                                   options:0
+                                                     error:nil];
+    NSString *dataLength = [NSString stringWithFormat:@"%d",[data length]];
+    [request setHTTPBody:data];
+    [request setValue:dataLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  } else if ([method isEqualToString:GET]) {
+    NSMutableString *queryString = [NSMutableString stringWithString:urlString];
+    for (NSString *key in dict) {
+      [queryString appendFormat:@"&%@=%@", key, [dict objectForKey:key]];
+    }
+    [request setURL:[NSURL URLWithString:queryString]];
+  }
+  
   NSURLConnection *serverConnection = [[NSURLConnection alloc] initWithRequest:request
                                                                       delegate:self];
   self.mode = mode;
@@ -154,6 +168,22 @@
   [self sendMethod:POST toURL:WD_EVENT_URL withDictionary:data inMode:WDInteractionCreateEvent];
 }
 
+#pragma mark WDEventsDataSource Methods
+
+- (void)refreshEvents:(void (^)(void))completed {
+  self.completion = completed;
+
+  [self.events removeAllObjects];
+  [self sendMethod:GET
+             toURL:WD_EVENT_URL
+    withDictionary:@{ WD_modelKey_Event_userId : self.userId }
+            inMode:WDInteractionGetEvents];
+}
+
+- (BOOL)isRefreshing {
+  return self.mode == WDInteractionGetEvents;
+}
+
 #pragma mark NSURLConnectionDelegate Methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)data {
@@ -173,15 +203,27 @@
   [self.delegate didReceiveData:responseData fromInteractionMode:self.mode];
   
   switch (self.mode) {
-    case WDInteractionVerify:
+    case WDInteractionVerify: {
       [[NSUserDefaults standardUserDefaults] setObject:responseData forKey:WD_localKey_User_object];
       [[NSUserDefaults standardUserDefaults] synchronize];
       break;
+    }
+    case WDInteractionGetEvents: {
+      for (NSDictionary *event in responseData) {
+        [self.events addObject:event];
+      }
+      voidBlock complete = self.completion;
+      complete();
+      break;
+    }
+      
     default:
       break;
   }
   
-  NSLog(@"URL: %@, Data: %@", connection.currentRequest.URL, response);
+  [self.delegate didReceiveData:responseData fromInteractionMode:self.mode];
+  
+//  NSLog(@"URL: %@, Data: %@", connection.currentRequest.URL, response);
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -204,6 +246,13 @@
     _userId = [[NSUserDefaults standardUserDefaults] stringForKey:WD_localKey_User_id];
   }
   return _userId;
+}
+
+- (NSMutableArray *)events {
+  if (!_events) {
+    _events = [[NSMutableArray alloc] init];
+  }
+  return _events;
 }
 
 @end

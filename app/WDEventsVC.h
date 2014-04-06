@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @protocol WDEventsDelegate;
+@protocol WDEventsDataSource;
 
 @interface WDEventsVC : UITableViewController
 
-- (id)initWithDelegate:(NSObject<WDEventsDelegate> *)delegate viewInset:(UIEdgeInsets)inset;
+- (id)initWithDelegate:(NSObject<WDEventsDelegate> *)delegate
+        withDataSource:(NSObject<WDEventsDataSource> *)dataSource
+             viewInset:(UIEdgeInsets)inset;
 
 @end

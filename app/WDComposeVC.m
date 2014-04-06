@@ -172,7 +172,18 @@
                    }];
 }
 
-- (void)transitionOutOfFullScreenAndPeopleVC:(BOOL)shouldHidePeopleVC {
+- (void)transitionOutOfFullScreen {
+  BOOL peopleVCIsPresented = self.peopleField.isFirstResponder;
+
+  [self.invitees removeAllObjects];
+  [self listInvitees];
+  self.messageField.text = @"";
+  [self textViewDidChange:self.messageField];
+  [self textViewDidEndEditing:self.messageField];
+  
+  [self.peopleField resignFirstResponder];
+  [self.messageField resignFirstResponder];
+  
   [UIView animateWithDuration:0.4
                         delay:0.0
                       options:UIViewAnimationOptionCurveEaseInOut
@@ -182,7 +193,7 @@
                      self.charCount.alpha = 0.0;
                      self.submitButton.alpha = 0.0;
                      self.heading.alpha = 1.0;
-                     if (shouldHidePeopleVC) {
+                     if (peopleVCIsPresented) {
                        [self hidePeopleVCWithAnimation:NO];
                      }
                    }
@@ -268,18 +279,7 @@
   self.heading.alpha = 0.0;
   [self.view addSubview:self.heading];
   
-  BOOL peopleVCIsPresented = self.peopleField.isFirstResponder;
-  
-  [self.invitees removeAllObjects];
-  [self listInvitees];
-  self.messageField.text = @"";
-  [self textViewDidChange:self.messageField];
-  [self textViewDidEndEditing:self.messageField];
-  
-  [self.peopleField resignFirstResponder];
-  [self.messageField resignFirstResponder];
-  
-  [self transitionOutOfFullScreenAndPeopleVC:peopleVCIsPresented];
+  [self transitionOutOfFullScreen];
 }
 
 - (void)didTapOnSubmit {
@@ -301,7 +301,7 @@
   }
   
   [self.delegate createEventWithPeople:recipients message:self.messageField.text];
-  NSLog(@"Submit");
+  [self transitionOutOfFullScreen];
 }
 
 #pragma mark UITextFieldDelegate methods

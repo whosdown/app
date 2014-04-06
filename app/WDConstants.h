@@ -19,7 +19,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 /******* Style *******/
 
 #define WD_FONT_ui    @"HelveticaNeue"
-#define WD_FONT_brand @"DINAlternate-Bold"
+#define WD_FONT_brand @"JosefinSlab-Bold"
 
 #define WD_UIColor_green UIColorFromHex(0x81CD8A)
 
@@ -57,11 +57,11 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define WD_comp_title     WD_veri_title
 #define WD_comp_titleFont WD_FONT_brand
-#define WD_comp_titleSize 22
+#define WD_comp_titleSize 26
 
 #define WD_comp_newEventTitle     @"new hangout"
 #define WD_comp_newEventTitleFont WD_FONT_ui
-#define WD_comp_newEventTitleSize WD_comp_titleSize
+#define WD_comp_newEventTitleSize 22
 
 
 #define WD_comp_fieldFont WD_FONT_ui
@@ -76,6 +76,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 
 /******* Data Keys *******/
+
+#define WD_URL @"http://whosd.herokuapp.com" //@"http://localhost:3000"
 
 #define WD_localKey_User_id         @"WDUserIdKey"      // Type: NSString
 #define WD_localKey_User_verifyCode @"WDUserVerifyCode" // Type: NSString
@@ -93,7 +95,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define WD_modelKey_Event_userId    @"userId"
 #define WD_modelKey_Event_message   @"message"
-#define WD_modelKey_Event_recips    @"recips"
+#define WD_modelKey_Event_recips    @"people"
 
 
 #define WD_modelKey_Verify_code @"code"
@@ -104,7 +106,28 @@ typedef enum WDInteractionModes {
   WDInteractionVerify,
   WDInteractionVerifyConclude,
   WDInteractionCreateEvent,
+  WDInteractionGetEvents,
   WDInteractionNone
 } WDInteractionMode;
+
+@interface UIFont (Utils)
+
++ (void)logFonts;
+
+@end
+
+@implementation UIFont (Utils)
+
++ (void)logFonts {
+  for (NSString* family in [UIFont familyNames]) {
+    NSLog(@"%@", family);
+    for (NSString* name in [UIFont fontNamesForFamilyName: family]) {
+      NSLog(@"  %@", name);
+    }
+  }
+}
+
+
+@end
 
 #endif
