@@ -17,4 +17,6 @@
         withDataSource:(NSObject<WDEventsDataSource> *)dataSource
              viewInset:(UIEdgeInsets)inset;
 
+- (void)refresh;
+
 @end

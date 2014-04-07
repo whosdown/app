@@ -25,6 +25,7 @@
 @property (nonatomic, strong) UIButton *submitButton;
 @property (nonatomic, strong) UILabel *heading;
 @property (nonatomic, strong) UILabel *charCount;
+@property (nonatomic, strong) UILabel *pending;
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UITextField *peopleField;
 @property (nonatomic, strong) UITextView *messageField;
@@ -65,6 +66,10 @@
   [self.view addSubview:self.peopleField];
   [self.view addSubview:self.messageField];
   [self.view addSubview:self.fieldDivider];
+}
+
+- (CGPoint)topLeftFromCenter:(CGPoint)center size:(CGSize)size {
+  return CGPointMake(center.x - (size.width / 2), center.y - (size.height));
 }
 
 - (void)setFrame:(CGRect)frame inFullScreenMode:(BOOL)shouldBeFullScreenMode {
@@ -129,7 +134,8 @@
   self.heading.center = titleRegionCenter;
   self.submitButton.center = CGPointMake(fieldRegionCenter.x,
                                          fieldRegionCenter.y + fieldRegionHeight * 2);
-  
+  self.pending.center = self.submitButton.center;
+
   /* Commit Changes */
   
   self.fieldDivider.frame  = fieldDividerRect;
@@ -184,22 +190,61 @@
   [self.peopleField resignFirstResponder];
   [self.messageField resignFirstResponder];
   
+  self.heading.alpha = 0.0;
+  [self.view addSubview:self.heading];
+  
   [UIView animateWithDuration:0.4
                         delay:0.0
                       options:UIViewAnimationOptionCurveEaseInOut
                    animations:^{
                      [self setFrame:self.contentFrame inFullScreenMode:NO];
-                     self.navBar.alpha = 0.0;
-                     self.charCount.alpha = 0.0;
+                     self.peopleField.alpha  = 1.0;
+                     self.messageField.alpha = 0.6;
+                     
+                     self.navBar.alpha       = 0.0;
+                     self.charCount.alpha    = 0.0;
                      self.submitButton.alpha = 0.0;
-                     self.heading.alpha = 1.0;
+                     self.pending.alpha      = 0.0;
+                     self.heading.alpha      = 1.0;
                      if (peopleVCIsPresented) {
                        [self hidePeopleVCWithAnimation:NO];
                      }
                    }
                    completion:^(BOOL finished){
                      self.isFullScreen = !finished;
+                     self.charCount.transform    = CGAffineTransformIdentity;
+                     self.submitButton.transform = CGAffineTransformIdentity;
+                     
                      [self.navBar removeFromSuperview];
+                     [self.pending removeFromSuperview];
+                     [self.charCount removeFromSuperview];
+                     [self.submitButton removeFromSuperview];
+                   }];
+}
+
+- (void)transitionToPendingMode {
+  self.pending.alpha = 0.0;
+  self.pending.transform = CGAffineTransformMakeScale(2.0, 2.0);
+  [self.view addSubview:self.pending];
+
+  [self.peopleField resignFirstResponder];
+  [self.messageField resignFirstResponder];
+  
+  [UIView animateWithDuration:0.5
+                        delay:0.0
+                      options:UIViewAnimationOptionCurveEaseInOut
+                   animations:^{
+                     self.pending.alpha      = 1.0;
+                     self.charCount.alpha    = 0.0;
+                     self.submitButton.alpha = 0.0;
+                     self.peopleField.alpha  = 0.5;
+                     self.messageField.alpha = 0.1;
+
+                     self.pending.transform      = CGAffineTransformIdentity;
+                     self.charCount.transform    = CGAffineTransformMakeScale(0.1, 0.1);
+                     self.submitButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
+                   }
+                   completion:^(BOOL finished){
                      [self.charCount removeFromSuperview];
                      [self.submitButton removeFromSuperview];
                    }];
@@ -260,8 +305,20 @@
   self.peopleField.text = [inviteeNames componentsJoinedByString:@", "];
 }
 
-- (CGPoint)topLeftFromCenter:(CGPoint)center size:(CGSize)size {
-  return CGPointMake(center.x - (size.width / 2), center.y - (size.height));
+
+- (void)composeDidSucceed {
+  [self transitionOutOfFullScreen];
+}
+
+- (void)composeDidFail {
+  self.pending.text = WD_comp_failure;
+  [self.pending sizeToFit];
+  double delayInSeconds = 2.0;
+  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+  dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+    //code to be executed on the main queue after delay
+    [self transitionOutOfFullScreen];
+  });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -275,14 +332,15 @@
   if (!self.isFullScreen) {
     return;
   }
-  
-  self.heading.alpha = 0.0;
-  [self.view addSubview:self.heading];
-  
+
   [self transitionOutOfFullScreen];
 }
 
 - (void)didTapOnSubmit {
+  if ([self.invitees count] < 1 || [self.messageField.text isEqualToString:@""]) {
+    return;
+  }
+
   NSMutableArray *recipients = [[NSMutableArray alloc] initWithCapacity:[self.invitees count]];
   
   for (id person in self.invitees) {
@@ -301,7 +359,7 @@
   }
   
   [self.delegate createEventWithPeople:recipients message:self.messageField.text];
-  [self transitionOutOfFullScreen];
+  [self transitionToPendingMode];
 }
 
 #pragma mark UITextFieldDelegate methods
@@ -322,6 +380,7 @@
   if (textField == self.peopleField) {
     [self hidePeopleVCWithAnimation:YES];
     [self.messageField becomeFirstResponder];
+    return NO;
   }
   return YES;
 }
@@ -409,7 +468,7 @@
     _submitButton.backgroundColor = [UIColor blackColor];
     _submitButton.layer.cornerRadius = _submitButton.bounds.size.width / 2;
 
-    [_submitButton setTitle:WD_comp_submitButtonTitle forState:UIControlStateNormal];
+    [_submitButton setTitle:WD_comp_submitButton forState:UIControlStateNormal];
     [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //    [_submitButton setShowsTouchWhenHighlighted:YES];
   }
@@ -438,6 +497,18 @@
     [_charCount sizeToFit];
   }
   return _charCount;
+}
+- (UILabel *)pending {
+  if (!_pending) {
+    _pending = [[UILabel alloc] init];
+    _pending.text = WD_comp_pending;
+    _pending.textAlignment = NSTextAlignmentCenter;
+    _pending.textColor = [UIColor whiteColor];
+    _pending.font = [UIFont fontWithName:WD_comp_pendingFont size:WD_comp_pendingSize];
+    _pending.numberOfLines = 3;
+    [_pending sizeToFit];
+  }
+  return _pending;
 }
 
 - (UINavigationBar *)navBar {

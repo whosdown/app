@@ -94,16 +94,33 @@
       [self.verifyVC verifyDidInitiate];
       return;
     }
-    case WDInteractionGetEvents:
-//      self.eventsVC.events
+    case WDInteractionCreateEvent:
+      [self.composeVC composeDidSucceed];
+      [self.eventsVC.tableView reloadData];
+      break;
     default:
       break;
   }
 }
 
 - (void)didReceiveError:(NSError *)error fromInteractionMode:(WDInteractionMode)mode{
+  switch (mode) {
+    case WDInteractionVerify:
+      [self.verifyVC verifyDidFail];
+      break;
+    case WDInteractionCreateEvent:
+      [self.composeVC composeDidFail];
+      break;
+    default:
+      break;
+  }
+
+}
+
+- (void)didFinishFromInteractionMode:(WDInteractionMode)mode {
   
 }
+
 
 #pragma mark Child View Management
 

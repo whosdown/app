@@ -16,4 +16,6 @@
 
 - (void)didReceiveError:(NSError *)error fromInteractionMode:(WDInteractionMode)mode;
 
+- (void)didFinishFromInteractionMode:(WDInteractionMode)mode;
+
 @end

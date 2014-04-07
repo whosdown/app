@@ -60,16 +60,21 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_comp_titleSize 26
 
 #define WD_comp_newEventTitle     @"new hangout"
-#define WD_comp_newEventTitleFont WD_FONT_ui
-#define WD_comp_newEventTitleSize 22
+#define WD_comp_newEventTitleFont WD_FONT_ui @"-Medium"
+#define WD_comp_newEventTitleSize 20
 
+#define WD_comp_pending     @"Asking..."
+#define WD_comp_pendingFont WD_FONT_ui
+#define WD_comp_pendingSize 20
+
+#define WD_comp_failure     @"Sorry, couldn't ask"
 
 #define WD_comp_fieldFont WD_FONT_ui
 #define WD_comp_fieldSize 15
 
 #define WD_comp_countSize 12
 
-#define WD_comp_submitButtonTitle @"Ask"
+#define WD_comp_submitButton @"Ask"
 
 #define WD_comp_peopleFieldPlaceholder @"people to ask..."
 #define WD_comp_messageFieldPlaceholder @"\"who's down to...\""
@@ -77,7 +82,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 /******* Data Keys *******/
 
-#define WD_URL @"http://whosd.herokuapp.com" //@"http://localhost:3000"
+#define WD_URL @"http://whosd.herokuapp.com" // @"http://localhost:3000"
 
 #define WD_localKey_User_id         @"WDUserIdKey"      // Type: NSString
 #define WD_localKey_User_verifyCode @"WDUserVerifyCode" // Type: NSString
@@ -96,7 +101,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_modelKey_Event_userId    @"userId"
 #define WD_modelKey_Event_message   @"message"
 #define WD_modelKey_Event_recips    @"people"
-
+#define WD_modelKey_Event_title     @"title"
 
 #define WD_modelKey_Verify_code @"code"
 #define WD_modelKey_Verify_id   @"userId"

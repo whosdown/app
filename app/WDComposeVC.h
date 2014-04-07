@@ -20,4 +20,8 @@
            delegate:(NSObject<WDComposeDelegate> *)delegate
          dataSource:(NSObject<WDComposeDataSource> *)dataSource;
 
+- (void)composeDidSucceed;
+
+- (void)composeDidFail;
+
 @end

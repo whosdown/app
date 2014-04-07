@@ -228,6 +228,7 @@ typedef void (^voidBlock)(void);
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
   [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+  [self.delegate didReceiveError:error fromInteractionMode:self.mode];
   self.mode = WDInteractionNone;
   NSLog(@"Conn: %@, Error: %@", connection, error);
 
@@ -235,6 +236,7 @@ typedef void (^voidBlock)(void);
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
   [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+  [self.delegate didFinishFromInteractionMode:self.mode];
   self.mode = WDInteractionNone;
   NSLog(@"Conn: %@", connection);
 }
