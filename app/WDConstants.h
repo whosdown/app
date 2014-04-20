@@ -72,7 +72,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_comp_fieldFont WD_FONT_ui
 #define WD_comp_fieldSize 15
 
-#define WD_comp_countSize 12
+#define WD_comp_countSize 12o
 
 #define WD_comp_submitButton @"Ask"
 
@@ -82,7 +82,12 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 /******* Data Keys *******/
 
-#define WD_URL @"http://whosd.herokuapp.com" // @"http://localhost:3000"
+#define LOCAL
+#ifdef LOCAL
+  #define WD_URL @"http://localhost:3000"
+#else
+  #define WD_URL @"http://whosd.herokuapp.com"
+#endif
 
 #define WD_localKey_User_id         @"WDUserIdKey"      // Type: NSString
 #define WD_localKey_User_verifyCode @"WDUserVerifyCode" // Type: NSString
@@ -112,16 +117,17 @@ typedef enum WDInteractionModes {
   WDInteractionVerifyConclude,
   WDInteractionCreateEvent,
   WDInteractionGetEvents,
+  WDInteractionGetEventData,
   WDInteractionNone
 } WDInteractionMode;
 
-@interface UIFont (Utils)
+@interface UIFont (WDFonts)
 
 + (void)logFonts;
 
 @end
 
-@implementation UIFont (Utils)
+@implementation UIFont (WDFonts)
 
 + (void)logFonts {
   for (NSString* family in [UIFont familyNames]) {
@@ -132,6 +138,31 @@ typedef enum WDInteractionModes {
   }
 }
 
+
+@end
+
+@interface UIImage (WDImage)
+
++ (UIImage *)imageWithColor:(UIColor *)color;
+
+@end
+
+@implementation UIImage (WDImage)
+
++ (UIImage *)imageWithColor:(UIColor *)color
+{
+  CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+  UIGraphicsBeginImageContext(rect.size);
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  
+  CGContextSetFillColorWithColor(context, [color CGColor]);
+  CGContextFillEllipseInRect(context, rect);
+  
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  
+  return image;
+}
 
 @end
 

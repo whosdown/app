@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 #import "WDModelDelegate.h"
+#import "WDEventDelegate.h"
 #import "WDEventsDelegate.h"
 
-@interface WDRootVC : UINavigationController<WDModelDelegate, WDEventsDelegate>
+@interface WDRootVC : UINavigationController<WDModelDelegate,
+                                             WDEventDelegate,
+                                             WDEventsDelegate>
 
 - (void)verifyUserWithCode:(NSString *)code;
 

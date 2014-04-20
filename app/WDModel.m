@@ -26,7 +26,11 @@ typedef void (^voidBlock)(void);
 @property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) NSMutableArray *events;
 
-@property (nonatomic, strong) voidBlock completion;
+@property (getter=event, nonatomic, strong) NSDictionary *currentEvent;
+@property (getter=messages, nonatomic, strong) NSMutableArray *currentEventMessages;
+
+@property (nonatomic, strong) voidBlock success;
+@property (nonatomic, strong) voidBlock failure;
 @end
 
 @implementation WDModel
@@ -168,10 +172,24 @@ typedef void (^voidBlock)(void);
   [self sendMethod:POST toURL:WD_EVENT_URL withDictionary:data inMode:WDInteractionCreateEvent];
 }
 
+#pragma mark WDEventDataSource Methods
+
+- (void)refreshMessagesFromEvent:(NSDictionary *)event
+                       onSuccess:(void (^)(void))success
+                       onFailure:(void (^)(void))failure {
+  self.success = success;
+  self.failure = failure;
+  
+  self.currentEvent = event;
+  
+}
+
 #pragma mark WDEventsDataSource Methods
 
-- (void)refreshEvents:(void (^)(void))completed {
-  self.completion = completed;
+- (void)refreshEventsOnSuccess:(void (^)(void))success
+                     onFailure:(void (^)(void))failure {
+  self.success = success;
+  self.failure = failure;
 
   [self.events removeAllObjects];
   [self sendMethod:GET
@@ -210,10 +228,15 @@ typedef void (^voidBlock)(void);
     }
     case WDInteractionGetEvents: {
       for (NSDictionary *event in responseData) {
+        if ([[event objectForKey:WD_modelKey_Event_title] isKindOfClass:[NSNull class]]) {
+          [event setValue:@"Hangout" forKey:WD_modelKey_Event_title];
+        }
         [self.events addObject:event];
+        
       }
-      voidBlock complete = self.completion;
+      voidBlock complete = self.success;
       complete();
+      self.success = nil;
       break;
     }
       
@@ -229,6 +252,19 @@ typedef void (^voidBlock)(void);
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
   [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
   [self.delegate didReceiveError:error fromInteractionMode:self.mode];
+  
+  switch (self.mode) {
+    case WDInteractionGetEvents: {
+      voidBlock complete = self.failure;
+      complete();
+      self.failure = nil;
+      break;
+    }
+      
+    default:
+      break;
+  }
+  
   self.mode = WDInteractionNone;
   NSLog(@"Conn: %@, Error: %@", connection, error);
 

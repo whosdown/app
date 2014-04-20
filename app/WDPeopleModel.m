@@ -53,8 +53,7 @@
 }
 
 // Prompt the user for access to their Address Book data
--(void)requestAddressBookAccess
-{
+-(void)requestAddressBookAccess {
   
   ABAddressBookRequestAccessWithCompletion(self.addressBook, ^(bool granted, CFErrorRef error)
                                            {
@@ -91,10 +90,10 @@
 
 - (NSString *)sanitizePhoneNumber:(NSString *)phoneNumber {
   NSString *sanitizedPhoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"[^0-9]" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, [phoneNumber length])];
-  if ([sanitizedPhoneNumber length] >= 10) {
-    return [sanitizedPhoneNumber substringFromIndex:[sanitizedPhoneNumber length] - 10];
+  if ([sanitizedPhoneNumber length] == 10) {
+    return [NSString stringWithFormat:@"+1%@", sanitizedPhoneNumber];
   } else {
-    return sanitizedPhoneNumber;
+    return [NSString stringWithFormat:@"+%@", sanitizedPhoneNumber];
   }
 }
 

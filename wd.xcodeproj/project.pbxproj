@@ -18,6 +18,8 @@
 		D85588EB18ED0AE80071D408 /* JosefinSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D85588E818ED0AE80071D408 /* JosefinSlab-Bold.ttf */; };
 		D85588EC18ED0AE80071D408 /* JosefinSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D85588E918ED0AE80071D408 /* JosefinSlab-Regular.ttf */; };
 		D85588ED18ED0AE80071D408 /* JosefinSlab-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D85588EA18ED0AE80071D408 /* JosefinSlab-Thin.ttf */; };
+		D88EB01719038529006F42F4 /* WDRootToEventTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = D88EB01619038529006F42F4 /* WDRootToEventTransition.m */; };
+		D8A22F36190387D6003FF233 /* WDEventVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D8A22F35190387D6003FF233 /* WDEventVC.m */; };
 		D8EE9E4118A81149005A91BB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8EE9E4018A81149005A91BB /* Foundation.framework */; };
 		D8EE9E4318A81149005A91BB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8EE9E4218A81149005A91BB /* CoreGraphics.framework */; };
 		D8EE9E4518A81149005A91BB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8EE9E4418A81149005A91BB /* UIKit.framework */; };
@@ -68,6 +70,12 @@
 		D85588E918ED0AE80071D408 /* JosefinSlab-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSlab-Regular.ttf"; sourceTree = "<group>"; };
 		D85588EA18ED0AE80071D408 /* JosefinSlab-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSlab-Thin.ttf"; sourceTree = "<group>"; };
 		D85588EE18EDF8F50071D408 /* WDEventsDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDEventsDataSource.h; sourceTree = "<group>"; };
+		D88EB01519038529006F42F4 /* WDRootToEventTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDRootToEventTransition.h; sourceTree = "<group>"; };
+		D88EB01619038529006F42F4 /* WDRootToEventTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDRootToEventTransition.m; sourceTree = "<group>"; };
+		D8A22F34190387D6003FF233 /* WDEventVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDEventVC.h; sourceTree = "<group>"; };
+		D8A22F35190387D6003FF233 /* WDEventVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDEventVC.m; sourceTree = "<group>"; };
+		D8A22F3A1903B4B5003FF233 /* WDEventDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDEventDelegate.h; sourceTree = "<group>"; };
+		D8A22F3B1903B4CF003FF233 /* WDEventDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WDEventDataSource.h; sourceTree = "<group>"; };
 		D8EE9E3D18A81149005A91BB /* wd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EE9E4018A81149005A91BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D8EE9E4218A81149005A91BB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -181,6 +189,12 @@
 				D8439FDA18C93D9600273945 /* WDEventsVC.m */,
 				D8283E5F18ECB95100E86529 /* WDEventsDelegate.h */,
 				D85588EE18EDF8F50071D408 /* WDEventsDataSource.h */,
+				D88EB01519038529006F42F4 /* WDRootToEventTransition.h */,
+				D88EB01619038529006F42F4 /* WDRootToEventTransition.m */,
+				D8A22F34190387D6003FF233 /* WDEventVC.h */,
+				D8A22F35190387D6003FF233 /* WDEventVC.m */,
+				D8A22F3A1903B4B5003FF233 /* WDEventDelegate.h */,
+				D8A22F3B1903B4CF003FF233 /* WDEventDataSource.h */,
 				D843128118B7E085006D9785 /* WDVerifyVC.h */,
 				D843128218B7E085006D9785 /* WDVerifyVC.m */,
 				D843128418B7F0FA006D9785 /* WDVerifyDelegate.h */,
@@ -363,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D88EB01719038529006F42F4 /* WDRootToEventTransition.m in Sources */,
 				D8EE9E4D18A81149005A91BB /* main.m in Sources */,
 				D843128318B7E085006D9785 /* WDVerifyVC.m in Sources */,
 				D843127318B7D87A006D9785 /* WDRootVC.m in Sources */,
@@ -370,6 +385,7 @@
 				D8EE9E7118A814A7005A91BB /* WDModel.m in Sources */,
 				D8439FDB18C93D9600273945 /* WDEventsVC.m in Sources */,
 				D8439FE418C9424D00273945 /* WDComposeVC.m in Sources */,
+				D8A22F36190387D6003FF233 /* WDEventVC.m in Sources */,
 				D8EE9E5118A81149005A91BB /* WDAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -35,10 +35,14 @@
   [super viewDidLoad];
   
   [self.refreshControl beginRefreshing];
-  [self.dataSource refreshEvents:^{
-    [self.tableView reloadData];
-    [self.refreshControl endRefreshing];
-  }];
+  
+  [self.dataSource refreshEventsOnSuccess:^{
+                                  [self.tableView reloadData];
+                                  [self.refreshControl endRefreshing];
+                                }
+                                onFailure:^{
+                                  [self.refreshControl endRefreshing];
+                                }];
   
   // Refresh control
   self.refreshControl = [[UIRefreshControl alloc] init];
@@ -55,10 +59,22 @@
 
 - (void)refresh {
   [self.refreshControl beginRefreshing];
-  [self.dataSource refreshEvents:^{
-    [self.tableView reloadData];
-    [self.refreshControl endRefreshing];
-  }];
+  [self.dataSource refreshEventsOnSuccess:^{
+                                  [self.tableView reloadData];
+                                  [self.refreshControl endRefreshing];
+                                }
+                                onFailure:^{
+                                  NSLog(@"Refresh Failed");
+                                  [self.refreshControl endRefreshing];
+                                }];
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  NSDictionary *event = [self.dataSource.events objectAtIndex:[indexPath row]];
+  
+  [self.delegate didTapOnEvent:event];
 }
 
 #pragma mark - Table view data source
@@ -73,15 +89,16 @@
   return [self.dataSource.events count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  return 80;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *CellIdentifier = @"Cell";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
   if (!cell) {
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    CGRect cellFrame = cell.bounds;
-    cellFrame.size.height = cellFrame.size.height * 2;
-    cell.frame = cellFrame;
   }
   
   if (self.refreshControl.isRefreshing) {
@@ -89,11 +106,16 @@
   }
   
   NSDictionary *event = [self.dataSource.events objectAtIndex:[indexPath row]];
-  
-  NSString *title = [event objectForKey:WD_modelKey_Event_title];
-  
-  cell.textLabel.text = title ? title : @"Event";
-  cell.detailTextLabel.text = [event objectForKey:WD_modelKey_Event_message];
+
+  if (!event) {
+    return cell;
+  }
+
+  NSString *title    = [event objectForKey:WD_modelKey_Event_title];;
+  NSString *subtitle = [event objectForKey:WD_modelKey_Event_message];
+
+  cell.textLabel.text       = title    ? title    : @"Event";
+  cell.detailTextLabel.text = subtitle ? subtitle : @"Event event event";
   return cell;
 }
 

@@ -23,6 +23,7 @@
 @property NSObject<WDComposeDelegate> *delegate;
 @property CGRect contentFrame;
 @property (nonatomic, strong) UIButton *submitButton;
+@property (nonatomic, strong) UIButton *contactsChooserButton;
 @property (nonatomic, strong) UILabel *heading;
 @property (nonatomic, strong) UILabel *charCount;
 @property (nonatomic, strong) UILabel *pending;
@@ -96,7 +97,7 @@
   CGRect peopleFieldRect  = self.peopleField.frame;
   CGRect messageFieldRect = self.messageField.frame;
   CGRect fieldDividerRect = self.fieldDivider.frame;
-  CGRect charCountRect    = self.peopleField.frame;
+  CGRect charCountRect    = self.charCount.frame;
 
   /* Set Sizes */
 
@@ -118,12 +119,6 @@
 
   /* Set Locations */
 
-  if (shouldBeFullScreenMode) {
-    navBarRect.origin = CGPointZero;
-  } else {
-    navBarRect.origin.y = frame.size.height - self.parentViewController.view.frame.size.height;
-  }
-
   fieldDividerRect.origin  = [self topLeftFromCenter:fieldRegionCenter size:fieldDividerRect.size];
   peopleFieldRect.origin.x = offset;
   peopleFieldRect.origin.y = fieldRegionCenter.y - peopleFieldRect.size.height - fieldSpacer;
@@ -131,10 +126,21 @@
   messageFieldRect.origin.y = fieldRegionCenter.y + fieldSpacer;
   charCountRect.origin.x = offset;
   charCountRect.origin.y = fieldRegionCenter.y + messageFieldRect.size.height + gridSize;
-  self.heading.center = titleRegionCenter;
+  
+  if (shouldBeFullScreenMode) {
+    navBarRect.origin = CGPointZero;
+  } else {
+    navBarRect.origin.y = frame.size.height - self.parentViewController.view.frame.size.height;
+//    charCountRect.origin.y = fieldRegionCenter.y + messageFieldRect.size.height;
+  }
+
+  self.heading.center = CGPointMake(titleRegionCenter.x, titleRegionCenter.y + 5);
   self.submitButton.center = CGPointMake(fieldRegionCenter.x,
                                          fieldRegionCenter.y + fieldRegionHeight * 2);
   self.pending.center = self.submitButton.center;
+  self.contactsChooserButton.center =
+  CGPointMake(peopleFieldRect.origin.x + peopleFieldRect.size.width - (self.contactsChooserButton.frame.size.width / 2),
+              peopleFieldRect.origin.y + (peopleFieldRect.size.height / 2));
 
   /* Commit Changes */
   
@@ -150,20 +156,23 @@
   self.navBar.alpha = 0.0;
   self.charCount.alpha = 0.0;
   self.submitButton.alpha = 0.0;
+  self.contactsChooserButton.alpha = 0.0;
   [self.view addSubview:self.navBar];
   [self.view addSubview:self.charCount];
   [self.view addSubview:self.submitButton];
+  [self.view addSubview:self.contactsChooserButton];
+
   
   [UIView animateWithDuration:0.4
                         delay:0.0
                       options:UIViewAnimationOptionCurveEaseInOut
                    animations:^{
-                     
                      [self setFrame:self.parentViewController.view.frame inFullScreenMode:YES];
                      
                      self.navBar.alpha = 1.0;
                      self.charCount.alpha = 1.0;
                      self.submitButton.alpha = 1.0;
+                     self.contactsChooserButton.alpha = 1.0;
                      self.heading.alpha = 0.0;
                      
                      self.view.backgroundColor = [UIColor whiteColor];
@@ -198,17 +207,21 @@
                       options:UIViewAnimationOptionCurveEaseInOut
                    animations:^{
                      [self setFrame:self.contentFrame inFullScreenMode:NO];
+
                      self.peopleField.alpha  = 1.0;
                      self.messageField.alpha = 0.6;
                      
                      self.navBar.alpha       = 0.0;
                      self.charCount.alpha    = 0.0;
                      self.submitButton.alpha = 0.0;
+                     self.contactsChooserButton.alpha = 0.0;
                      self.pending.alpha      = 0.0;
                      self.heading.alpha      = 1.0;
                      if (peopleVCIsPresented) {
                        [self hidePeopleVCWithAnimation:NO];
                      }
+                     
+                     self.view.backgroundColor = [UIColor clearColor];
                    }
                    completion:^(BOOL finished){
                      self.isFullScreen = !finished;
@@ -219,6 +232,7 @@
                      [self.pending removeFromSuperview];
                      [self.charCount removeFromSuperview];
                      [self.submitButton removeFromSuperview];
+                     [self.contactsChooserButton removeFromSuperview];
                    }];
 }
 
@@ -251,6 +265,7 @@
 }
 
 - (void)presentPeopleVC {
+  [self transitionToFullScreenWithView:nil];
   [self presentViewController:self.peopleVC animated:YES completion:nil];
   
 //  [self addChildViewController:self.peopleVC];
@@ -297,10 +312,8 @@
 
 - (void)listInvitees {
   NSMutableArray *inviteeNames = [[NSMutableArray alloc] initWithCapacity:[self.invitees count]];
-  for (id person in self.invitees) {
-    ABRecordRef personRecord = (__bridge ABRecordRef)person;
-    NSString *personName = [self.peopleModel fullNameForPerson:personRecord];
-    [inviteeNames addObject:personName];
+  for (NSDictionary *person in self.invitees) {
+    [inviteeNames addObject:[person objectForKey:WD_modelKey_User_name]];
   }
   self.peopleField.text = [inviteeNames componentsJoinedByString:@", "];
 }
@@ -326,7 +339,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark ButtonReciever methods
+#pragma mark Button Target methods
 
 - (void)didTapOnCancel {
   if (!self.isFullScreen) {
@@ -337,28 +350,15 @@
 }
 
 - (void)didTapOnSubmit {
-  if ([self.invitees count] < 1 || [self.messageField.text isEqualToString:@""]) {
+  // TODO: Add validation hints
+  if ([self.invitees count] < 1){
+    return;
+  }
+  if ([self.messageField.text isEqualToString:WD_comp_messageFieldPlaceholder]) {
     return;
   }
 
-  NSMutableArray *recipients = [[NSMutableArray alloc] initWithCapacity:[self.invitees count]];
-  
-  for (id person in self.invitees) {
-    ABRecordRef personRecord = (__bridge ABRecordRef)person;
-    NSString *name = (__bridge_transfer NSString *)ABRecordCopyCompositeName(personRecord);
-    ABMultiValueRef phoneNumbers = ABRecordCopyValue(personRecord, kABPersonPhoneProperty);
-    NSInteger phoneNumbersCount = ABMultiValueGetCount(phoneNumbers);
-    NSString *phone;
-    
-    if (phoneNumbersCount > 0) {
-      phone = (__bridge_transfer NSString *) ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
-    }
-    
-    [recipients addObject:@{ WD_modelKey_User_name  : name,
-                             WD_modelKey_User_phone : [self.peopleModel sanitizePhoneNumber:phone] }];
-  }
-  
-  [self.delegate createEventWithPeople:recipients message:self.messageField.text];
+  [self.delegate createEventWithPeople:self.invitees message:self.messageField.text];
   [self transitionToPendingMode];
 }
 
@@ -392,11 +392,9 @@
     if ([string isEqualToString:@""]) {
       [self.invitees removeLastObject];
       [self listInvitees];
-      return NO;
     }
-    [self presentPeopleVC];
   }
-  return YES;
+  return NO;
 }
 
 #pragma mark UITextViewDelegate methods
@@ -435,11 +433,26 @@
   
   return YES;
 }
-#pragma mark Picker delegate methods
+#pragma mark  ABPeoplePickerNavigationControllerDelegate methods
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
       shouldContinueAfterSelectingPerson:(ABRecordRef)person {
-  [self.invitees addObject:(__bridge id)(person)];
+  ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+  NSInteger phoneNumbersCount = ABMultiValueGetCount(phoneNumbers);
+
+  if (phoneNumbersCount < 1) {
+    // TODO: if they have no phone numbers, do something meaningful here.
+    return NO;
+  } else if (phoneNumbersCount > 1) {
+    return YES;
+  }
+  
+  NSString *name  = (__bridge_transfer NSString *)ABRecordCopyCompositeName(person);
+  NSString *phone = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+  NSString *sanitizedPhone = [self.peopleModel sanitizePhoneNumber:phone];
+  
+  [self.invitees addObject:@{ WD_modelKey_User_name  : name,
+                              WD_modelKey_User_phone : sanitizedPhone }];
   [self listInvitees];
   [self hidePeopleVCWithAnimation:YES];
   [self.peopleField becomeFirstResponder];
@@ -450,6 +463,23 @@
       shouldContinueAfterSelectingPerson:(ABRecordRef)person
                                 property:(ABPropertyID)property
                               identifier:(ABMultiValueIdentifier)identifier {
+  
+  if (property == kABPersonPhoneProperty) {
+    ABMultiValueRef phoneNumbers = ABRecordCopyValue(person, kABPersonPhoneProperty);
+    CFIndex phoneNumberIndex = ABMultiValueGetIndexForIdentifier(phoneNumbers, identifier);
+    
+    NSString *name  = (__bridge_transfer NSString *)ABRecordCopyCompositeName(person);
+    NSString *phone = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phoneNumbers, phoneNumberIndex);
+    NSString *sanitizedPhone = [self.peopleModel sanitizePhoneNumber:phone];
+    
+    [self.invitees addObject:@{ WD_modelKey_User_name  : name,
+                                WD_modelKey_User_phone : sanitizedPhone }];
+    [self listInvitees];
+    [self hidePeopleVCWithAnimation:YES];
+    [peoplePicker popToRootViewControllerAnimated:NO];
+    [self.peopleField becomeFirstResponder];
+  }
+  
   return NO;
 }
 
@@ -470,9 +500,21 @@
 
     [_submitButton setTitle:WD_comp_submitButton forState:UIControlStateNormal];
     [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_submitButton setTitleColor:[UIColor grayColor]  forState:UIControlStateHighlighted];
 //    [_submitButton setShowsTouchWhenHighlighted:YES];
   }
   return _submitButton;
+}
+
+- (UIButton *)contactsChooserButton {
+  if (!_contactsChooserButton) {
+    _contactsChooserButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    [_contactsChooserButton addTarget:self
+                               action:@selector(presentPeopleVC)
+                     forControlEvents:UIControlEventTouchUpInside];
+    _contactsChooserButton.tintColor = [UIColor whiteColor];
+  }
+  return _contactsChooserButton;
 }
 
 - (UILabel *)heading {

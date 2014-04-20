@@ -27,7 +27,7 @@
 
 @property CGFloat gridSize;
 
-@property NSObject<WDVerifyDelegate> *delegate;
+@property (nonatomic, weak) NSObject<WDVerifyDelegate> *delegate;
 @end
 
 @implementation WDVerifyVC

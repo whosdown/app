@@ -10,6 +10,7 @@
 
 #import "WDVerifyDelegate.h"
 #import "WDComposeDelegate.h"
+#import "WDEventDataSource.h"
 #import "WDEventsDataSource.h"
 
 @protocol WDModelDelegate;
@@ -17,6 +18,7 @@
 @interface WDModel : NSObject<NSURLConnectionDelegate,
                               WDVerifyDelegate,
                               WDComposeDelegate,
+                              WDEventDataSource,
                               WDEventsDataSource>
 
 - (id)initWithDelegate:(NSObject<WDModelDelegate> *)delegate;

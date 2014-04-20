@@ -10,14 +10,18 @@
 
 #import "WDComposeVC.h"
 #import "WDEventsVC.h"
+#import "WDEventVC.h"
 #import "WDModel.h"
 #import "WDVerifyVC.h"
+#import "WDRootToEventTransition.h"
 
 @interface WDRootVC ()
 @property WDModel *model;
 @property (nonatomic, strong) WDVerifyVC *verifyVC;
 @property (nonatomic, strong) WDEventsVC *eventsVC;
 @property (nonatomic, strong) WDComposeVC *composeVC;
+@property (nonatomic, strong) WDRootToEventTransition *transitionor;
+@property (nonatomic, strong) WDEventVC *eventVC;
 @end
 
 @implementation WDRootVC
@@ -38,6 +42,7 @@
   composeRect.size.height = gridSize * 3;
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
   
+  self.view.backgroundColor = [UIColor clearColor];
   // TODO: Switch to designated Initializer
   self.composeVC = [[WDComposeVC alloc] initWithFrame:composeRect delegate:self.model dataSource:nil];
   self.eventsVC  = [[WDEventsVC alloc] initWithDelegate:self
@@ -54,6 +59,10 @@
     self.verifyVC = [[WDVerifyVC alloc] initWithDelegate:self.model];
     [self displayInnerViewController:self.verifyVC withFrame:self.view.frame];
   }
+  
+  self.transitionor = [[WDRootToEventTransition alloc] init];
+  self.transitionor.top = self.composeVC;
+  self.transitionor.bottom = self.eventsVC;
 }
 
 - (void)verifyUserWithCode:(NSString *)code {
@@ -80,6 +89,26 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark WDEventDelegate Methods
+
+- (void)didTapOnCancelButton {
+  [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark WDEventsDelegate Methods
+
+- (void)didTapOnEvent:(NSDictionary *)event {
+  self.eventVC = [[WDEventVC alloc] initWithTranstionor:self.transitionor
+                                               delegate:self
+                                             dataSource:self.model];
+  [self presentViewController:self.eventVC
+                     animated:YES
+                   completion:^{
+                     
+                   }];
 }
 
 #pragma mark WDModelDelegate Methods

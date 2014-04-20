@@ -10,7 +10,7 @@
 
 @protocol WDEventsDataSource <NSObject>
 
-- (void)refreshEvents:(void (^)(void))completed;
+- (void)refreshEventsOnSuccess:(void (^)(void))success onFailure:(void (^)(void))failure;
 
 - (BOOL)isRefreshing;
 

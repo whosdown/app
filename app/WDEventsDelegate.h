@@ -10,4 +10,6 @@
 
 @protocol WDEventsDelegate <NSObject>
 
+- (void)didTapOnEvent:(NSDictionary *)event;
+
 @end
