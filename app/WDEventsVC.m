@@ -33,22 +33,13 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
-  [self.refreshControl beginRefreshing];
-  
-  [self.dataSource refreshEventsOnSuccess:^{
-                                  [self.tableView reloadData];
-                                  [self.refreshControl endRefreshing];
-                                }
-                                onFailure:^{
-                                  [self.refreshControl endRefreshing];
-                                }];
-  
-  // Refresh control
+
   self.refreshControl = [[UIRefreshControl alloc] init];
   [self.refreshControl addTarget:self
                           action:@selector(refresh)
                 forControlEvents:UIControlEventValueChanged];
+  
+  [self refresh];
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,7 +49,6 @@
 }
 
 - (void)refresh {
-  [self.refreshControl beginRefreshing];
   [self.dataSource refreshEventsOnSuccess:^{
                                   [self.tableView reloadData];
                                   [self.refreshControl endRefreshing];
@@ -119,6 +109,7 @@
   return cell;
 }
 
+#pragma mark Lazy Initializers
 
 /*
 // Override to support conditional editing of the table view.

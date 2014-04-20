@@ -11,9 +11,12 @@
 #import "WDConstants.h"
 #import "WDModelDelegate.h"
 
-#define WD_EVENT_URL  WD_URL @"/api/v0/event?"
-#define WD_USER_URL   WD_URL @"/api/v0/user?"
-#define WD_VERIFY_URL WD_URL @"/api/v0/verify?"
+#define WD_EVENT_URL  WD_URL @"/api/v0/event"
+#define WD_USER_URL   WD_URL @"/api/v0/user"
+#define WD_VERIFY_URL WD_URL @"/api/v0/verify"
+
+#define Q(url)  url @"?"
+#define WD_SL(url) url @"/"
 
 #define POST @"POST"
 #define GET  @"GET"
@@ -71,7 +74,7 @@ typedef void (^voidBlock)(void);
                               WD_modelKey_Verify_id  : [user objectForKey:WD_modelKey_User_id]};
     
     [self sendMethod:POST
-               toURL:WD_VERIFY_URL
+               toURL:Q(WD_VERIFY_URL)
       withDictionary:query
               inMode:WDInteractionVerifyConclude];
     
@@ -91,7 +94,7 @@ typedef void (^voidBlock)(void);
   NSData *data = [NSJSONSerialization dataWithJSONObject:query
                                                  options:0
                                                    error:nil];
-  NSURL *url = [NSURL URLWithString:WD_EVENT_URL];
+  NSURL *url = [NSURL URLWithString:Q(WD_EVENT_URL)];
   
   NSData *postData = data;
 //    [NSMutableData dataWithData:[post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
@@ -159,7 +162,7 @@ typedef void (^voidBlock)(void);
                              }
                           };
 
-  [self sendMethod:POST toURL:WD_USER_URL withDictionary:query inMode:WDInteractionVerify];
+  [self sendMethod:POST toURL:Q(WD_USER_URL) withDictionary:query inMode:WDInteractionVerify];
 }
 
 #pragma mark WDComposeDelegate Methods
@@ -169,19 +172,22 @@ typedef void (^voidBlock)(void);
                           WD_modelKey_Event_message : message,
                           WD_modelKey_Event_recips  : people };
   NSLog(@" data: %@", data);
-  [self sendMethod:POST toURL:WD_EVENT_URL withDictionary:data inMode:WDInteractionCreateEvent];
+  [self sendMethod:POST toURL:Q(WD_EVENT_URL) withDictionary:data inMode:WDInteractionCreateEvent];
 }
 
 #pragma mark WDEventDataSource Methods
 
-- (void)refreshMessagesFromEvent:(NSDictionary *)event
-                       onSuccess:(void (^)(void))success
-                       onFailure:(void (^)(void))failure {
+- (void)refreshMessagesFromCurrentEventOnSuccess:(void (^)(void))success
+                                       onFailure:(void (^)(void))failure {
   self.success = success;
   self.failure = failure;
   
-  self.currentEvent = event;
-  
+  NSString *eventId = [self.currentEvent objectForKey:WD_modelKey_Event_id];
+  [self.messages removeAllObjects];
+  [self sendMethod:GET
+             toURL:[NSString stringWithFormat:@"%@%@", WD_SL(WD_EVENT_URL), eventId]
+    withDictionary:nil
+            inMode:WDInteractionGetEventData];
 }
 
 #pragma mark WDEventsDataSource Methods
@@ -193,7 +199,7 @@ typedef void (^voidBlock)(void);
 
   [self.events removeAllObjects];
   [self sendMethod:GET
-             toURL:WD_EVENT_URL
+             toURL:Q(WD_EVENT_URL)
     withDictionary:@{ WD_modelKey_Event_userId : self.userId }
             inMode:WDInteractionGetEvents];
 }
@@ -237,9 +243,20 @@ typedef void (^voidBlock)(void);
       voidBlock complete = self.success;
       complete();
       self.success = nil;
+      self.failure = nil;
       break;
     }
-      
+    case WDInteractionGetEventData: {
+      for (NSDictionary *message in responseData) {
+        [self.currentEventMessages addObject:message];
+      }
+      voidBlock complete = self.success;
+      complete();
+      self.success = nil;
+      self.failure = nil;
+      break;
+    }
+  
     default:
       break;
   }
@@ -254,10 +271,12 @@ typedef void (^voidBlock)(void);
   [self.delegate didReceiveError:error fromInteractionMode:self.mode];
   
   switch (self.mode) {
-    case WDInteractionGetEvents: {
+    case WDInteractionGetEvents:
+    case WDInteractionGetEventData: {
       voidBlock complete = self.failure;
       complete();
       self.failure = nil;
+      self.success = nil;
       break;
     }
       
@@ -291,6 +310,13 @@ typedef void (^voidBlock)(void);
     _events = [[NSMutableArray alloc] init];
   }
   return _events;
+}
+
+- (NSMutableArray *)messages {
+  if (!_currentEventMessages) {
+    _currentEventMessages = [[NSMutableArray alloc] init];
+  }
+  return _currentEventMessages;
 }
 
 @end

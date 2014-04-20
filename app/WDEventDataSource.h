@@ -10,11 +10,13 @@
 
 @protocol WDEventDataSource <NSObject>
 
-- (void)refreshMessagesFromEvent:(NSDictionary *)event
-                       onSuccess:(void (^)(void))success
-                       onFailure:(void (^)(void))failure;
+- (void)refreshMessagesFromCurrentEventOnSuccess:(void (^)(void))success
+                                       onFailure:(void (^)(void))failure;
 
 - (NSDictionary *)event;
+
+- (void)setCurrentEvent:(NSDictionary *)currentEvent;
+
 
 - (NSArray *)messages;
 

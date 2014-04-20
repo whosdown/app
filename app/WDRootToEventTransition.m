@@ -52,8 +52,8 @@
                          presentingController:(UIViewController *)presenting
                              sourceController:(UIViewController *)source {
   self.presenting = YES;
-  self.eventVC = presenting;
-  self.rootVC  = source;
+//  self.eventVC = presenting;
+//  self.rootVC  = source;
   
 //  UIPanGestureRecognizer* panRecognizer =
 //      [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
@@ -100,6 +100,7 @@
                      self.top.view.center    = topEndCenter;
                      self.bottom.view.center = bottomEndCenter;
                    } completion:^(BOOL finished) {
+                     [[transitionContext containerView] sendSubviewToBack:fromViewController.view];
                      [transitionContext
                          completeTransition:![transitionContext transitionWasCancelled]];
                    }];

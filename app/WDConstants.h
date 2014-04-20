@@ -72,12 +72,19 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_comp_fieldFont WD_FONT_ui
 #define WD_comp_fieldSize 15
 
-#define WD_comp_countSize 12o
+#define WD_comp_countSize 12
 
 #define WD_comp_submitButton @"Ask"
 
 #define WD_comp_peopleFieldPlaceholder @"people to ask..."
 #define WD_comp_messageFieldPlaceholder @"\"who's down to...\""
+
+/*
+ * WDEvent Styles
+ */
+
+#define WD_conv_messageFont WD_FONT_ui
+#define WD_conv_messageSize 15
 
 
 /******* Data Keys *******/
@@ -103,10 +110,21 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_modelKey_User_verifyCode @"code"
 #define WD_modelKey_User_isVerified @"isVerified"
 
+#define WD_modelKey_Event_id        @"_id"
 #define WD_modelKey_Event_userId    @"userId"
 #define WD_modelKey_Event_message   @"message"
 #define WD_modelKey_Event_recips    @"people"
 #define WD_modelKey_Event_title     @"title"
+
+#define WD_modelKey_Message_date    @"date"
+#define WD_modelKey_Message_recip   @"recipient"
+#define WD_modelKey_Message_message @"message"
+#define WD_Message_recipWD @"wd"
+
+#define WD_modelKey_Recip_id        @"_id"
+#define WD_modelKey_Recip_name      @"name"
+#define WD_modelKey_Recip_phone     @"phone"
+
 
 #define WD_modelKey_Verify_code @"code"
 #define WD_modelKey_Verify_id   @"userId"

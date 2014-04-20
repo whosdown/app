@@ -101,6 +101,7 @@
 #pragma mark WDEventsDelegate Methods
 
 - (void)didTapOnEvent:(NSDictionary *)event {
+  self.model.currentEvent = event;
   self.eventVC = [[WDEventVC alloc] initWithTranstionor:self.transitionor
                                                delegate:self
                                              dataSource:self.model];
