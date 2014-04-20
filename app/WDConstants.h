@@ -72,7 +72,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_comp_fieldFont WD_FONT_ui
 #define WD_comp_fieldSize 15
 
-#define WD_comp_countSize 12
+#define WD_comp_countSize 11
 
 #define WD_comp_submitButton @"Ask"
 
@@ -85,6 +85,17 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define WD_conv_messageFont WD_FONT_ui
 #define WD_conv_messageSize 15
+
+#define WD_conv_nameSize 11
+
+#define WD_conv_messageBubbleWidth 220
+#define WD_conv_messageBubbleSpacer 20
+#define WD_conv_messageBubbleOffset 8
+#define WD_conv_messageNameSpace 12
+
+
+#define WD_conv_messageBubbleCreatorColor UIColorFromHex(0x85AFE0)
+#define WD_conv_messageBubbleRecipientColor UIColorFromHex(0xE8E8E8)
 
 
 /******* Data Keys *******/

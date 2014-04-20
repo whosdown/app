@@ -247,6 +247,7 @@ typedef void (^voidBlock)(void);
       break;
     }
     case WDInteractionGetEventData: {
+      [self.currentEventMessages addObject:self.currentEvent];
       for (NSDictionary *message in responseData) {
         [self.currentEventMessages addObject:message];
       }

@@ -99,7 +99,10 @@
                    animations:^{
                      self.top.view.center    = topEndCenter;
                      self.bottom.view.center = bottomEndCenter;
+                     
                    } completion:^(BOOL finished) {
+                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+
                      [[transitionContext containerView] sendSubviewToBack:fromViewController.view];
                      [transitionContext
                          completeTransition:![transitionContext transitionWasCancelled]];
@@ -114,6 +117,8 @@
   
   [UIView animateWithDuration:[self transitionDuration:transitionContext]
                    animations:^{
+                     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
                      self.top.view.center    = self.originalTopCenter;
                      self.bottom.view.center = self.originalBottomCenter;
                    } completion:^(BOOL finished) {
