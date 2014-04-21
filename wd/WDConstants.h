@@ -32,7 +32,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_veri_titleFont   WD_FONT_brand
 #define WD_veri_titleSize   45
 
-#define WD_veri_tagLine     @"Find out who's down to ______"
+#define WD_veri_tagLine     @"Find out who's down to _______"
+#define WD_veri_tagLineURange NSMakeRange(23, 7)
 #define WD_veri_tagLineFont WD_FONT_brand
 #define WD_veri_tagLineSize 20
 
@@ -100,7 +101,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 /******* Data Keys *******/
 
-#define LOCAL
+//#define LOCAL
 #ifdef LOCAL
   #define WD_URL @"http://localhost:3000"
 #else

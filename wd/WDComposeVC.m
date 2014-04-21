@@ -21,7 +21,8 @@
 
 @property NSObject<WDComposeDataSource> *dataSource;
 @property NSObject<WDComposeDelegate> *delegate;
-@property CGRect contentFrame;
+@property CGRect halfScreenFrame;
+
 @property (nonatomic, strong) UIButton *submitButton;
 @property (nonatomic, strong) UIButton *contactsChooserButton;
 @property (nonatomic, strong) UILabel *heading;
@@ -41,14 +42,12 @@
 
 @implementation WDComposeVC
 
-- (id)initWithFrame:(CGRect)frame
-           delegate:(NSObject<WDComposeDelegate> *)delegate
-         dataSource:(NSObject<WDComposeDataSource> *)dataSource {
+- (id)initWithDelegate:(NSObject<WDComposeDelegate> *)delegate
+            dataSource:(NSObject<WDComposeDataSource> *)dataSource {
   self = [super initWithNibName:nil bundle:nil];
   if (self) {
     _dataSource = dataSource;
     _delegate = delegate;
-    _contentFrame = frame;
     _peopleModel = [[WDPeopleModel alloc] init];
     _invitees = [[NSMutableArray alloc] init];
   }
@@ -60,13 +59,17 @@
   
   self.isFullScreen = false;
   [self.peopleModel setUp];
-  [self setFrame:self.contentFrame inFullScreenMode:NO];
+  [self setFrame:self.halfScreenFrame inFullScreenMode:NO];
 
   [self.view addSubview:self.backgroundBar];
   [self.view addSubview:self.heading];
   [self.view addSubview:self.peopleField];
   [self.view addSubview:self.messageField];
   [self.view addSubview:self.fieldDivider];
+}
+
+- (void)willMoveToParentViewController:(UIViewController *)parent {
+  self.halfScreenFrame = self.view.frame;
 }
 
 - (CGPoint)topLeftFromCenter:(CGPoint)center size:(CGSize)size {
@@ -206,7 +209,7 @@
                         delay:0.0
                       options:UIViewAnimationOptionCurveEaseInOut
                    animations:^{
-                     [self setFrame:self.contentFrame inFullScreenMode:NO];
+                     [self setFrame:self.halfScreenFrame inFullScreenMode:NO];
 
                      self.peopleField.alpha  = 1.0;
                      self.messageField.alpha = 0.6;

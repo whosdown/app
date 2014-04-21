@@ -22,12 +22,14 @@
 @property (nonatomic, strong) WDComposeVC *composeVC;
 @property (nonatomic, strong) WDRootToEventTransition *transitionor;
 @property (nonatomic, strong) WDEventVC *eventVC;
+
+@property CGRect composeRect;
 @end
 
 @implementation WDRootVC
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-  self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (id)init {
+  self = [super initWithNibName:nil bundle:nil];
   if (self) {
     _model = [[WDModel alloc] initWithDelegate:self];
   }
@@ -40,21 +42,18 @@
   CGFloat gridSize = 44;
   CGRect composeRect = self.view.frame;
   composeRect.size.height = gridSize * 3;
+  self.composeRect = composeRect;
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
   
   self.view.backgroundColor = [UIColor clearColor];
   // TODO: Switch to designated Initializer
-  self.composeVC = [[WDComposeVC alloc] initWithFrame:composeRect delegate:self.model dataSource:nil];
-  self.eventsVC  = [[WDEventsVC alloc] initWithDelegate:self
-                                         withDataSource:self.model
-                                              viewInset:UIEdgeInsetsMake(composeRect.size.height, 0, 0, 0)];
-
   [self setNavigationBarHidden:YES];
-  [self displayInnerViewController:self.eventsVC withFrame:self.view.frame];
-  [self displayInnerViewController:self.composeVC withFrame:composeRect];
+
   
   if (self.model.hasUserLoggedIn) {
-    
+    self.eventsVC.tableView.contentInset = UIEdgeInsetsMake(self.composeRect.size.height, 0, 0, 0);
+    [self displayInnerViewController:self.eventsVC withFrame:self.view.frame];
+    [self displayInnerViewController:self.composeVC withFrame:composeRect];
   } else {
     self.verifyVC = [[WDVerifyVC alloc] initWithDelegate:self.model];
     [self displayInnerViewController:self.verifyVC withFrame:self.view.frame];
@@ -75,7 +74,10 @@
     }
 
     if ([self.model verifyUserWithCode:code]) {
-      // TODO: Swap to main events VC
+      self.eventsVC.tableView.contentInset = UIEdgeInsetsMake(self.composeRect.size.height, 0, 0, 0);
+      [self displayInnerViewController:self.eventsVC withFrame:self.view.frame];
+      [self displayInnerViewController:self.composeVC withFrame:self.composeRect];
+      
       NSLog(@"User Is Verified: %@", self.model.hasUserLoggedIn ? @"YES" : @"NO");
       [self.verifyVC verifyDidSucceed];
       [self hideInnerViewController:self.verifyVC];
@@ -155,8 +157,8 @@
 #pragma mark Child View Management
 
 - (void) displayInnerViewController:(UIViewController *)innerVC withFrame:(CGRect)frame {
-  [self addChildViewController:innerVC];
   innerVC.view.frame = frame;
+  [self addChildViewController:innerVC];
   [self.view addSubview:innerVC.view];
   [innerVC didMoveToParentViewController:self];
 }
@@ -166,6 +168,23 @@
   [innerVC willMoveToParentViewController:nil];
   [innerVC.view removeFromSuperview];
   [innerVC removeFromParentViewController];
+}
+
+#pragma mark Lazy Initializers
+
+- (WDEventsVC *)eventsVC {
+  if (!_eventsVC) {
+    _eventsVC = [[WDEventsVC alloc] initWithDelegate:self
+                                      withDataSource:self.model];
+  }
+  return _eventsVC;
+}
+
+- (WDComposeVC *)composeVC {
+  if (!_composeVC) {
+    _composeVC = [[WDComposeVC alloc] initWithDelegate:self.model dataSource:nil];
+  }
+  return _composeVC;
 }
 
 @end

@@ -16,9 +16,8 @@
                                           UITextViewDelegate,
                                           ABPeoplePickerNavigationControllerDelegate>
 
-- (id)initWithFrame:(CGRect)frame
-           delegate:(NSObject<WDComposeDelegate> *)delegate
-         dataSource:(NSObject<WDComposeDataSource> *)dataSource;
+- (id)initWithDelegate:(NSObject<WDComposeDelegate> *)delegate
+            dataSource:(NSObject<WDComposeDataSource> *)dataSource;
 
 - (void)composeDidSucceed;
 

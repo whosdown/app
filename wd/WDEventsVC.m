@@ -15,18 +15,17 @@
 @interface WDEventsVC ()
 @property (nonatomic, weak) NSObject<WDEventsDelegate> *delegate;
 @property (nonatomic, weak) NSObject<WDEventsDataSource> *dataSource;
+
 @end
 
 @implementation WDEventsVC
 
 - (id)initWithDelegate:(NSObject<WDEventsDelegate> *)delegate
-        withDataSource:(NSObject<WDEventsDataSource> *)dataSource
-             viewInset:(UIEdgeInsets)inset {
+        withDataSource:(NSObject<WDEventsDataSource> *)dataSource {
   self = [super initWithStyle:UITableViewStylePlain];
   if (self) {
     _delegate = delegate;
     _dataSource = dataSource;
-    self.tableView.contentInset = inset;
   }
   return self;
 }
@@ -40,6 +39,10 @@
                 forControlEvents:UIControlEventValueChanged];
   
   [self refresh];
+}
+
+- (void)willMoveToParentViewController:(UIViewController *)parent {
+  
 }
 
 - (void)didReceiveMemoryWarning

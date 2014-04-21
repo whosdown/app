@@ -14,8 +14,7 @@
 @interface WDEventsVC : UITableViewController
 
 - (id)initWithDelegate:(NSObject<WDEventsDelegate> *)delegate
-        withDataSource:(NSObject<WDEventsDataSource> *)dataSource
-             viewInset:(UIEdgeInsets)inset;
+        withDataSource:(NSObject<WDEventsDataSource> *)dataSource;
 
 - (void)refresh;
 

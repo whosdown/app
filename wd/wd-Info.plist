@@ -35,10 +35,18 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>JosefinSlab-Bold.ttf</string>
+		<string>JosefinSlab-Regular.ttf</string>
+		<string>JosefinSlab-Thin.ttf</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -54,11 +62,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>JosefinSlab-Bold.ttf</string>
-		<string>JosefinSlab-Regular.ttf</string>
-		<string>JosefinSlab-Thin.ttf</string>
-	</array>
 </dict>
 </plist>

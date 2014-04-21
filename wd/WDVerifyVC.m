@@ -394,10 +394,24 @@
 - (UILabel *)subHeading {
   if (!_subHeading) {
     _subHeading = [[UILabel alloc] init];
-    _subHeading.text = WD_veri_tagLine;
-    _subHeading.textAlignment = NSTextAlignmentCenter;
-    _subHeading.textColor = [UIColor whiteColor];
-    _subHeading.font = [UIFont fontWithName:WD_veri_tagLineFont size:WD_veri_tagLineSize];
+    NSMutableAttributedString *text =
+        [[NSMutableAttributedString alloc] initWithString:WD_veri_tagLine];
+    NSRange allText = NSMakeRange(0, text.length);
+    NSRange endText = WD_veri_tagLineURange;
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+
+    [text addAttribute:NSKernAttributeName value:@-4 range:endText];
+    [text addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:allText];
+    [text addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:allText];
+    [text addAttribute:NSFontAttributeName
+                 value:[UIFont fontWithName:WD_veri_tagLineFont
+                                       size:WD_veri_tagLineSize]
+                 range:allText];
+
+    
+    _subHeading.attributedText = text;
     [_subHeading sizeToFit];
   }
   return _subHeading;
