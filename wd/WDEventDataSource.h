@@ -17,6 +17,7 @@
 
 - (void)setCurrentEvent:(NSDictionary *)currentEvent;
 
+- (void)updateRecipient:(NSDictionary *)recipient;
 
 - (NSArray *)messages;
 

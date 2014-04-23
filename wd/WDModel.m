@@ -14,11 +14,13 @@
 #define WD_EVENT_URL  WD_URL @"/api/v0/event"
 #define WD_USER_URL   WD_URL @"/api/v0/user"
 #define WD_VERIFY_URL WD_URL @"/api/v0/verify"
+#define WD_RECIP_URL  WD_URL @"/api/v0/recip"
 
 #define Q(url)  url @"?"
 #define WD_SL(url) url @"/"
 
 #define POST @"POST"
+#define PUT  @"PUT"
 #define GET  @"GET"
 
 typedef void (^voidBlock)(void);
@@ -63,8 +65,6 @@ typedef void (^voidBlock)(void);
   formatter.numberStyle = NSNumberFormatterDecimalStyle;
   NSNumber *codeNum = [formatter numberFromString:code];
   
-  NSLog(@"code: %@, localCode: %@", codeNum, verifyCode);
-
   if ([codeNum isEqualToNumber:verifyCode]) {
     [[NSUserDefaults standardUserDefaults] setObject:[user objectForKey:WD_modelKey_User_id]
                                               forKey:WD_localKey_User_id];
@@ -123,7 +123,7 @@ typedef void (^voidBlock)(void);
   [request setURL:url];
   [request setHTTPMethod:method];
 
-  if ([method isEqualToString:POST]) {
+  if ([method isEqualToString:POST] || [method isEqualToString:PUT]) {
     NSData *data = [NSJSONSerialization dataWithJSONObject:dict
                                                    options:0
                                                      error:nil];
@@ -190,6 +190,12 @@ typedef void (^voidBlock)(void);
             inMode:WDInteractionGetEventData];
 }
 
+- (void)updateRecipient:(NSDictionary *)recipient {
+  NSLog(@"new recip: %@", recipient);
+  
+  [self sendMethod:PUT toURL:Q(WD_RECIP_URL) withDictionary:recipient inMode:WDInteractionUpdateRecip];
+}
+
 #pragma mark WDEventsDataSource Methods
 
 - (void)refreshEventsOnSuccess:(void (^)(void))success
@@ -247,8 +253,12 @@ typedef void (^voidBlock)(void);
       break;
     }
     case WDInteractionGetEventData: {
+      NSArray *messages = [responseData objectForKey:WD_modelKey_Event_messages];
+      [self.currentEvent setValue:[responseData objectForKey:WD_modelKey_Event_recips]
+                           forKey:WD_modelKey_Event_recips];
+      
       [self.currentEventMessages addObject:self.currentEvent];
-      for (NSDictionary *message in responseData) {
+      for (NSDictionary *message in messages) {
         [self.currentEventMessages addObject:message];
       }
       voidBlock complete = self.success;

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D8103BF418DF7E050065A42C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8103BF218DF7E050065A42C /* AddressBook.framework */; };
 		D8103BF518DF7E050065A42C /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8103BF318DF7E050065A42C /* AddressBookUI.framework */; };
+		D84643E71907AAC20025C9FE /* WDInviteesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D84643E61907AAC20025C9FE /* WDInviteesVC.m */; };
 		D8B1B9BC19056FB8000451D1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D8B1B99119056FB7000451D1 /* InfoPlist.strings */; };
 		D8B1B9BD19056FB8000451D1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8B1B99319056FB7000451D1 /* Images.xcassets */; };
 		D8B1B9BE19056FB8000451D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B1B99419056FB7000451D1 /* main.m */; };
@@ -49,6 +50,8 @@
 		C66D01DBDD7C44878FD097F0 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		D8103BF218DF7E050065A42C /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		D8103BF318DF7E050065A42C /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		D84643E51907AAC20025C9FE /* WDInviteesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WDInviteesVC.h; sourceTree = "<group>"; };
+		D84643E61907AAC20025C9FE /* WDInviteesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WDInviteesVC.m; sourceTree = "<group>"; };
 		D8B1B99219056FB7000451D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D8B1B99319056FB7000451D1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D8B1B99419056FB7000451D1 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -139,6 +142,8 @@
 				D8B1B9A319056FB7000451D1 /* WDEventDataSource.h */,
 				D8B1B9A419056FB7000451D1 /* WDEventDelegate.h */,
 				D8B1B9A519056FB7000451D1 /* WDEventsDataSource.h */,
+				D84643E51907AAC20025C9FE /* WDInviteesVC.h */,
+				D84643E61907AAC20025C9FE /* WDInviteesVC.m */,
 				D8B1B9A619056FB7000451D1 /* WDEventsDelegate.h */,
 				D8B1B9A719056FB7000451D1 /* WDEventsVC.h */,
 				D8B1B9A819056FB8000451D1 /* WDEventsVC.m */,
@@ -364,6 +369,7 @@
 				D8B1B9C419056FB8000451D1 /* WDComposeVC.m in Sources */,
 				D8B1B9CA19056FB8000451D1 /* WDRootVC.m in Sources */,
 				D8B1B9C819056FB8000451D1 /* WDPeopleModel.m in Sources */,
+				D84643E71907AAC20025C9FE /* WDInviteesVC.m in Sources */,
 				D8B1B9C919056FB8000451D1 /* WDRootToEventTransition.m in Sources */,
 				D8B1B9C519056FB8000451D1 /* WDEventsVC.m in Sources */,
 				D8B1B9CB19056FB8000451D1 /* WDVerifyVC.m in Sources */,

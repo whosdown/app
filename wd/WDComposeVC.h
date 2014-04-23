@@ -23,4 +23,6 @@
 
 - (void)composeDidFail;
 
+@property CGRect halfScreenFrame;
+
 @end

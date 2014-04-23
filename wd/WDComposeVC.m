@@ -21,7 +21,6 @@
 
 @property NSObject<WDComposeDataSource> *dataSource;
 @property NSObject<WDComposeDelegate> *delegate;
-@property CGRect halfScreenFrame;
 
 @property (nonatomic, strong) UIButton *submitButton;
 @property (nonatomic, strong) UIButton *contactsChooserButton;
@@ -66,10 +65,6 @@
   [self.view addSubview:self.peopleField];
   [self.view addSubview:self.messageField];
   [self.view addSubview:self.fieldDivider];
-}
-
-- (void)willMoveToParentViewController:(UIViewController *)parent {
-  self.halfScreenFrame = self.view.frame;
 }
 
 - (CGPoint)topLeftFromCenter:(CGPoint)center size:(CGSize)size {
@@ -445,7 +440,7 @@
 
   if (phoneNumbersCount < 1) {
     // TODO: if they have no phone numbers, do something meaningful here.
-    return NO;
+    return YES;
   } else if (phoneNumbersCount > 1) {
     return YES;
   }

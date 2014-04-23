@@ -12,9 +12,9 @@
 @protocol WDEventDelegate;
 @protocol WDEventDataSource;
 
-@interface WDEventVC : UIViewController<UINavigationBarDelegate,
-                                        UITableViewDataSource,
-                                        UITableViewDelegate>
+@interface WDEventVC : UINavigationController<UINavigationBarDelegate,
+                                              UITableViewDataSource,
+                                              UITableViewDelegate>
 
 - (id)initWithTranstionor:(WDRootToEventTransition *)transitionor
                  delegate:(NSObject<WDEventDelegate> *)delegate

@@ -12,14 +12,16 @@
 #import "WDRootToEventTransition.h"
 #import "WDEventDelegate.h"
 #import "WDEventDataSource.h"
+#import "WDInviteesVC.h"
 
 @interface WDEventVC ()
 @property (nonatomic, weak) WDRootToEventTransition *transitionor;
 
-@property (nonatomic, weak) NSObject<WDEventDelegate> *delegate;
+@property (nonatomic, weak) NSObject<WDEventDelegate> *wdDelegate;
 @property (nonatomic, weak) NSObject<WDEventDataSource> *dataSource;
 
 @property (nonatomic, strong) UITableViewController *messageList;
+@property (nonatomic, strong) WDInviteesVC *inviteesVC;
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UINavigationItem *navBarItem;
 
@@ -34,7 +36,7 @@
                dataSource:(NSObject<WDEventDataSource> *)dataSource {
   self = [super init];
   if (self) {
-    _delegate = delegate;
+    _wdDelegate = delegate;
     _dataSource = dataSource;
     _transitionor = transitionor;
     self.modalPresentationStyle = UIModalPresentationCustom;
@@ -58,10 +60,16 @@
   for (NSDictionary *recip in [self.dataSource.event objectForKey:WD_modelKey_Event_recips]) {
     [self.recipients setObject:recip forKey:[recip objectForKey:WD_modelKey_Recip_id]];
   }
+  
+  UIViewController *vc = [[UIViewController alloc] init];
+  [self pushViewController:vc animated:NO];
+  [self pushViewController:self.messageList animated:NO];
 
-  [self displayInnerViewController:self.messageList withFrame:self.view.frame];
-  [self.view addSubview:self.navBar];
-  self.navBarItem.title = [self.dataSource.event objectForKey:WD_modelKey_Event_title];
+  self.messageList.navigationItem.title = [self.dataSource.event objectForKey:WD_modelKey_Event_title];
+  self.messageList.navigationItem.rightBarButtonItem =
+      [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
+                                                    target:self
+                                                    action:@selector(didTapOnStatusButton)];
 }
 
 - (void)setUpViews {
@@ -73,7 +81,7 @@
   navBarRect.size = CGSizeMake(viewWidth, statusHeight + navBarHeight);
   navBarRect.origin = CGPointZero;
   
-  self.messageList.tableView.contentInset = UIEdgeInsetsMake(navBarRect.size.height + 10, 0, 0, 0);
+  self.messageList.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
   self.messageList.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
   
   self.navBar.frame      = navBarRect;
@@ -82,6 +90,7 @@
 - (void)refresh {
   [self.dataSource refreshMessagesFromCurrentEventOnSuccess:^{
         [self.messageList.tableView reloadData];
+        [self.inviteesVC refreshSets];
         [self.messageList.refreshControl endRefreshing];
       }
                                                   onFailure:^{
@@ -95,11 +104,15 @@
   // Dispose of any resources that can be recreated.
 }
 
+- (void)didTapOnStatusButton {
+  [self presentViewController:self.inviteesVC animated:YES completion:nil];
+}
+
 #pragma mark UINavigationBarDelegate
 
 - (BOOL)navigationBar:(UINavigationBar *)navigationBar
         shouldPopItem:(UINavigationItem *)item {
-  [self.delegate didTapOnCancelButton];
+  [self.wdDelegate didTapOnCancelButton];
   return NO;
 }
 
@@ -123,8 +136,6 @@
                  options:NSStringDrawingUsesLineFragmentOrigin |
                          NSStringDrawingUsesFontLeading
                  context:nil];
-  NSLog(@"nameSpace: %f", messageRect.size.height);
-
   
   return messageRect.size.height + nameSpace +
          WD_conv_messageBubbleSpacer + WD_conv_messageBubbleOffset;
@@ -167,7 +178,7 @@
   TypeIdentifier typeId;
   
   // From the Creator
-  if (recipientId == nil) {
+  if (!recipientId) {
     identifier = Creator;
     typeId     = TypeIdentifierCreator;
     
@@ -244,6 +255,8 @@
                                   bubbleRect.size.height);
   [cell.contentView addSubview:bubbleView];
   [cell.contentView addSubview:messageLabel];
+  
+  cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
   return cell;
 }
@@ -272,7 +285,6 @@
 - (UINavigationItem *)navBarItem {
   if (!_navBarItem) {
     _navBarItem = [[UINavigationItem alloc] init];
-    
   }
   return _navBarItem;
 }
@@ -292,6 +304,14 @@
     
   }
   return _messageList;
+}
+
+- (WDInviteesVC *)inviteesVC {
+  if (!_inviteesVC) {
+    _inviteesVC = [[WDInviteesVC alloc] initWithDataSource:self.dataSource];
+    _inviteesVC.parent = self;
+  }
+  return _inviteesVC;
 }
 
 #pragma mark Child View Management

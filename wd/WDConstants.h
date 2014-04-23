@@ -101,7 +101,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 /******* Data Keys *******/
 
-//#define LOCAL
+#define LOCAL
 #ifdef LOCAL
   #define WD_URL @"http://localhost:3000"
 #else
@@ -125,6 +125,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_modelKey_Event_id        @"_id"
 #define WD_modelKey_Event_userId    @"userId"
 #define WD_modelKey_Event_message   @"message"
+#define WD_modelKey_Event_messages  @"messages"
 #define WD_modelKey_Event_recips    @"people"
 #define WD_modelKey_Event_title     @"title"
 
@@ -136,6 +137,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define WD_modelKey_Recip_id        @"_id"
 #define WD_modelKey_Recip_name      @"name"
 #define WD_modelKey_Recip_phone     @"phone"
+#define WD_modelKey_Recip_status    @"status"
 
 
 #define WD_modelKey_Verify_code @"code"
@@ -148,6 +150,7 @@ typedef enum WDInteractionModes {
   WDInteractionCreateEvent,
   WDInteractionGetEvents,
   WDInteractionGetEventData,
+  WDInteractionUpdateRecip,
   WDInteractionNone
 } WDInteractionMode;
 
